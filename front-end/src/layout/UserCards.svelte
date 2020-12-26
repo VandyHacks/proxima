@@ -64,6 +64,14 @@
 
     }
 
+    table {
+        width: 900px;
+        /* text-align: center; */
+    }
+    /* tr {
+        text-align: center;
+    } */
+
     #intervierName {
         margin-top: 15px;
     }
@@ -143,3 +151,37 @@
     {/each}
 </div>
 
+<!-- Trying the table idea -->
+<center>
+    <table class = "striped"> 
+        <thead>
+          <tr>
+              <th>Name</th>
+              <th>Item Name</th>
+              <th>Item Price</th>
+              <th>Item Price</th>
+          </tr>
+        </thead>
+    
+        <tbody>
+          <tr>
+            <td>Alvin</td>
+            <td>Eclair</td>
+            <td>$0.87</td>
+            <td>$0.87</td>
+          </tr>
+          <tr>
+            <td>Alan</td>
+            <td>Jellybean</td>
+            <td>$3.76</td>
+            <td>$3.76</td>
+          </tr>
+          <tr>
+            <td>Jonathan</td>
+            <td>Lollipop</td>
+            <td>$7.00</td>
+            <td>$7.00</td>
+          </tr>
+        </tbody>
+      </table>
+</center>
