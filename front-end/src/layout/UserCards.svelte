@@ -165,10 +165,39 @@
         <tbody>
         {#each mockData as inter}
           <tr>
-              <td>{inter["name"]}</td>
-              <td>{inter["shouldInterview"]}</td>
-              <td>Test</td>
-              <td>{inter["status"]}</td>
+              <!-- svelte if -->
+
+              <td>
+                  {inter["name"]}
+              </td>
+              <td>
+                <p></p>
+                {#if inter["shouldInterview"] == "unsure"}
+                    <p>yeet</p>
+                {/if}
+                {#if inter["shouldInterview"] == "yes"}
+                    <p>nope</p>
+                {/if}
+                {#if inter["shouldInterview"] == "no"}
+                    <p>yoop</p>
+                {/if}
+                  <!-- {inter["shouldInterview"]} -->
+              </td>
+              <td>
+                  <!-- will need to put router here -->
+                  Test
+             </td>
+              <td>
+                {#if inter["shouldInterview"] == "unsure"}
+                <p>yeet</p>
+                {/if}
+                {#if inter["shouldInterview"] == "yes"}
+                    <p>nope</p>
+                {/if}
+                {#if inter["shouldInterview"] == "no"}
+                    <p>yoop</p>
+                {/if}
+              </td>
           </tr>
           {/each}
         </tbody>
