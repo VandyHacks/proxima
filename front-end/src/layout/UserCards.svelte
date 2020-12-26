@@ -9,39 +9,39 @@
     let mockData = [
         {
             name: "Aadarsh Jha",
-            shouldInterview: "", 
-            status: ""
+            shouldInterview: "unsure", 
+            status: "unsure"
         },
         {
             name: "Saydolimkhon Agzamkhodjaev",
-            shouldInterview: "",
-            status: ""
+            shouldInterview: "unsure",
+            status: "unsure"
 
         },
         {
             name: "Samuel Lee",
-            shouldInterview: "", 
-            status: ""
+            shouldInterview: "unsure", 
+            status: "unsure"
         }, 
         {
             name: "John Doe",
-            shouldInterview: "", 
-            status: ""
+            shouldInterview: "unsure", 
+            status: "unsure"
         }, 
         {
             name: "Surya Thalli",
-            shouldInterview: "", 
-            status: ""
+            shouldInterview: "unsure", 
+            status: "unsure"
         }, 
         {
             name: "Gabriel Ting",
-            shouldInterview: "", 
-            status: ""
+            shouldInterview: "unsure", 
+            status: "unsure"
         }, 
         {
             name: "Ananya Gondi",
-            shouldInterview: "", 
-            status: ""
+            shouldInterview: "unsure", 
+            status: "unsure"
         }
     ]
 
@@ -124,7 +124,7 @@
         margin-top: 5px
     }
     .color {
-        background-color: rgb(197, 235, 248); 
+        background-color: #375370; 
     }
     .interviewNotes a {
         font-size: 20px;
@@ -139,7 +139,7 @@
 
     <!-- svelte foreach -->
     {#each mockData as inter}
-    <div class="card-panel black">
+    <div class="card-panel color">
         <center>
             <h5 id = "intervierName" class="white-text">{inter.name}</h5>
             <div class="space"></div>
