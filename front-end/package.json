@@ -25,6 +25,8 @@
   },
   "dependencies": {
     "animate.css": "^4.1.1",
+    "clamp": "^1.0.1",
+    "clamp-js": "^0.7.0",
     "materialize-css": "^1.0.0-rc.2",
     "sirv-cli": "^1.0.0",
     "svelte-routing": "^1.4.2"

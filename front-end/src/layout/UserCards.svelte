@@ -1,4 +1,10 @@
 <script>
+    import clamp from 'clamp-js'; 
+    
+    // just clamping the header so the name doesnt invade the space
+    // of the card. 
+    // console.log(document.getElementsByClassName('icons'))
+    // clamp(document.getElementById('intervierName'), {clamp: 1})
     // fetch data here, but acting like a db with some mock data. 
     let mockData = [
         {
@@ -38,9 +44,52 @@
             status: ""
         }
     ]
+
+    
+    // for testing purposes: 
+    function returnMockData() {
+        console.log(mockData); 
+    }
+
+    // several functions to update the data of the 
+    // candidate. 
+    function giveInterview(name) {
+
+    }
+
+    function rejectInterview(name) {
+
+    }
+
+    function pending(name) {
+
+    }
+
+    function accept(name) {
+
+    }
+
+    function reject(name) {
+
+    }
+
+    function unsure(name) {
+
+    }
+
+    // returnMockData(); 
 </script>
 
 <style>
+    * {
+        -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none; /* Safari */
+        -khtml-user-select: none; /* Konqueror HTML */
+        -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+    }
     .justifyCards {
         display: flex;
         flex-direction: row;
@@ -66,7 +115,7 @@
         margin: 0;
         padding: 0;
         /* position: relative; */
-
+       
     }
     .emojis p {
         font-size: 30px;
@@ -121,6 +170,9 @@
                     </div>
                     <div class = "emojis">
                         <p>&#10060;</p>
+                    </div>
+                    <div class="emojis">
+                        <p>&#129300;</p>
                     </div>
                 </div>
             </div>
