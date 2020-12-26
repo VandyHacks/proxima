@@ -1,13 +1,10 @@
 <script>
-  function expandInformation() {
-    event.preventDefault(); 
-
-    // just expand for information
-    let element = document.getElementById("howto");
-
-    // check the visibility of the element: 
-    element.classList.add()
-  }
+document.addEventListener('DOMContentLoaded', function() {
+   var elems = document.querySelectorAll('.collapsible');
+   var instances = M.Collapsible.init(elems, {accordion: false});
+});
+ 
+        
 </script>
 
 <!-- html for navbar -->
@@ -22,17 +19,6 @@
 <h6>
   External Recruitment Data For VHIII 
 </h6>
-
-<p>
-  <!-- Simple routing -->
-  <a href="" on:click={expandInformation}>
-    How do I use this application? 
-  </a>
-</p>
-
-<p id = "howto" class = "hidden" >
-  This is a test.
-</p>
 
 <style>
   #title {
@@ -50,11 +36,9 @@
   h3, h6, p{
     text-align: center;
   }
-  .hidden {
-    display: none; 
+  ul {
+    width: 300px;
   }
 
-  .show {
-    display: block;
-  }
+ 
 </style>

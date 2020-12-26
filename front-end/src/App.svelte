@@ -5,7 +5,9 @@
 	import { Router, Link, Route } from "svelte-routing";
 	import Title from './layout/Title.svelte'
 	import TableDesc from './layout/TableDesc.svelte'
+	import UserCards from './layout/UserCards.svelte'
 	import About from './Pages/About.svelte'
+	import '../node_modules/animate.css/animate.min.css'
 </script>
 
 
