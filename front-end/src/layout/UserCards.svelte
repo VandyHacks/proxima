@@ -103,9 +103,7 @@
 </style>
 
 <!-- someting like a svelute for each would go here.  -->
-<div class = "justifyCards">
-
-    <!-- svelte foreach -->
+<!-- <div class = "justifyCards">
     {#each mockData as inter}
     <div class="card-panel color">
         <center>
@@ -149,39 +147,31 @@
         
     </div>  
     {/each}
-</div>
+</div> -->
 
 <!-- Trying the table idea -->
 <center>
-    <table class = "striped"> 
+    <table class = "striped responsive-table"> 
         <thead>
           <tr>
-              <th>Name</th>
-              <th>Item Name</th>
-              <th>Item Price</th>
-              <th>Item Price</th>
+              <th>Applicant Name</th>
+              <th>Interview Status</th>
+              <th>Interview Notes</th>
+              <th>Acceptance Status</th>
           </tr>
         </thead>
-    
+        <!-- svelte for each -->
+        
         <tbody>
+        {#each mockData as inter}
           <tr>
-            <td>Alvin</td>
-            <td>Eclair</td>
-            <td>$0.87</td>
-            <td>$0.87</td>
+              <td>{inter["name"]}</td>
+              <td>{inter["shouldInterview"]}</td>
+              <td>Test</td>
+              <td>{inter["status"]}</td>
           </tr>
-          <tr>
-            <td>Alan</td>
-            <td>Jellybean</td>
-            <td>$3.76</td>
-            <td>$3.76</td>
-          </tr>
-          <tr>
-            <td>Jonathan</td>
-            <td>Lollipop</td>
-            <td>$7.00</td>
-            <td>$7.00</td>
-          </tr>
+          {/each}
         </tbody>
+       
       </table>
 </center>
