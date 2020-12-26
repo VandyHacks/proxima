@@ -1,6 +1,6 @@
-import { Application } from "./deps.js";
-import { router } from "./routes/routes.js";
-import * as basicMiddleware from './middlewares/basicMiddleware.js';
+import { Application } from "./deps.ts";
+import { router } from "./routes/routes.ts";
+import * as basicMiddleware from './middlewares/basicMiddleware.ts';
 
 const app = new Application();
 

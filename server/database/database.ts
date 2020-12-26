@@ -1,5 +1,5 @@
-import { Client } from "../deps.js";
-import { config } from "../config/config.js";
+import { Client } from "../deps.ts";
+import { config } from "../config/config.ts";
 
 const getClient = () => {
   return new Client(config.database);

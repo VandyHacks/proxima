@@ -1,4 +1,4 @@
-import { dotenv } from "../deps.js";
+import { dotenv } from "../deps.ts";
 let config = {};
 
 // Set the database configuration
