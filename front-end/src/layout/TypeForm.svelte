@@ -6,4 +6,14 @@
 
 </script>
 
-<h1>Hello</h1>
+<div>
+    <div>
+        <!-- General Information -->
+    </div>
+    <div>
+        <!-- Application Data -->
+    </div>
+    <div>
+        <!-- Socials -->
+    </div>
+</div>
