@@ -4,6 +4,7 @@
 	import '../node_modules/materialize-css/dist/js/materialize.min.js';
 	import { Router, Link, Route } from "svelte-routing";
 	import Title from './layout/Title.svelte'
+	import TableDesc from './layout/TableDesc.svelte'
 	import About from './Pages/About.svelte'
 </script>
 
@@ -13,13 +14,15 @@
 </style>
 
 
-<Router>
-	<Title />
-	<div>
-		<Route path = "/about" component = {About} />
-	</div>
+<!-- <Router> -->
+<Title />
+<TableDesc />
 
-</Router>
+	<!-- <div class = "container">
+		<Route path = "/about" component = {About} />
+	</div> -->
+
+<!-- </Router> -->
 
 
 
