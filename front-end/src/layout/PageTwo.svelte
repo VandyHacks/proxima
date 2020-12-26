@@ -3,6 +3,8 @@
     import TableDesc from "./TableDesc.svelte";
     import UserCards from "./UserCards.svelte"; 
     import { Router, Link, Route } from "svelte-routing";
+    import TypeForm from "./TypeForm.svelte"; 
+    import GoogleForm from "./GoogleForm.svelte"; 
 
     // passing user name from the previous page 
     // and then obtaining full context.
@@ -13,6 +15,8 @@
 <Title/>
 <center>
     <Link to = "/">Go Home</Link>
-    <h4>Application Information For {name}</h4>
+    <h5>Inital Application Information For {name}</h5>
+    <TypeForm /> 
+    <GoogleForm /> 
 </center>
 
