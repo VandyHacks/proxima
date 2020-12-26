@@ -1,52 +1,9 @@
 <script>
-    import clamp from 'clamp-js'; 
-    
-    // just clamping the header so the name doesnt invade the space
-    // of the card. 
-    // console.log(document.getElementsByClassName('icons'))
-    // clamp(document.getElementById('intervierName'), {clamp: 1})
-    // fetch data here, but acting like a db with some mock data. 
-    let mockData = [
-        {
-            name: "Aadarsh Jha",
-            shouldInterview: "unsure", 
-            status: "unsure"
-        },
-        {
-            name: "Saydolimkhon Agzamkhodjaev",
-            shouldInterview: "unsure",
-            status: "unsure"
-
-        },
-        {
-            name: "Samuel Lee",
-            shouldInterview: "unsure", 
-            status: "unsure"
-        }, 
-        {
-            name: "John Doe",
-            shouldInterview: "unsure", 
-            status: "unsure"
-        }, 
-        {
-            name: "Surya Thalli",
-            shouldInterview: "unsure", 
-            status: "unsure"
-        }, 
-        {
-            name: "Gabriel Ting",
-            shouldInterview: "unsure", 
-            status: "unsure"
-        }, 
-        {
-            name: "Ananya Gondi",
-            shouldInterview: "unsure", 
-            status: "unsure"
-        }
-    ]
-
-    
+    // import clamp from 'clamp-js'; 
+    // let mockData = []
     // for testing purposes: 
+    import mockData from "../mockData.json";
+ 
     function returnMockData() {
         console.log(mockData); 
     }
@@ -54,11 +11,11 @@
     // several functions to update the data of the 
     // candidate. 
     function giveInterview(name) {
-
+        console.log(name); 
     }
 
     function rejectInterview(name) {
-
+        console.log(name); 
     }
 
     function pending(name) {
@@ -124,7 +81,7 @@
         margin-top: 5px
     }
     .color {
-        background-color: #375370; 
+        background-color: #37618d; 
     }
     .interviewNotes a {
         font-size: 20px;
@@ -147,7 +104,7 @@
                 <i class="white-text">Interview Potential Status</i>
                 <div class = "icons">
                     <div class = "emojis">
-                        <p>&#9989;</p>  
+                        <p on:click = "{rejectInterview(inter.name)}" >&#9989;</p>  
                     </div>
                     <div class = "emojis">
                         <p>&#10060;</p>
