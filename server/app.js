@@ -10,4 +10,8 @@ app.use(basicMiddleware.serveStaticFilesMiddleware);
 
 app.use(router.routes());
 
-app.listen({ port: 7777 });
+if (!Deno.env.get('TEST_ENVIRONMENT')) {
+    app.listen({ port: 7777 });
+}
+  
+export default app;

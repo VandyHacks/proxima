@@ -1,3 +1,4 @@
+import { dotenv } from "../deps.js";
 let config = {};
 
 // Set the database configuration
@@ -6,10 +7,10 @@ if (Deno.env.get('TEST_ENVIRONMENT')) {
 }
 else{
   config.database = {
-    hostname: "hostname-possibly-at-elephantsql.com",
-    database: "database-name",
-    user: "user-name-typically-same-as-database-name",
-    password: "password",
+    hostname: dotenv.config().HOSTNAME,
+    database: dotenv.config().DATABASENAME,
+    user: dotenv.config().DBUSER,
+    password: dotenv.config().DBPASSWORD,
     port: 5432
   };
 }
