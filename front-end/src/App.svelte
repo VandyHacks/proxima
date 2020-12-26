@@ -1,4 +1,6 @@
 <script lang="ts">
+	'use strict'; 
+	let test = true; 
 	export let name: string;
 </script>
 
