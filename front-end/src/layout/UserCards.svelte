@@ -1,4 +1,5 @@
 <script>
+    import { Router, Link, Route } from "svelte-routing";
     // import clamp from 'clamp-js'; 
     // let mockData = []
     // for testing purposes: 
@@ -116,7 +117,7 @@
             </div>
             <div class = "space"></div>
             <div class = "interviewNotes">
-                <i><a href="">Interview Notes</a></i>
+                <i><Link to = "/interview">Interview Notes</Link></i>
             </div>
             <div class = "space"></div>
             <div class = "status">
