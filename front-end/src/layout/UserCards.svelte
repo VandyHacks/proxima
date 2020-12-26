@@ -35,7 +35,9 @@
 
     }
 
-    // returnMockData(); 
+    function passUserName(name) {
+        localStorage.setItem('curName', name);
+    }
 </script>
 
 <style>
@@ -117,7 +119,7 @@
             </div>
             <div class = "space"></div>
             <div class = "interviewNotes">
-                <i><Link to = "/interview">Interview Notes</Link></i>
+                <i><Link to = "/interview"  on:click = "{passUserName(inter.name)}">Interview Notes</Link></i>
             </div>
             <div class = "space"></div>
             <div class = "status">
