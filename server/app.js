@@ -6,7 +6,6 @@ const app = new Application();
 
 app.use(basicMiddleware.errorMiddleware);
 app.use(basicMiddleware.requestTimingMiddleware);
-app.use(basicMiddleware.serveStaticFilesMiddleware);
 
 app.use(router.routes());
 
