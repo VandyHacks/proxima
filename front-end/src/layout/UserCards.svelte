@@ -8,85 +8,48 @@
             name: "sayd"
         },
         {
-            // will do 
+            name: "sam"
         }
     ]
 </script>
 
 <style>
-.makeSmall {
-    
-}
-.smallGray {
-    background-color: #CAF0F8;  
-    width: 300px;
-    height: 300px;
-}
-.wrapper {
-    background-color: red; 
-    display: flex;
-    justify-content: center;
-    /* align-items: center; */
-}
+    .justifyCards {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        flex-wrap: wrap;
+    }
+
+    .card-panel {
+        width: 250px; 
+    }
 </style>
 
-<div class = "wrapper">
-    <div class="row">
-        <div class="col">
-          <div class="card-panel smallGray">
-            <span class="black-text">I am a very simple card. I am good at containing small bits of information.
-            I am convenient because I require little markup to use effectively. I am similar to what is called a panel in other frameworks.
-            </span>
-        </div>
-        <div class="card-panel smallGray">
-            <span class="black-text">I am a very simple card. I am good at containing small bits of information.
-            I am convenient because I require little markup to use effectively. I am similar to what is called a panel in other frameworks.
-            </span>
-          </div>
-          <div class="card-panel smallGray">
-            <span class="black-text">I am a very simple card. I am good at containing small bits of information.
-            I am convenient because I require little markup to use effectively. I am similar to what is called a panel in other frameworks.
-            </span>
-          </div>
+<!-- someting like a svelute for each would go here.  -->
+<div class = "justifyCards">
 
-        </div>
-        <div class="col ">
-            <div class="card-panel smallGray">
-              <span class="black-text">I am a very simple card. I am good at containing small bits of information.
-              I am convenient because I require little markup to use effectively. I am similar to what is called a panel in other frameworks.
-              </span>
-            </div>
-            <div class="card-panel smallGray">
-                <span class="black-text">I am a very simple card. I am good at containing small bits of information.
-                I am convenient because I require little markup to use effectively. I am similar to what is called a panel in other frameworks.
-                </span>
-              </div>
-              <div class="card-panel smallGray">
-                <span class="black-text">I am a very simple card. I am good at containing small bits of information.
-                I am convenient because I require little markup to use effectively. I am similar to what is called a panel in other frameworks.
-                </span>
-              </div>
-       
-          </div>
-          <div class="col ">
-            <div class="card-panel smallGray">
-              <span class="black-text">I am a very simple card. I am good at containing small bits of information.
-              I am convenient because I require little markup to use effectively. I am similar to what is called a panel in other frameworks.
-              </span>
-            </div>
-            <div class="card-panel smallGray">
-                <span class="black-text">I am a very simple card. I am good at containing small bits of information.
-                I am convenient because I require little markup to use effectively. I am similar to what is called a panel in other frameworks.
-                </span>
-              </div>
-              <div class="card-panel smallGray">
-                <span class="black-text">I am a very simple card. I am good at containing small bits of information.
-                I am convenient because I require little markup to use effectively. I am similar to what is called a panel in other frameworks.
-                </span>
-              </div>
+    <!-- svelte foreach -->
+    <div class="card-panel teal">
+        <center>
+            <span class="white-text">Aadarsh Jha</span>
+            <div class = "interviewStatus">
+                <i class="white-text">Interview Potential Status</i>
+                <div class = "icons">
+                    <div>
+                        
+                    </div>
+                    <div>
 
-       
-          </div>
-    </div>
-    
+                    </div>
+                    <div>
+
+                    </div>
+                </div>
+            </div>
+
+        </center>
+        
+    </div>  
 </div>
+
