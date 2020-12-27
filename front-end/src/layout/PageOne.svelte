@@ -4,7 +4,6 @@
     import UserCards from "./UserCards.svelte"; 
     import { Router, Link, Route } from "svelte-routing";
     import PageTwo from "./PageTwo.svelte"
-    let test = "bleh"
 </script>
 <Router>
 	<div>

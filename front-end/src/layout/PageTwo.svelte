@@ -1,8 +1,6 @@
 <script>
     import Title from "./Title.svelte";
-    import TableDesc from "./TableDesc.svelte";
-    import UserCards from "./UserCards.svelte"; 
-    import { Router, Link, Route } from "svelte-routing";
+    import { Link } from "svelte-routing";
     import TypeForm from "./TypeForm.svelte"; 
     import GoogleForm from "./GoogleForm.svelte"; 
 
@@ -13,10 +11,11 @@
 </script>
 
 <Title/>
-<center>
-    <Link to = "/">Go Home</Link>
-    <h5>Inital Application Information For {name}</h5>
+    <center>   
+        <Link to = "/">Go Home</Link>
+        <h5>Inital Application Information For {name}</h5>
+    </center>
     <TypeForm /> 
     <GoogleForm /> 
-</center>
+
 
