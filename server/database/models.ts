@@ -77,18 +77,6 @@ class Note extends Model {
     }
 }
 
-class NotesQuestion extends Model {
-    static table = 'notes_to_questions';
-    static fields = {
-        id: {
-            type: DataTypes.INTEGER,
-            primaryKey: true,
-            autoIncrement: true
-        },
-        content: DataTypes.TEXT
-    };
-}
-
 class Question extends Model {
     static table = 'questions';
     static timestamps = true;
@@ -103,4 +91,19 @@ class Question extends Model {
     };
 }
 
-export { Application, CommitteeChoice, NotesQuestion, Note, Question };
+class QuestionNote extends Model {
+    static table = 'notes_to_questions';
+    static fields = {
+        id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true
+        },
+        response: DataTypes.TEXT,
+        noteId: Relationships.belongsTo(Note),
+        questionId: Relationships.belongsTo(Question)
+    };
+}
+
+
+export { Application, CommitteeChoice, QuestionNote, Note, Question };
