@@ -103,7 +103,6 @@
         /* text-align: center; */
     }
 
-
     #users {
         display: flex; 
         flex-direction: column;
@@ -111,6 +110,7 @@
         align-items: center;
         /* background-color: red;  */
     }
+
     #search {
         /* background-color: blue;  */
         width: 80%; 
