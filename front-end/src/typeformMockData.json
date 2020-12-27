@@ -3,20 +3,21 @@
             "And your last name?" : "Jha",
             "What email address should we use to contact you?": "aadarsh.jha@vanderbilt.edu",
             "What class year are you?": "Junior (Class of 2022)",
-            "roles": "And which role are you applying for?",
-            "director": "Are you applying to a director role in any of these committees?",
+            "And which role are you applying for?": "Content",
+            "Are you applying to a director role in any of these committees?": "Content",
 
-            "whyCommittee": "Great! Can you tell us why you'd be a good fit for the _____ committee roles through your past experiences, skills, and ideas? (250 words maximum)This question is required.",
-            "whyInterest": "Why are you interested in VandyHacks?",
-            "accomplishment": "Tell us about your contribution to a team that you're proud of. What did you do to accomplish it",
+            "Great! Can you tell us why you'd be a good fit for the _____ committee roles through your past experiences, skills, and ideas? (250 words maximum)This question is required.": "Great! Can you tell us why you'd be a good fit for the Content committee roles through your past experiences, skills, and ideas? (250 words maximum)",
+            "Why are you interested in VandyHacks?": "Why are you interested in VandyHacks? (250 words maximum)",
+            "Tell us about your contribution to a team that you're proud of. What did you do to accomplish it": "Tell us about your contribution to a team that you're proud of. What did you do to accomplish it? (250 words maximum)",
 
-            "resume": "Please upload the latest version of your résumé",
-            "time": "What other time commitments do you have?",
-            "vandyhacks": "Have you attended VandyHacks events?",
+            "Please upload the latest version of your résumé": "https://api.typeform.com/responses/files/e66542f840c5113c25163666f2d23a75dbef9b726609021f91c8d5fd949b1e4d/test.pdf",
+            "What other time commitments do you have?": "None",
+            "Have you attended VandyHacks events?": "TRUE",
+            "Tell us about the event(s) you attended and what you liked/disliked about your experience.": "I liked everything.",
 
-            "github": "What is your GitHub URL?",
-            "linkedin": "What is your LinkedIn URL",
-            "socials": "Social Media (Instagram, Twitter, Medium, etc.)",
-            "design": "Please share a link to your design portfolio (Dribble, Google Drive, Figma, etc.).",
-            "howHear": "How did you hear about applications?"
+            "What is your GitHub URL?": "https://github.com/aadarshjha",
+            "What is your LinkedIn URL": "https://www.linkedin.com/in/aadarshjha/",
+            "Social Media (Instagram, Twitter, Medium, etc.)": "",
+            "Please share a link to your design portfolio (Dribble, Google Drive, Figma, etc.).": "",
+            "How did you hear about applications?": "Online"
 }

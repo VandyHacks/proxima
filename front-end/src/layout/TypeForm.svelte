@@ -3,15 +3,45 @@
         width: 400px;
         margin-top: 30px;
     }
-    .generalInformation {
-        background-color: red;
+    .generalInformation, .essayResponses, .misc, .socials {
+        /* background-color: red; */
         width: 80%;
+        display: flex; 
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        background-color: rgb(249, 249, 249); 
+        border-radius: 5px;
+        padding: 10px;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-bottom: 15px;
     }
+    /* .essayResponses {
+        background-color: blue;
+    }
+    .misc {
+        background-color: green;
+    }
+    .socials {
+        background-color: yellow;
+    } */
     .wrapper {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
+    }
+    .generalInformationResponse, .essayResponseDiv {
+        /* background-color: blue; */
+        width: 200px;
+        display: flex; 
+        flex-direction: column;
+        /* justify-content: center; */
+        /* align-items: center; */
+    }
+    h6 {
+        text-align: justify; 
     }
 </style>
 
@@ -19,14 +49,26 @@
     import typeForm from "../typeformMockData.json";
     console.log(typeForm)
     let result = [];
+    let result2 = []; 
+    let result3 = []; 
+    let result4 = []; 
+    let counter = 0; 
     for (let i in typeForm) {
-        if(i == "whyCommittee") {
-            break; 
+        counter = counter + 1; 
+        if (counter < 7) {
+            result.push([i, typeForm[i]]);
+            
+        } else if (counter >= 7 && counter <= 9) {
+            result2.push([i, typeForm[i]]); 
+        } else if (counter >= 12 && counter <= 15) {
+            result3.push([i, typeForm[i]]); 
+        } else {
+            result4.push([i, typeForm[i]]); 
         }
-        result.push([i, typeForm[i]]);
+        
     }
 
-    let result2 = [1,2,3,4]; 
+    // let result2 = [1,2,3,4]; 
     // console.log(result); 
 </script>
 
@@ -36,31 +78,55 @@
 </center>
 <div class= "wrapper">
     <div class = "generalInformation">
-    
-        <div>
-            {#each result as query}
-            <h4>
+        {#each result as query}
+        <div class= "">
+            <h5>
                 {query[0]}
-            </h4>
+            </h5>
+            <p>
+                {query[1]}
+            </p>
+        </div>
+        {/each}
+    </div>
+    
+    <div class = "essayResponses">
+        <div class = "">
+            {#each result2 as query}
+            <h5>
+                {query[0]}
+            </h5>
             <p>
                 {query[1]}
             </p>
             {/each}
         </div>
-        
-    
-    </div>
-    
-    <div class = "essayResponses">
-    
     </div>
     
     <div class = "misc">
-    
+        <div>
+            {#each result3 as query}
+            <h5>
+                {query[0]}
+            </h5>
+            <p>
+                {query[1]}
+            </p>
+            {/each}
+        </div>
     </div>
     
     <div class = "socials">
-    
+        <div>
+            {#each result4 as query}
+            <h5>
+                {query[0]}
+            </h5>
+            <p>
+                {query[1]}
+            </p>
+            {/each}
+        </div>
     </div>
 </div>
 
