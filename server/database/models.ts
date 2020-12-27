@@ -6,7 +6,8 @@ class Application extends Model {
     static fields = {
         id: {
             type: DataTypes.INTEGER,
-            primaryKey: true
+            primaryKey: true,
+            autoIncrement: true
         },
         name: DataTypes.STRING,
         email: DataTypes.STRING,
@@ -32,7 +33,8 @@ class CommitteeChoice extends Model {
     static fields = {
         id: {
             type: DataTypes.INTEGER,
-            primaryKey: true
+            primaryKey: true,
+            autoIncrement: true
         },
         committee: { type: DataTypes.ENUM, values: ["operations", "development", "hacker experience", "design", "sponsorship", "content", "marketing"]},
         isDirector: DataTypes.BOOLEAN,
@@ -48,8 +50,9 @@ class Note extends Model {
             type: DataTypes.INTEGER,
             primaryKey: true
         },
-        content: DataTypes.TEXT,
-        ownerId: Relationships.belongsTo(Application)
+        interviewer_name: DataTypes.STRING,
+        ownerId: Relationships.belongsTo(Application),
+
     };
 }
 
@@ -58,7 +61,8 @@ class NotesQuestion extends Model {
     static fields = {
         id: {
             type: DataTypes.INTEGER,
-            primaryKey: true
+            primaryKey: true,
+            autoIncrement: true
         },
         content: DataTypes.TEXT
     };
