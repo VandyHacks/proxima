@@ -6,7 +6,7 @@
 </style>
 
 <!-- <center> -->
-    <div>
+    <form>
         <label>
             <input name="group1" type="radio" checked />
             <span>Should Interview</span>
@@ -20,5 +20,5 @@
             <input name="group1" type="radio" checked />
             <span>Unevaluted</span>
         </label>
-    </div>
+    </form>
 <!-- </center> -->

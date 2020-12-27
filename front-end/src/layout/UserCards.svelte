@@ -87,9 +87,15 @@
     }
     .search  {
         /* background-color: green;  */
-        width: 46.3%;
+        width: 47.4%;
         display: flex; 
         flex-direction: column;
+    }
+    button {
+        margin-bottom: 10px; 
+    }
+    .buttonWrapper {
+        /* width:  47.4%; */
     }
 </style>
 
@@ -101,14 +107,14 @@
         <div>
             <input class="search" placeholder="Search By Name" />
         </div>
-        <div>
-            <button class="sort" data-sort="name">
+        <div class = "buttonWrapper">
+            <button  class="sort btn waves-effect waves-light" data-sort="name">
                 Sort By Name
               </button>
-              <button class="sort" data-sort="status">
+              <button class="sort btn waves-effect waves-light" data-sort="status">
                   Sort By Interview Status
               </button>
-              <button class="sort" data-sort="acceptance">
+              <button class="sort btn waves-effect waves-light" data-sort="acceptance">
                   Sort By Acceptance Status
               </button>
         </div>

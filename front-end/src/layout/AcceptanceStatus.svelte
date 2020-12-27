@@ -6,18 +6,18 @@
     
 </script>
 
-<div>
+<form>
     <label>
         <input name="group1" type="radio" checked />
-        <span>Should Interview</span>
+        <span>Accept</span>
     </label>
 
     <label>
         <input name="group1" type="radio" checked />
-        <span>Should Not Interview</span>
+        <span>Do Not Accept</span>
     </label>
     <label>
         <input name="group1" type="radio" checked />
-        <span>Unevaluted</span>
+        <span>Unsure</span>
     </label>
-</div>
+</form>

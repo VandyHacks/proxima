@@ -6,6 +6,8 @@
         width: 500px;
         text-align: justify; 
         padding-bottom: 20px;
+        padding-left: 10px; 
+        padding-right: 10px; 
     }
     div {
         display: flex; 
