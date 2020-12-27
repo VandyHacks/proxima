@@ -84,6 +84,11 @@
         console.log(mockData); 
     }
 
+    function passName(name) {
+        localStorage.setItem("curName", name); 
+        console.log(localStorage.getItem("curName")); 
+    }
+
     // returnState(); 
 </script>
 
@@ -98,6 +103,9 @@
                                   supported by Chrome, Edge, Opera and Firefox */
     }
 
+    .padding {
+        margin-top: 10px;
+    }
     table {
         width: 80%;
         /* text-align: center; */
@@ -154,6 +162,7 @@
               <th>Applicant Name</th>
               <th>Interview Status</th>
               <th>Interview Notes</th>
+              <th>Interview Form</th>
               <th>Acceptance Status</th>
           </tr>
         </thead>
@@ -202,7 +211,14 @@
                     </form>
               </td>
               <td>
-                  <b><Link to = "/interview">Interview Notes</Link></b>
+                  <b><Link to = "/interview" on:click = {() => passName(inter["name"])}>Interview Notes</Link></b>
+             </td>
+             <td>
+                <button class="sort btn white waves-effect waves-light padding">
+                    <Link to = "/notes" on:click = {() => passName(inter["name"])}>Take Notes</Link>
+                </button>
+                    
+                    
              </td>
               <td>
                 <form> 
