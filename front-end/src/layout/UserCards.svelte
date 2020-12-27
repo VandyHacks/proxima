@@ -17,22 +17,74 @@
     });
 
     function shouldInterview(name) {
-
+        let ele; 
+        for (ele of mockData) {
+            if(ele["name"] == name) {
+                // update if we should interview: 
+                ele["shouldInterview"] = "yes";
+            }
+        }
+        returnState(); 
     }
-    
 
     function shouldNotInterview(name) {
-
+        let ele; 
+        for (ele of mockData) {
+            if(ele["name"] == name) {
+                // update if we should interview: 
+                ele["shouldInterview"] = "no";
+            }
+        }
+        returnState(); 
     }
 
     function unevaluated(name) {
+        let ele; 
+        for (ele of mockData) {
+            if(ele["name"] == name) {
+                // update if we should interview: 
+                ele["shouldInterview"] = "unsure";
+            }
+        }
+        returnState(); 
+    }
 
+    function accept(name) {
+        let ele; 
+        for (ele of mockData) {
+            if(ele["name"] == name) {
+                // update if we should interview: 
+                ele["status"] = "accept";
+            }
+        }
+        returnState(); 
+    }
+
+    function reject(name) {
+        let ele; 
+        for (ele of mockData) {
+            if(ele["name"] == name) {
+                // update if we should interview: 
+                ele["status"] = "reject";
+            }
+        }
+        returnState(); 
+    }
+
+    function unsure(name) {
+        let ele; 
+        for (ele of mockData) {
+            if(ele["name"] == name) {
+                // update if we should interview: 
+                ele["status"] = "unsure";
+            }
+        }
+        returnState(); 
     }
 
 
-    function returnState(one, two) {
-        console.log( one ); 
-        console.log(two)
+    function returnState() {
+        console.log(mockData); 
     }
 
     // returnState(); 
@@ -124,9 +176,9 @@
 
                         <label >
                             {#if inter["shouldInterview"] == "yes"}
-                                <input name="group1" type="radio" checked/>
+                                <input on:click={() => shouldInterview(inter["name"])} name="group1" type="radio" checked/>
                             {:else}
-                                <input name="group1" type="radio"/>
+                                <input on:click={() => shouldInterview(inter["name"])} name="group1" type="radio"/>
                             {/if}
                             <span>Should Interview</span>
                         </label>
@@ -134,9 +186,9 @@
 
                         <label>
                                 {#if inter["shouldInterview"] == "no"}
-                                    <input on:click={() => test(inter["name"], "arg2")} name="group1" type="radio"  checked/>
+                                    <input on:click={() => shouldNotInterview(inter["name"])} name="group1" type="radio"  checked/>
                                 {:else}
-                                    <input  on:click={() => test(inter["name"], "arg2")} name="group1" type="radio"/>
+                                    <input  on:click={() => shouldNotInterview(inter["name"])} name="group1" type="radio"/>
                                 {/if}
                             <span>Should Not Interview</span>
                         </label>
@@ -144,9 +196,9 @@
 
                         <label>
                             {#if inter["shouldInterview"] == "unsure"}
-                                <input name="group1" type="radio" checked/>
+                                <input on:click={() => unevaluated(inter["name"])} name="group1" type="radio" checked/>
                             {:else}
-                                <input name="group1" type="radio"/>
+                                <input on:click={() => unevaluated(inter["name"])} name="group1" type="radio"/>
                             {/if}
                             <span>Unevaluted</span>
                         </label>
@@ -160,27 +212,27 @@
                     <!-- svelte-ignore a11y-label-has-associated-control -->
                     <label>
                         {#if inter["status"] == "accept"}
-                            <input name="group1"  type="radio" checked/>
+                            <input on:click={() => accept(inter["name"])} name="group1"  type="radio" checked/>
                         {:else}
-                            <input name="group1" type="radio"/>
+                            <input on:click={() => accept(inter["name"])} name="group1" type="radio"/>
                         {/if}
                         <span>Accept</span>
                     </label>
                  <!-- svelte-ignore a11y-label-has-associated-control -->
                     <label >
                         {#if inter["status"] == "reject"}
-                            <input name="group1"  type="radio" checked/>
+                            <input on:click={() => reject(inter["name"])} name="group1"  type="radio" checked/>
                         {:else}
-                            <input name="group1"  type="radio"/>
+                            <input on:click={() => reject(inter["name"])} name="group1"  type="radio"/>
                         {/if}
                         <span>Reject</span>
                     </label>
                      <!-- svelte-ignore a11y-label-has-associated-control -->
                     <label >
                         {#if inter["status"] == "unsure"}
-                            <input name="group1"  type="radio" checked/>
+                            <input  on:click={() => unsure(inter["name"])} name="group1"  type="radio" checked/>
                         {:else}
-                            <input name="group1" type="radio"/>
+                            <input on:click={() => unsure(inter["name"])} name="group1" type="radio"/>
                         {/if}
                         <span>Unsure</span>
                     </label>
