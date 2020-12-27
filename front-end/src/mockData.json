@@ -6,13 +6,13 @@
         },
         {
             "name": "Saydolimkhon Agzamkhodjaev",
-            "shouldInterview": "unsure",
+            "shouldInterview": "yes",
             "status": "unsure"
 
         },
         {
             "name": "Samuel Lee",
-            "shouldInterview": "unsure", 
+            "shouldInterview": "no", 
             "status": "unsure"
         }, 
         {

@@ -1,43 +1,19 @@
 <script>
-    import { Router, Link, Route } from "svelte-routing";
-    // import clamp from 'clamp-js'; 
-    // let mockData = []
-    // for testing purposes: 
+    import { Link } from "svelte-routing";
+    import { onMount } from 'svelte';
+    import List from "list.js"; 
     import mockData from "../mockData.json";
- 
-    function returnMockData() {
-        console.log(mockData); 
-    }
+    import Status from "./Status.svelte"; 
+    import AcceptanceStatus from "./AcceptanceStatus.svelte"
 
-    // several functions to update the data of the 
-    // candidate. 
-    function giveInterview(name) {
-        console.log(name); 
-    }
 
-    function rejectInterview(name) {
-        console.log(name); 
-    }
-
-    function pending(name) {
-
-    }
-
-    function accept(name) {
-
-    }
-
-    function reject(name) {
-
-    }
-
-    function unsure(name) {
-
-    }
-
-    function passUserName(name) {
-        localStorage.setItem('curName', name);
-    }
+    onMount(async () => {
+        var options = {
+            valueNames: [ 'name', '', '']
+        };
+        var userList = new List('users', options);
+        console.log(userList)
+	});
 </script>
 
 <style>
@@ -63,6 +39,12 @@
         padding-top: 0px;
 
     }
+
+    table {
+        width: 80%;
+        /* text-align: center; */
+    }
+
 
     #intervierName {
         margin-top: 15px;
@@ -92,54 +74,80 @@
     .space {
         height: 10px;
     }
+    #users {
+        display: flex; 
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        /* background-color: red;  */
+    }
+    #search {
+        /* background-color: blue;  */
+        width: 80%; 
+    }
+    .search  {
+        /* background-color: green;  */
+        width: 46.3%;
+        display: flex; 
+        flex-direction: column;
+    }
 </style>
 
-<!-- someting like a svelute for each would go here.  -->
-<div class = "justifyCards">
 
-    <!-- svelte foreach -->
-    {#each mockData as inter}
-    <div class="card-panel color">
-        <center>
-            <h5 id = "intervierName" class="white-text">{inter.name}</h5>
-            <div class="space"></div>
-            <div class = "interviewStatus">
-                <i class="white-text">Interview Potential Status</i>
-                <div class = "icons">
-                    <div class = "emojis">
-                        <p on:click = "{rejectInterview(inter.name)}" >&#9989;</p>  
-                    </div>
-                    <div class = "emojis">
-                        <p>&#10060;</p>
-                    </div>
-                    <div class = "emojis">
-                        <p>&#128339;</p>
-                    </div>
-                </div>
-            </div>
-            <div class = "space"></div>
-            <div class = "interviewNotes">
-                <i><Link to = "/interview"  on:click = "{passUserName(inter.name)}">Interview Notes</Link></i>
-            </div>
-            <div class = "space"></div>
-            <div class = "status">
-                <i class="white-text">Accept Or Reject</i>
-                <div class = "icons">
-                    <div class = "emojis">
-                        <p>&#9989;</p>  
-                    </div>
-                    <div class = "emojis">
-                        <p>&#10060;</p>
-                    </div>
-                    <div class="emojis">
-                        <p>&#129300;</p>
-                    </div>
-                </div>
-            </div>
 
-        </center>
+<!-- Trying the table idea -->
+<div id = "users">
+    <div id = "search">
+        <div>
+            <input class="search" placeholder="Search By Name" />
+        </div>
+        <div>
+            <button class="sort" data-sort="name">
+                Sort By Name
+              </button>
+              <button class="sort" data-sort="status">
+                  Sort By Interview Status
+              </button>
+              <button class="sort" data-sort="acceptance">
+                  Sort By Acceptance Status
+              </button>
+        </div>
+
+    </div>
+
+    <table class = "striped responsive-table"> 
+        <thead>
+          <tr>
+              <th>Applicant Name</th>
+              <th>Interview Status</th>
+              <th>Interview Notes</th>
+              <th>Acceptance Status</th>
+          </tr>
+        </thead>
+        <!-- svelte for each -->
         
-    </div>  
-    {/each}
+        <tbody class = "list">
+        {#each mockData as inter}
+          <tr>
+              <!-- svelte if -->
+
+              <td class = "name">
+                  {inter["name"]}
+              </td>
+              <td class = "status"> 
+                  <Status />
+              </td>
+              <td>
+
+                  <b><Link to = "/interview"  >Interview Notes</Link></b>
+             </td>
+              <td class = "acceptance">
+                  <AcceptanceStatus /> 
+              </td>
+          </tr>
+          {/each}
+        </tbody>
+       
+      </table>
 </div>
 
