@@ -1,4 +1,4 @@
-import { Application, CommitteeChoice, QuestionNote, Note, Question } from "../../database/models.ts"
+// import { Application, CommitteeChoice, QuestionNote, Note, Question } from "../../database/database.ts"
 import { Context } from "../../deps.ts"
 
 const questionCreate = async(ctx: Context) => {

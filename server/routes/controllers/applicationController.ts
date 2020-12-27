@@ -1,10 +1,11 @@
-import { Application, CommitteeChoice } from "../../database/models.ts"
+// import { Application, CommitteeChoice } from "../../database/database.ts"
+import app from "../../app.ts";
 import { Context } from "../../deps.ts"
 
 const parseTypeForm = async(ctx: Context) => {
     // populate application
-    const formData = ctx.request.body();
-    console.log(formData);
+    const application = await ctx.request.body().value;
+    console.log(application);
     // await Application.create([{
     //     name: DataTypes.STRING,
     //     email: DataTypes.STRING,

@@ -1,4 +1,4 @@
-import { Context } from "https://deno.land/x/oak@v6.3.2/context.ts";
+import { Context } from "../deps.ts";
 
 const errorMiddleware = async(context: Context, next: any) => {
   try {
