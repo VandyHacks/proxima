@@ -5,16 +5,14 @@ import * as notesController from "./controllers/notesController.ts"
 const router = new Router();
 
 // Application submission
-router.put('/typeform/submit', applicationController.parseTypeForm);
+router.post('/typeform/submit', applicationController.parseTypeForm);
 
-// Creating questions
-router.post('/interview/questions/add', notesController.questionCreate);
+// // Creating questions
+// router.post('/interview/questions/add', notesController.questionCreate);
 
-router.get('/interview/:id/questions', notesController.questionCreate)
+// router.get('/interview/:id/questions', notesController.questionCreate)
 
-router.get('/', notesController.questionCreate)
-
-
+// router.get('/', notesController.questionCreate)
 
 
 export { router };
