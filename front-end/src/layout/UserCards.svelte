@@ -12,7 +12,8 @@
             valueNames: [ 'name', '', '']
         };
         var userList = new List('users', options);
-        console.log(userList)
+
+        console.log
 	});
 </script>
 
@@ -144,11 +145,36 @@
                   <Status />
               </td>
               <td>
-
-                  <b><Link to = "/interview"  >Interview Notes</Link></b>
+                  <b><Link to = "/interview">Interview Notes</Link></b>
              </td>
               <td class = "acceptance">
-                  <AcceptanceStatus /> 
+                <form>
+                    <label>
+                        {#if inter["status"] == "accept"}
+                            <input name="group1" type="radio" checked/>
+                        {:else}
+                            <input name="group1" type="radio"/>
+                        {/if}
+                        <span>Accept</span>
+                    </label>
+                
+                    <label>
+                        {#if inter["status"] == "reject"}
+                            <input name="group1" type="radio" checked/>
+                        {:else}
+                            <input name="group1" type="radio"/>
+                        {/if}
+                        <span>Reject</span>
+                    </label>
+                    <label>
+                        {#if inter["status"] == "unsure"}
+                            <input name="group1" type="radio" checked/>
+                        {:else}
+                            <input name="group1" type="radio"/>
+                        {/if}
+                        <span>Unsure</span>
+                    </label>
+                </form>
               </td>
           </tr>
           {/each}
