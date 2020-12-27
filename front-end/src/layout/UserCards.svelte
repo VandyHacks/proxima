@@ -14,7 +14,28 @@
         var userList = new List('users', options);
 
         console.log
-	});
+    });
+
+    function shouldInterview(name) {
+
+    }
+    
+
+    function shouldNotInterview(name) {
+
+    }
+
+    function unevaluated(name) {
+
+    }
+
+
+    function returnState(one, two) {
+        console.log( one ); 
+        console.log(two)
+    }
+
+    // returnState(); 
 </script>
 
 <style>
@@ -27,19 +48,6 @@
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
     }
-    .justifyCards {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-        flex-wrap: wrap;
-    }
-
-    .card-panel {
-        width: 250px;
-        min-height: 270px;
-        padding-top: 0px;
-
-    }
 
     table {
         width: 80%;
@@ -47,34 +55,6 @@
     }
 
 
-    #intervierName {
-        margin-top: 15px;
-    }
-    .icons {
-        display: flex; 
-        flex-direction: row;
-        justify-content: space-around;
-        align-items: center;
-        margin: 0;
-        padding: 0;
-        /* position: relative; */
-       
-    }
-    .emojis p {
-        font-size: 30px;
-        padding: 0;
-        margin: 0;
-        margin-top: 5px
-    }
-    .color {
-        background-color: #37618d; 
-    }
-    .interviewNotes a {
-        font-size: 20px;
-    }
-    .space {
-        height: 10px;
-    }
     #users {
         display: flex; 
         flex-direction: column;
@@ -94,9 +74,6 @@
     }
     button {
         margin-bottom: 10px; 
-    }
-    .buttonWrapper {
-        /* width:  47.4%; */
     }
 </style>
 
@@ -157,9 +134,9 @@
 
                         <label>
                                 {#if inter["shouldInterview"] == "no"}
-                                    <input name="group1" type="radio" checked/>
+                                    <input on:click={() => test(inter["name"], "arg2")} name="group1" type="radio"  checked/>
                                 {:else}
-                                    <input name="group1" type="radio"/>
+                                    <input  on:click={() => test(inter["name"], "arg2")} name="group1" type="radio"/>
                                 {/if}
                             <span>Should Not Interview</span>
                         </label>

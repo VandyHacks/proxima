@@ -1,12 +1,12 @@
 [
         {
             "name": "Aadarsh Jha",
-            "shouldInterview": "unsure", 
+            "shouldInterview": "no", 
             "status": "accept"
         },
         {
             "name": "Saydolimkhon Agzamkhodjaev",
-            "shouldInterview": "yes",
+            "shouldInterview": "no",
             "status": "unsure"
 
         },
