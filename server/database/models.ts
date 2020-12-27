@@ -48,7 +48,8 @@ class Note extends Model {
     static fields = {
         id: {
             type: DataTypes.INTEGER,
-            primaryKey: true
+            primaryKey: true,
+            autoIncrement: true
         },
         interviewer_name: DataTypes.STRING,
         ownerId: Relationships.belongsTo(Application),
@@ -74,7 +75,8 @@ class Question extends Model {
     static fields = {
         id: {
             type: DataTypes.INTEGER,
-            primaryKey: true
+            primaryKey: true,
+            autoIncrement: true
         },
         content: DataTypes.TEXT,
         specificity: { type: DataTypes.ENUM, values: ["general", "operations", "development", "hacker experience", "design", "sponsorship", "content", "marketing"]}
