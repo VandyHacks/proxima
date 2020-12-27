@@ -1,6 +1,6 @@
 import { Model, DataTypes } from "../../deps.ts";
 
-class Question extends Model {
+export class Question extends Model {
     static table = 'questions';
     static timestamps = true;
     static fields = {
