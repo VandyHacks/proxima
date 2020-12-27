@@ -142,33 +142,66 @@
                   {inter["name"]}
               </td>
               <td class = "status"> 
-                  <Status />
+                    <form>
+                        <!-- svelte-ignore a11y-label-has-associated-control -->
+
+                        <label >
+                            {#if inter["shouldInterview"] == "yes"}
+                                <input name="group1" type="radio" checked/>
+                            {:else}
+                                <input name="group1" type="radio"/>
+                            {/if}
+                            <span>Should Interview</span>
+                        </label>
+                        <!-- svelte-ignore a11y-label-has-associated-control -->
+
+                        <label>
+                                {#if inter["shouldInterview"] == "no"}
+                                    <input name="group1" type="radio" checked/>
+                                {:else}
+                                    <input name="group1" type="radio"/>
+                                {/if}
+                            <span>Should Not Interview</span>
+                        </label>
+                        <!-- svelte-ignore a11y-label-has-associated-control -->
+
+                        <label>
+                            {#if inter["shouldInterview"] == "unsure"}
+                                <input name="group1" type="radio" checked/>
+                            {:else}
+                                <input name="group1" type="radio"/>
+                            {/if}
+                            <span>Unevaluted</span>
+                        </label>
+                    </form>
               </td>
               <td>
                   <b><Link to = "/interview">Interview Notes</Link></b>
              </td>
-              <td class = "acceptance">
-                <form>
+              <td >
+                <form> 
+                    <!-- svelte-ignore a11y-label-has-associated-control -->
                     <label>
                         {#if inter["status"] == "accept"}
-                            <input name="group1" type="radio" checked/>
+                            <input name="group1"  type="radio" checked/>
                         {:else}
                             <input name="group1" type="radio"/>
                         {/if}
                         <span>Accept</span>
                     </label>
-                
-                    <label>
+                 <!-- svelte-ignore a11y-label-has-associated-control -->
+                    <label >
                         {#if inter["status"] == "reject"}
-                            <input name="group1" type="radio" checked/>
+                            <input name="group1"  type="radio" checked/>
                         {:else}
-                            <input name="group1" type="radio"/>
+                            <input name="group1"  type="radio"/>
                         {/if}
                         <span>Reject</span>
                     </label>
-                    <label>
+                     <!-- svelte-ignore a11y-label-has-associated-control -->
+                    <label >
                         {#if inter["status"] == "unsure"}
-                            <input name="group1" type="radio" checked/>
+                            <input name="group1"  type="radio" checked/>
                         {:else}
                             <input name="group1" type="radio"/>
                         {/if}
