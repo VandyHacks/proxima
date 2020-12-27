@@ -4,6 +4,8 @@
     // let mockData = []
     // for testing purposes: 
     import mockData from "../mockData.json";
+    import Status from "./Status.svelte"; 
+    import AcceptanceStatus from "./AcceptanceStatus.svelte"
  
     function returnMockData() {
         console.log(mockData); 
@@ -65,7 +67,7 @@
     }
 
     table {
-        width: 900px;
+        width: 1000px;
         /* text-align: center; */
     }
     /* tr {
@@ -170,33 +172,15 @@
               <td>
                   {inter["name"]}
               </td>
-              <td>
-                <p></p>
-                {#if inter["shouldInterview"] == "unsure"}
-                    <p>yeet</p>
-                {/if}
-                {#if inter["shouldInterview"] == "yes"}
-                    <p>nope</p>
-                {/if}
-                {#if inter["shouldInterview"] == "no"}
-                    <p>yoop</p>
-                {/if}
-                  <!-- {inter["shouldInterview"]} -->
+              <td> 
+                  <Status />
               </td>
               <td>
                   <!-- will need to put router here -->
-                  Test
+                  <b><Link to = "/interview"  on:click = "{passUserName(inter.name)}">Interview Notes</Link></b>
              </td>
               <td>
-                {#if inter["shouldInterview"] == "unsure"}
-                <p>yeet</p>
-                {/if}
-                {#if inter["shouldInterview"] == "yes"}
-                    <p>nope</p>
-                {/if}
-                {#if inter["shouldInterview"] == "no"}
-                    <p>yoop</p>
-                {/if}
+                  <AcceptanceStatus /> 
               </td>
           </tr>
           {/each}
