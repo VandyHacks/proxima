@@ -71,6 +71,10 @@ class Note extends Model {
         overall: DataTypes.enum([1, 2, 3, 4, 5, 6, 7]),
         thoughts: DataTypes.TEXT
     };
+
+    static application(){
+        return this.hasOne(Application);
+    }
 }
 
 class NotesQuestion extends Model {
