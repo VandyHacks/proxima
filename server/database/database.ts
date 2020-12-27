@@ -5,8 +5,12 @@ import { QuestionNote, Question, Note, Application, CommitteeChoice } from "./mo
 
 const db = new Database('postgres', config.database);
 
-db.link([QuestionNote, Question, Note, Application, CommitteeChoice]);
 
-db.sync();
+async function connectDB() {
+  console.log("DB Connected")
+  db.link([QuestionNote, Question, Note, Application, CommitteeChoice]);
+  await db.sync({ drop: true })
+}
 
-export { db };
+
+export { connectDB };
