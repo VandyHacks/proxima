@@ -1,7 +1,7 @@
 import { Application, CommitteeChoice, QuestionNote, Note, Question } from "../../database/models.ts"
-import { RouterContext } from "../../deps.ts"
+import { Context } from "../../deps.ts"
 
-const questionCreate = async(ctx: RouterContext) => {
+const questionCreate = async(ctx: Context) => {
     // populate application
 
     // populate committee

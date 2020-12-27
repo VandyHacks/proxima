@@ -5,4 +5,6 @@ List of tech used:
 1. Oak
 2. PostgreSQL
 3. DenoDB
-4. urMOM
+
+Run:
+`deno run --allow-net --allow-env --allow-read app.ts`

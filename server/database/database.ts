@@ -3,14 +3,11 @@ import { config } from "../config/config.ts";
 import { QuestionNote, Question, Note, Application, CommitteeChoice } from "./models.ts";
 
 
-const db = new Database('postgres', config.database);
-
-
 async function connectDB() {
-  console.log("DB Connected")
+  const db = await new Database('postgres', config.database);
   db.link([QuestionNote, Question, Note, Application, CommitteeChoice]);
-  await db.sync({ drop: true })
+  await db.sync()
+  console.log("DB Connected")
 }
-
 
 export { connectDB };
