@@ -26,6 +26,14 @@ class Application extends Model {
         design_link: DataTypes.STRING,
         source: DataTypes.TEXT
     };
+
+    static committees() {
+        return this.hasMany(CommitteeChoice);
+    }
+
+    static notes() {
+        return this.hasMany(Note);
+    }
 }
 
 class CommitteeChoice extends Model {
@@ -40,6 +48,10 @@ class CommitteeChoice extends Model {
         isDirector: DataTypes.BOOLEAN,
         ownerId: Relationships.belongsTo(Application),
     };
+
+    static application(){
+        return this.hasOne(Application);
+    }
 }
 
 class Note extends Model {
@@ -87,4 +99,4 @@ class Question extends Model {
     };
 }
 
-export { Application, CommitteeChoice, Note, NotesQuestion, Question };
+export { Application, CommitteeChoice, NotesQuestion, Note, Question };
