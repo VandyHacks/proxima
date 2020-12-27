@@ -158,6 +158,7 @@
       <tr>
         <th>Applicant Name</th>
         <th>Interview Status</th>
+        <th>Committees</th>
         <th>Interview Notes</th>
         <th>Interview Form</th>
         <th>Acceptance Status</th>
