@@ -2,62 +2,73 @@
         {
             "name": "Aadarsh Jha",
             "shouldInterview": "no", 
-            "status": "accept"
+            "status": "accept",
+            "committees": ["content", "sponsorship", "design"]
         },
         {
             "name": "Saydolimkhon Agzamkhodjaev",
             "shouldInterview": "no",
-            "status": "unsure"
-
+            "status": "unsure",
+            "committees": ["content", "sponsorship", "design"]
         },
         {
             "name": "Samuel Lee",
             "shouldInterview": "no", 
-            "status": "reject"
+            "status": "reject",
+            "committees": ["content", "sponsorship", "design"]
         }, 
         {
             "name": "John Doe",
             "shouldInterview": "unsure", 
-            "status": "accept"
+            "status": "accept",
+            "committees": ["content", "sponsorship", "design"]
         }, 
         {
             "name": "Surya Thalli",
             "shouldInterview": "unsure", 
-            "status": "accept"
+            "status": "accept",
+            "committees": ["content", "sponsorship", "design"]
         }, 
         {
             "name": "Gabriel Ting",
             "shouldInterview": "unsure", 
-            "status": "accept"
+            "status": "accept",
+            "committees": ["content", "sponsorship", "design"]
         }, 
         {
             "name": "Ananya Gondi",
             "shouldInterview": "unsure", 
-            "status": "unsure"
+            "status": "unsure",
+            "committees": ["content", "sponsorship", "design"]
         }, 
         {
             "name": "Ilya Iforgothislastname",
             "shouldInterview": "unsure", 
-            "status": "unsure"
+            "status": "unsure",
+            "committees": ["content", "sponsorship", "design"]
         }, 
         {
             "name": "Ashwin Kumar",
             "shouldInterview": "unsure", 
-            "status": "unsure"
+            "status": "unsure",
+            "committees": ["content", "sponsorship", "design"]
         }, 
         {
             "name": "Matt Leon",
             "shouldInterview": "unsure", 
-            "status": "reject"
+            "status": "reject",
+            "committees": ["content", "sponsorship", "design"]
         },
         {
             "name": "Ben Cooper",
             "shouldInterview": "unsure", 
-            "status": "unsure"
+            "status": "unsure",
+            "committees": ["content", "sponsorship", "design"]
         }, 
         {
             "name": "Test User",
             "shouldInterview": "unsure", 
-            "status": "reject"
+            "status": "reject",
+            "committees": ["content", "sponsorship", "design"]
         }
 ]
