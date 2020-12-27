@@ -46,7 +46,7 @@ class CommitteeChoice extends Model {
         },
         committee: DataTypes.enum(["operations", "development", "hacker experience", "design", "sponsorship", "content", "marketing"]),
         isDirector: DataTypes.BOOLEAN,
-        ownerId: Relationships.belongsTo(Application),
+        applicationId: Relationships.belongsTo(Application),
     };
 
     static application(){
@@ -64,7 +64,7 @@ class Note extends Model {
             autoIncrement: true
         },
         interviewer_name: DataTypes.STRING,
-        ownerId: Relationships.belongsTo(Application),
+        applicationId: Relationships.belongsTo(Application),
         reliability: DataTypes.enum([1, 2, 3, 4, 5, 6, 7]),
         interest: DataTypes.enum([1, 2, 3, 4, 5, 6, 7]),
         teamwork: DataTypes.enum([1, 2, 3, 4, 5, 6, 7]),
