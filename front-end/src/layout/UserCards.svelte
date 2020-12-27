@@ -3,13 +3,10 @@
     import { onMount } from 'svelte';
     import List from "list.js"; 
     import mockData from "../mockData.json";
-    import Status from "./Status.svelte"; 
-    import AcceptanceStatus from "./AcceptanceStatus.svelte"
-
 
     onMount(async () => {
         var options = {
-            valueNames: [ 'name', '', '']
+            valueNames: [ 'name', 'accept', 'interview']
         };
         var userList = new List('users', options);
 
@@ -141,10 +138,10 @@
             <button  class="sort btn waves-effect waves-light" data-sort="name">
                 Sort By Name
               </button>
-              <button class="sort btn waves-effect waves-light" data-sort="status">
+              <button class="sort btn waves-effect waves-light" data-sort="accept">
                   Sort By Interview Status
               </button>
-              <button class="sort btn waves-effect waves-light" data-sort="acceptance">
+              <button class="sort btn waves-effect waves-light" data-sort="interview">
                   Sort By Acceptance Status
               </button>
         </div>
@@ -207,32 +204,32 @@
               <td>
                   <b><Link to = "/interview">Interview Notes</Link></b>
              </td>
-              <td >
+              <td>
                 <form> 
                     <!-- svelte-ignore a11y-label-has-associated-control -->
                     <label>
                         {#if inter["status"] == "accept"}
-                            <input on:click={() => accept(inter["name"])} name="group1"  type="radio" checked/>
+                            <input class = "interview" on:click={() => accept(inter["name"])} name="group1"  type="radio" checked/>
                         {:else}
-                            <input on:click={() => accept(inter["name"])} name="group1" type="radio"/>
+                            <input class = "interview" on:click={() => accept(inter["name"])} name="group1" type="radio"/>
                         {/if}
                         <span>Accept</span>
                     </label>
                  <!-- svelte-ignore a11y-label-has-associated-control -->
                     <label >
                         {#if inter["status"] == "reject"}
-                            <input on:click={() => reject(inter["name"])} name="group1"  type="radio" checked/>
+                            <input class = "interview" on:click={() => reject(inter["name"])} name="group1"  type="radio" checked/>
                         {:else}
-                            <input on:click={() => reject(inter["name"])} name="group1"  type="radio"/>
+                            <input class = "interview" on:click={() => reject(inter["name"])} name="group1"  type="radio"/>
                         {/if}
                         <span>Reject</span>
                     </label>
                      <!-- svelte-ignore a11y-label-has-associated-control -->
                     <label >
                         {#if inter["status"] == "unsure"}
-                            <input  on:click={() => unsure(inter["name"])} name="group1"  type="radio" checked/>
+                            <input class = "interview"  on:click={() => unsure(inter["name"])} name="group1"  type="radio" checked/>
                         {:else}
-                            <input on:click={() => unsure(inter["name"])} name="group1" type="radio"/>
+                            <input class = "interview" on:click={() => unsure(inter["name"])} name="group1" type="radio"/>
                         {/if}
                         <span>Unsure</span>
                     </label>
