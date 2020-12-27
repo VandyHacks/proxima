@@ -84,6 +84,11 @@
         console.log(mockData); 
     }
 
+    function passName(name) {
+        localStorage.setItem("curName", name); 
+        console.log(localStorage.getItem("curName")); 
+    }
+
     // returnState(); 
 </script>
 
@@ -202,7 +207,7 @@
                     </form>
               </td>
               <td>
-                  <b><Link to = "/interview">Interview Notes</Link></b>
+                  <b><Link to = "/interview" on:click = {() => passName(inter["name"])}>Interview Notes</Link></b>
              </td>
               <td>
                 <form> 
