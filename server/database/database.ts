@@ -1,11 +1,11 @@
 import { Database } from "../deps.ts";
 import { config } from "../config/config.ts";
-import { Question, NotesQuestion } from "./models.ts";
+import { QuestionNote, Question, Note, Application, CommitteeChoice } from "./models.ts";
 
 
 const db = new Database(config.database);
 
-db.link([NotesQuestion, Question]);
+db.link([QuestionNote, Question, Note, Application, CommitteeChoice]);
 
 db.sync();
 
