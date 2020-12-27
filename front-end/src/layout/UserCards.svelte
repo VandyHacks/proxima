@@ -1,260 +1,317 @@
 <script>
-    import { Link } from "svelte-routing";
-    import { onMount } from 'svelte';
-    import List from "list.js"; 
-    import mockData from "../mockData.json";
+  import { Link } from "svelte-routing";
+  import { onMount } from "svelte";
+  import List from "list.js";
+  import mockData from "../mockData.json";
 
-    onMount(async () => {
-        var options = {
-            valueNames: [ 'name', 'accept', 'interview']
-        };
-        var userList = new List('users', options);
+  onMount(async () => {
+    var options = {
+      valueNames: ["name", "accept", "interview"]
+    };
+    var userList = new List("users", options);
 
-        console.log
-    });
+    console.log;
+  });
 
-    function shouldInterview(name) {
-        let ele; 
-        for (ele of mockData) {
-            if(ele["name"] == name) {
-                // update if we should interview: 
-                ele["shouldInterview"] = "yes";
-            }
-        }
-        returnState(); 
+  function shouldInterview(name) {
+    let ele;
+    for (ele of mockData) {
+      if (ele["name"] == name) {
+        // update if we should interview:
+        ele["shouldInterview"] = "yes";
+      }
     }
+    returnState();
+  }
 
-    function shouldNotInterview(name) {
-        let ele; 
-        for (ele of mockData) {
-            if(ele["name"] == name) {
-                // update if we should interview: 
-                ele["shouldInterview"] = "no";
-            }
-        }
-        returnState(); 
+  function shouldNotInterview(name) {
+    let ele;
+    for (ele of mockData) {
+      if (ele["name"] == name) {
+        // update if we should interview:
+        ele["shouldInterview"] = "no";
+      }
     }
+    returnState();
+  }
 
-    function unevaluated(name) {
-        let ele; 
-        for (ele of mockData) {
-            if(ele["name"] == name) {
-                // update if we should interview: 
-                ele["shouldInterview"] = "unsure";
-            }
-        }
-        returnState(); 
+  function unevaluated(name) {
+    let ele;
+    for (ele of mockData) {
+      if (ele["name"] == name) {
+        // update if we should interview:
+        ele["shouldInterview"] = "unsure";
+      }
     }
+    returnState();
+  }
 
-    function accept(name) {
-        let ele; 
-        for (ele of mockData) {
-            if(ele["name"] == name) {
-                // update if we should interview: 
-                ele["status"] = "accept";
-            }
-        }
-        returnState(); 
+  function accept(name) {
+    let ele;
+    for (ele of mockData) {
+      if (ele["name"] == name) {
+        // update if we should interview:
+        ele["status"] = "accept";
+      }
     }
+    returnState();
+  }
 
-    function reject(name) {
-        let ele; 
-        for (ele of mockData) {
-            if(ele["name"] == name) {
-                // update if we should interview: 
-                ele["status"] = "reject";
-            }
-        }
-        returnState(); 
+  function reject(name) {
+    let ele;
+    for (ele of mockData) {
+      if (ele["name"] == name) {
+        // update if we should interview:
+        ele["status"] = "reject";
+      }
     }
+    returnState();
+  }
 
-    function unsure(name) {
-        let ele; 
-        for (ele of mockData) {
-            if(ele["name"] == name) {
-                // update if we should interview: 
-                ele["status"] = "unsure";
-            }
-        }
-        returnState(); 
+  function unsure(name) {
+    let ele;
+    for (ele of mockData) {
+      if (ele["name"] == name) {
+        // update if we should interview:
+        ele["status"] = "unsure";
+      }
     }
+    returnState();
+  }
 
+  function returnState() {
+    console.log(mockData);
+  }
 
-    function returnState() {
-        console.log(mockData); 
-    }
+  function passName(name) {
+    localStorage.setItem("curName", name);
+    console.log(localStorage.getItem("curName"));
+  }
 
-    function passName(name) {
-        localStorage.setItem("curName", name); 
-        console.log(localStorage.getItem("curName")); 
-    }
-
-    // returnState(); 
+  // returnState();
 </script>
 
 <style>
-    * {
-        -webkit-touch-callout: none; /* iOS Safari */
-        -webkit-user-select: none; /* Safari */
-        -khtml-user-select: none; /* Konqueror HTML */
-        -moz-user-select: none; /* Old versions of Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently
+  * {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
-    }
+  }
 
-    .padding {
-        margin-top: 10px;
-    }
-    table {
-        width: 80%;
-        /* text-align: center; */
-    }
+  .padding {
+    margin-top: 10px;
+  }
+  table {
+    width: 80%;
+    /* text-align: center; */
+  }
 
-    #users {
-        display: flex; 
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        /* background-color: red;  */
-    }
+  #users {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* background-color: red;  */
+  }
 
-    #search {
-        /* background-color: blue;  */
-        width: 80%; 
-    }
-    .search  {
-        /* background-color: green;  */
-        width: 47.4%;
-        display: flex; 
-        flex-direction: column;
-    }
-    button {
-        margin-bottom: 10px; 
-    }
+  #search {
+    /* background-color: blue;  */
+    width: 80%;
+  }
+  .search {
+    /* background-color: green;  */
+    width: 47.4%;
+    display: flex;
+    flex-direction: column;
+  }
+  button {
+    margin-bottom: 10px;
+  }
 </style>
 
-
-
 <!-- Trying the table idea -->
-<div id = "users">
-    <div id = "search">
-        <div>
-            <input class="search" placeholder="Search By Name" />
-        </div>
-        <div class = "buttonWrapper">
-            <button  class="sort btn waves-effect waves-light" data-sort="name">
-                Sort By Name
-              </button>
-              <button class="sort btn waves-effect waves-light" data-sort="accept">
-                  Sort By Interview Status
-              </button>
-              <button class="sort btn waves-effect waves-light" data-sort="interview">
-                  Sort By Acceptance Status
-              </button>
-        </div>
-
+<div id="users">
+  <div id="search">
+    <div>
+      <input class="search" placeholder="Search By Name" />
+    </div>
+    <div class="buttonWrapper">
+      <button class="sort btn waves-effect waves-light" data-sort="name">
+        Sort By Name
+      </button>
+      <button class="sort btn waves-effect waves-light" data-sort="accept">
+        Sort By Interview Status
+      </button>
+      <button class="sort btn waves-effect waves-light" data-sort="interview">
+        Sort By Acceptance Status
+      </button>
     </div>
 
-    <table class = "striped responsive-table"> 
-        <thead>
-          <tr>
-              <th>Applicant Name</th>
-              <th>Interview Status</th>
-              <th>Interview Notes</th>
-              <th>Interview Form</th>
-              <th>Acceptance Status</th>
-          </tr>
-        </thead>
-        <!-- svelte for each -->
-        
-        <tbody class = "list">
-        {#each mockData as inter}
-          <tr>
-              <!-- svelte if -->
+  </div>
 
-              <td class = "name">
-                  {inter["name"]}
-              </td>
-              <td class = "status"> 
-                    <form>
-                        <!-- svelte-ignore a11y-label-has-associated-control -->
+  <table class="striped responsive-table">
+    <thead>
+      <tr>
+        <th>Applicant Name</th>
+        <th>Interview Status</th>
+        <th>Interview Notes</th>
+        <th>Interview Form</th>
+        <th>Acceptance Status</th>
+      </tr>
+    </thead>
+    <!-- svelte for each -->
 
-                        <label >
-                            {#if inter["shouldInterview"] == "yes"}
-                                <input on:click={() => shouldInterview(inter["name"])} name="group1" type="radio" checked/>
-                            {:else}
-                                <input on:click={() => shouldInterview(inter["name"])} name="group1" type="radio"/>
-                            {/if}
-                            <span>Should Interview</span>
-                        </label>
-                        <!-- svelte-ignore a11y-label-has-associated-control -->
+    <tbody class="list">
+      {#each mockData as inter}
+        <tr>
+          <!-- svelte if -->
 
-                        <label>
-                                {#if inter["shouldInterview"] == "no"}
-                                    <input on:click={() => shouldNotInterview(inter["name"])} name="group1" type="radio"  checked/>
-                                {:else}
-                                    <input  on:click={() => shouldNotInterview(inter["name"])} name="group1" type="radio"/>
-                                {/if}
-                            <span>Should Not Interview</span>
-                        </label>
-                        <!-- svelte-ignore a11y-label-has-associated-control -->
+          <td class="name">{inter['name']}</td>
+          <td class="status">
+            <form>
+              <!-- svelte-ignore a11y-label-has-associated-control -->
 
-                        <label>
-                            {#if inter["shouldInterview"] == "unsure"}
-                                <input on:click={() => unevaluated(inter["name"])} name="group1" type="radio" checked/>
-                            {:else}
-                                <input on:click={() => unevaluated(inter["name"])} name="group1" type="radio"/>
-                            {/if}
-                            <span>Unevaluted</span>
-                        </label>
-                    </form>
-              </td>
-              <td>
-                  <b><Link to = "/interview" on:click = {() => passName(inter["name"])}>Interview Notes</Link></b>
-             </td>
-             <td>
-                <button class="sort btn white waves-effect waves-light padding">
-                    <Link to = "/notes" on:click = {() => passName(inter["name"])}>Take Notes</Link>
-                </button>
-                    
-                    
-             </td>
-              <td>
-                <form> 
-                    <!-- svelte-ignore a11y-label-has-associated-control -->
-                    <label>
-                        {#if inter["status"] == "accept"}
-                            <input class = "interview" on:click={() => accept(inter["name"])} name="group1"  type="radio" checked/>
-                        {:else}
-                            <input class = "interview" on:click={() => accept(inter["name"])} name="group1" type="radio"/>
-                        {/if}
-                        <span>Accept</span>
-                    </label>
-                 <!-- svelte-ignore a11y-label-has-associated-control -->
-                    <label >
-                        {#if inter["status"] == "reject"}
-                            <input class = "interview" on:click={() => reject(inter["name"])} name="group1"  type="radio" checked/>
-                        {:else}
-                            <input class = "interview" on:click={() => reject(inter["name"])} name="group1"  type="radio"/>
-                        {/if}
-                        <span>Reject</span>
-                    </label>
-                     <!-- svelte-ignore a11y-label-has-associated-control -->
-                    <label >
-                        {#if inter["status"] == "unsure"}
-                            <input class = "interview"  on:click={() => unsure(inter["name"])} name="group1"  type="radio" checked/>
-                        {:else}
-                            <input class = "interview" on:click={() => unsure(inter["name"])} name="group1" type="radio"/>
-                        {/if}
-                        <span>Unsure</span>
-                    </label>
-                </form>
-              </td>
-          </tr>
-          {/each}
-        </tbody>
-       
-      </table>
+              <label>
+                {#if inter['shouldInterview'] == 'yes'}
+                  <input
+                    on:click={() => shouldInterview(inter['name'])}
+                    name="group1"
+                    type="radio"
+                    checked />
+                {:else}
+                  <input
+                    on:click={() => shouldInterview(inter['name'])}
+                    name="group1"
+                    type="radio" />
+                {/if}
+                <span>Should Interview</span>
+              </label>
+              <!-- svelte-ignore a11y-label-has-associated-control -->
+
+              <label>
+                {#if inter['shouldInterview'] == 'no'}
+                  <input
+                    on:click={() => shouldNotInterview(inter['name'])}
+                    name="group1"
+                    type="radio"
+                    checked />
+                {:else}
+                  <input
+                    on:click={() => shouldNotInterview(inter['name'])}
+                    name="group1"
+                    type="radio" />
+                {/if}
+                <span>Should Not Interview</span>
+              </label>
+              <!-- svelte-ignore a11y-label-has-associated-control -->
+
+              <label>
+                {#if inter['shouldInterview'] == 'unsure'}
+                  <input
+                    on:click={() => unevaluated(inter['name'])}
+                    name="group1"
+                    type="radio"
+                    checked />
+                {:else}
+                  <input
+                    on:click={() => unevaluated(inter['name'])}
+                    name="group1"
+                    type="radio" />
+                {/if}
+                <span>Unevaluted</span>
+              </label>
+            </form>
+          </td>
+
+          <td>
+            {#each inter['committees'] as committee}
+              <div class="chip">
+                {committee.replace(/^./, committee[0].toUpperCase())}
+              </div>
+            {/each}
+          </td>
+
+          <td>
+            <b>
+              <Link to="/interview" on:click={() => passName(inter['name'])}>
+                Interview Notes
+              </Link>
+            </b>
+          </td>
+
+          <td>
+            <button class="sort btn white waves-effect waves-light padding">
+              <Link to="/notes" on:click={() => passName(inter['name'])}>
+                Take Notes
+              </Link>
+            </button>
+          </td>
+
+          <td>
+            <form>
+              <!-- svelte-ignore a11y-label-has-associated-control -->
+              <label>
+                {#if inter['status'] == 'accept'}
+                  <input
+                    class="interview"
+                    on:click={() => accept(inter['name'])}
+                    name="group1"
+                    type="radio"
+                    checked />
+                {:else}
+                  <input
+                    class="interview"
+                    on:click={() => accept(inter['name'])}
+                    name="group1"
+                    type="radio" />
+                {/if}
+                <span>Accept</span>
+              </label>
+              <!-- svelte-ignore a11y-label-has-associated-control -->
+              <label>
+                {#if inter['status'] == 'reject'}
+                  <input
+                    class="interview"
+                    on:click={() => reject(inter['name'])}
+                    name="group1"
+                    type="radio"
+                    checked />
+                {:else}
+                  <input
+                    class="interview"
+                    on:click={() => reject(inter['name'])}
+                    name="group1"
+                    type="radio" />
+                {/if}
+                <span>Reject</span>
+              </label>
+              <!-- svelte-ignore a11y-label-has-associated-control -->
+              <label>
+                {#if inter['status'] == 'unsure'}
+                  <input
+                    class="interview"
+                    on:click={() => unsure(inter['name'])}
+                    name="group1"
+                    type="radio"
+                    checked />
+                {:else}
+                  <input
+                    class="interview"
+                    on:click={() => unsure(inter['name'])}
+                    name="group1"
+                    type="radio" />
+                {/if}
+                <span>Unsure</span>
+              </label>
+            </form>
+          </td>
+        </tr>
+      {/each}
+    </tbody>
+
+  </table>
 </div>
-
