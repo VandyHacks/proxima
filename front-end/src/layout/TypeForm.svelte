@@ -84,10 +84,18 @@
 
     // let result2 = [1,2,3,4]; 
     // console.log(result); 
-    document.addEventListener('DOMContentLoaded', function() {
-    var elems = document.querySelectorAll('.collapsible');
-    var instances = M.Collapsible.init(elems, options);
-  });
+
+   
+
+//   import { onMount } from 'svelte';
+
+//   onMount(async () => {
+//         document.addEventListener('DOMContentLoaded', function() {
+//         var elems = document.querySelectorAll('.collapsible');
+//         var instances = M.Collapsible.init(elems, options);
+//     });
+//  });
+
 </script>
 
 <center>
