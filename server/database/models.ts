@@ -1,6 +1,6 @@
 import { Model, DataTypes, Relationships } from "../deps.ts";
 
-export class Application extends Model {
+class Application extends Model {
     static table = 'applications';
     static timestamps = true;
     static fields = {
@@ -11,7 +11,7 @@ export class Application extends Model {
         name: DataTypes.STRING,
         email: DataTypes.STRING,
         year: { type: DataTypes.ENUM, values: ["freshman", "sophomore", "junior"]},
-        status: { type: DataTypes.ENUM, values: ["applied", "to_interview", "interviewed", "rejected"]},
+        status: { type: DataTypes.ENUM, values: ["applied", "to_interview", "interviewed", "rejected", "unsure"]},
         essay1: DataTypes.TEXT,
         essay2: DataTypes.TEXT,
         essay3: DataTypes.TEXT,
@@ -27,7 +27,7 @@ export class Application extends Model {
     };
 }
 
-export class CommitteeChoice extends Model {
+class CommitteeChoice extends Model {
     static table = 'committee_choices';
     static fields = {
         id: {
@@ -40,7 +40,7 @@ export class CommitteeChoice extends Model {
     };
 }
 
-export class Note extends Model {
+class Note extends Model {
     static table = 'notes';
     static timestamps = true;
     static fields = {
@@ -49,11 +49,11 @@ export class Note extends Model {
             primaryKey: true
         },
         content: DataTypes.TEXT,
-        ownerId: Relationships.belongsTo(Application),
+        ownerId: Relationships.belongsTo(Application)
     };
 }
 
-export class NotesQuestion extends Model {
+class NotesQuestion extends Model {
     static table = 'notes_to_questions';
     static fields = {
         id: {
@@ -64,7 +64,7 @@ export class NotesQuestion extends Model {
     };
 }
 
-export class Question extends Model {
+class Question extends Model {
     static table = 'questions';
     static timestamps = true;
     static fields = {
@@ -72,6 +72,9 @@ export class Question extends Model {
             type: DataTypes.INTEGER,
             primaryKey: true
         },
-        content: DataTypes.TEXT
+        content: DataTypes.TEXT,
+        specificity: { type: DataTypes.ENUM, values: ["general", "operations", "development", "hacker experience", "design", "sponsorship", "content", "marketing"]}
     };
 }
+
+export { Application, CommitteeChoice, Note, NotesQuestion, Question };
