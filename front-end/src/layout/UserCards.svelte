@@ -9,7 +9,7 @@
 
     onMount(async () => {
         var options = {
-        valueNames: [ 'name']
+            valueNames: [ 'name', '', '']
         };
         var userList = new List('users', options);
         console.log(userList)
@@ -81,16 +81,40 @@
         align-items: center;
         /* background-color: red;  */
     }
+    #search {
+        /* background-color: blue;  */
+        width: 80%; 
+    }
+    .search  {
+        /* background-color: green;  */
+        width: 46.3%;
+        display: flex; 
+        flex-direction: column;
+    }
 </style>
 
 
 
 <!-- Trying the table idea -->
 <div id = "users">
-    <input class="search" placeholder="Search" />
-    <button class="sort" data-sort="name">
-      Sort by name
-    </button>
+    <div id = "search">
+        <div>
+            <input class="search" placeholder="Search By Name" />
+        </div>
+        <div>
+            <button class="sort" data-sort="name">
+                Sort By Name
+              </button>
+              <button class="sort" data-sort="status">
+                  Sort By Interview Status
+              </button>
+              <button class="sort" data-sort="acceptance">
+                  Sort By Acceptance Status
+              </button>
+        </div>
+
+    </div>
+
     <table class = "striped responsive-table"> 
         <thead>
           <tr>
@@ -110,14 +134,14 @@
               <td class = "name">
                   {inter["name"]}
               </td>
-              <td> 
+              <td class = "status"> 
                   <Status />
               </td>
               <td>
 
                   <b><Link to = "/interview"  >Interview Notes</Link></b>
              </td>
-              <td>
+              <td class = "acceptance">
                   <AcceptanceStatus /> 
               </td>
           </tr>
