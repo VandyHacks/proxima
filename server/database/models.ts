@@ -53,7 +53,10 @@ class Note extends Model {
         },
         interviewer_name: DataTypes.STRING,
         ownerId: Relationships.belongsTo(Application),
-
+        reliability: DataTypes.enum([1, 2, 3, 4, 5, 6, 7]),
+        interest: DataTypes.enum([1, 2, 3, 4, 5, 6, 7]),
+        teamwork: DataTypes.enum([1, 2, 3, 4, 5, 6, 7]),
+        overall: DataTypes.enum([1, 2, 3, 4, 5, 6, 7])
     };
 }
 
@@ -79,7 +82,7 @@ class Question extends Model {
             autoIncrement: true
         },
         content: DataTypes.TEXT,
-        specificity: { type: DataTypes.ENUM, values: ["general", "operations", "development", "hacker experience", "design", "sponsorship", "content", "marketing"]}
+        specificity: DataTypes.enum(["general", "operations", "development", "hacker experience", "design", "sponsorship", "content", "marketing"])
     };
 }
 
