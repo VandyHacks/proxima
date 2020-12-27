@@ -56,7 +56,8 @@ class Note extends Model {
         reliability: DataTypes.enum([1, 2, 3, 4, 5, 6, 7]),
         interest: DataTypes.enum([1, 2, 3, 4, 5, 6, 7]),
         teamwork: DataTypes.enum([1, 2, 3, 4, 5, 6, 7]),
-        overall: DataTypes.enum([1, 2, 3, 4, 5, 6, 7])
+        overall: DataTypes.enum([1, 2, 3, 4, 5, 6, 7]),
+        thoughts: DataTypes.TEXT
     };
 }
 
