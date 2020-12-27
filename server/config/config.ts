@@ -1,6 +1,6 @@
 import { dotenv } from "../deps.ts";
 
-let config = {};
+let config: any = {};
 
 // Set the database configuration
 if (!Deno.env.get('TEST_ENVIRONMENT')) {
