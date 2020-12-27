@@ -1,10 +1,10 @@
 import { Application, CommitteeChoice, QuestionNote, Note, Question } from "../../database/models.ts"
 
-const parseTypeForm = async(ctx) => {
+const questionCreate = async(ctx) => {
     // populate application
 
     // populate committee
 
 };
 
-export { parseTypeform }
+export { questionCreate }

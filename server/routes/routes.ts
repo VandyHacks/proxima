@@ -1,10 +1,18 @@
 import { Router } from "../deps.ts";
-import { parseTypeForm } from "./controllers/applicationController.ts"
+import * as applicationController from "./controllers/applicationController.ts"
+import * as notesController from "./controllers/notesController.ts"
 
 const router = new Router();
 
-router.put('/typeform/submit', parseTypeForm);
+// Application submission
+router.put('/typeform/submit', applicationController.parseTypeForm);
 
-router.get
+// Creating questions
+router.post('/interview/questions/add', notesController.questionCreate);
+
+router.get('/interview/:id/questions', notesController.questionCreate)
+
+router.get('/', notesController.questionCreate)
+
 
 export { router };
