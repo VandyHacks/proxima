@@ -1,19 +1,22 @@
 {
-        "firstName": "What's your first name?",
-        "lastName": "And your last name?", 
-        "email": "What email address should we use to contact you?",
-        "year": "What class year are you?", 
-        "roles": "And which role are you applying for?",
-        "director": "Are you applying to a director role in any of these committees?",
-        "whyCommittee": "Great! Can you tell us why you'd be a good fit for the _____ committee roles through your past experiences, skills, and ideas? (250 words maximum)This question is required.",
-        "whyInterest": "Why are you interested in VandyHacks?",
-        "accomplishment": "Tell us about your contribution to a team that you're proud of. What did you do to accomplish it",
-        "resume": "Please upload the latest version of your résumé",
-        "time": "What other time commitments do you have?",
-        "vandyhacks": "Have you attended VandyHacks events?",
-        "github": "What is your GitHub URL?",
-        "linkedin": "What is your LinkedIn URL",
-        "socials": "Social Media (Instagram, Twitter, Medium, etc.)",
-        "design": "Please share a link to your design portfolio (Dribble, Google Drive, Figma, etc.).",
-        "howHear": "How did you hear about applications?"
+            "What's your first name?": "Aadarsh",
+            "And your last name?" : "Jha",
+            "What email address should we use to contact you?": "aadarsh.jha@vanderbilt.edu",
+            "What class year are you?": "Junior (Class of 2022)",
+            "roles": "And which role are you applying for?",
+            "director": "Are you applying to a director role in any of these committees?",
+
+            "whyCommittee": "Great! Can you tell us why you'd be a good fit for the _____ committee roles through your past experiences, skills, and ideas? (250 words maximum)This question is required.",
+            "whyInterest": "Why are you interested in VandyHacks?",
+            "accomplishment": "Tell us about your contribution to a team that you're proud of. What did you do to accomplish it",
+
+            "resume": "Please upload the latest version of your résumé",
+            "time": "What other time commitments do you have?",
+            "vandyhacks": "Have you attended VandyHacks events?",
+
+            "github": "What is your GitHub URL?",
+            "linkedin": "What is your LinkedIn URL",
+            "socials": "Social Media (Instagram, Twitter, Medium, etc.)",
+            "design": "Please share a link to your design portfolio (Dribble, Google Drive, Figma, etc.).",
+            "howHear": "How did you hear about applications?"
 }
