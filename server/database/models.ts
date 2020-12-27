@@ -11,8 +11,8 @@ class Application extends Model {
         },
         name: DataTypes.STRING,
         email: DataTypes.STRING,
-        year: { type: DataTypes.ENUM, values: ["freshman", "sophomore", "junior"]},
-        status: { type: DataTypes.ENUM, values: ["applied", "to_interview", "interviewed", "rejected", "unsure"]},
+        year: DataTypes.enum(["freshman", "sophomore", "junior"]),
+        status: DataTypes.enum(["applied", "to_interview", "interviewed", "rejected", "unsure"]),
         essay1: DataTypes.TEXT,
         essay2: DataTypes.TEXT,
         essay3: DataTypes.TEXT,
@@ -36,7 +36,7 @@ class CommitteeChoice extends Model {
             primaryKey: true,
             autoIncrement: true
         },
-        committee: { type: DataTypes.ENUM, values: ["operations", "development", "hacker experience", "design", "sponsorship", "content", "marketing"]},
+        committee: DataTypes.enum(["operations", "development", "hacker experience", "design", "sponsorship", "content", "marketing"]),
         isDirector: DataTypes.BOOLEAN,
         ownerId: Relationships.belongsTo(Application),
     };
