@@ -1,8 +1,8 @@
-import { Client } from "../deps.ts";
+import { Database } from "../deps.ts";
 import { config } from "../config/config.ts";
 
 const getClient = () => {
-  return new Client(config.database);
+  return new Database(config.database);
 }
 
 const executeQuery = async(query, ...args) => {
@@ -16,7 +16,5 @@ const executeQuery = async(query, ...args) => {
     await client.end();
   }
 }
-
-
 
 export { executeQuery };

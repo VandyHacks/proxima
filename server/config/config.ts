@@ -1,11 +1,9 @@
 import { dotenv } from "../deps.ts";
+
 let config = {};
 
 // Set the database configuration
-if (Deno.env.get('TEST_ENVIRONMENT')) {
-  config.database = {};
-}
-else{
+if (!Deno.env.get('TEST_ENVIRONMENT')) {
   config.database = {
     hostname: dotenv.config().HOSTNAME,
     database: dotenv.config().DATABASENAME,
@@ -14,5 +12,6 @@ else{
     port: 5432
   };
 }
+
 
 export { config }; 
