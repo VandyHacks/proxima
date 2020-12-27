@@ -6,19 +6,19 @@
 </style>
 
 <!-- <center> -->
-    <div>
+    <form>
         <label>
-            <input name="group1" type="radio" checked />
+            <input name="shouldInterview" type="radio"  />
             <span>Should Interview</span>
         </label>
 
         <label>
-            <input name="group1" type="radio" checked />
+            <input name="shouldNotInterview" type="radio"  />
             <span>Should Not Interview</span>
         </label>
         <label>
-            <input name="group1" type="radio" checked />
+            <input name="unevaluated" type="radio"  />
             <span>Unevaluted</span>
         </label>
-    </div>
+    </form>
 <!-- </center> -->

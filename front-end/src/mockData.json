@@ -1,34 +1,34 @@
 [
         {
             "name": "Aadarsh Jha",
-            "shouldInterview": "unsure", 
-            "status": "unsure"
+            "shouldInterview": "no", 
+            "status": "accept"
         },
         {
             "name": "Saydolimkhon Agzamkhodjaev",
-            "shouldInterview": "yes",
+            "shouldInterview": "no",
             "status": "unsure"
 
         },
         {
             "name": "Samuel Lee",
             "shouldInterview": "no", 
-            "status": "unsure"
+            "status": "reject"
         }, 
         {
             "name": "John Doe",
             "shouldInterview": "unsure", 
-            "status": "unsure"
+            "status": "accept"
         }, 
         {
             "name": "Surya Thalli",
             "shouldInterview": "unsure", 
-            "status": "unsure"
+            "status": "accept"
         }, 
         {
             "name": "Gabriel Ting",
             "shouldInterview": "unsure", 
-            "status": "unsure"
+            "status": "accept"
         }, 
         {
             "name": "Ananya Gondi",
@@ -48,7 +48,7 @@
         {
             "name": "Matt Leon",
             "shouldInterview": "unsure", 
-            "status": "unsure"
+            "status": "reject"
         },
         {
             "name": "Ben Cooper",
@@ -58,6 +58,6 @@
         {
             "name": "Test User",
             "shouldInterview": "unsure", 
-            "status": "unsure"
+            "status": "reject"
         }
 ]
