@@ -46,7 +46,7 @@
     // console.log(googleForm)
     import googleForm from "../googleForm.json"
     // console.log(googleForm)
-
+    window.scrollTo({top: 0})
     let result = [];
     for (let i in googleForm) {
         result.push([i, googleForm[i]]);

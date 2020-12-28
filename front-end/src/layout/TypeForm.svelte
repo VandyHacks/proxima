@@ -24,6 +24,7 @@
     import { onMount } from 'svelte';
     import { element } from "svelte/internal";
     import typeForm from "../typeformMockData.json";
+    window.scrollTo({top: 0})
     let result = [];
     for (let i in typeForm) {
         result.push([i, typeForm[i]]);
