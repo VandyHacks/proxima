@@ -1,5 +1,4 @@
-// import { Application, CommitteeChoice } from "../../database/database.ts"
-import app from "../../app.ts";
+import { Application, CommitteeChoice } from "../../database/models.ts"
 import { Context } from "../../deps.ts"
 
 
@@ -15,45 +14,45 @@ const parseTypeForm = async(ctx: Context) => {
             responses["year"] = answer.choice.label.split(' ')[0].toLowerCase();
         }
         else if (answer.field.ref === "committees"){
-            committees = answer.choices.label.map((c: string) => c.toLowerCase());
+            committees = answer.choices.labels.map((c: string) => c.toLowerCase());
         }
         else{
             responses[answer.field.ref] = answer[answer.type];
         }
     });
 
-    console.log(committees);
-    console.log(responses)
 
-    // Add their year
-    responses[answer.field.]
+    let newApplication = await Application.create({
+        name: `${responses.firstName} ${responses.lastName}`,
+        email: responses.email,
+        year: responses.year,
+        director: responses.director,
+        status: "applied",
+        essay1: responses.essay1,
+        essay2: responses.essay2,
+        essay3: responses.essay3,
+        resume_link: responses.resume_link,
+        commitments: responses.commitments,
+        attendedVH: responses.attendedVH,
+        feedback: responses.feedback,
+        github_link: responses.github_link,
+        linkedin_link: responses.linkedin_link,
+        social_link: responses.social_link,
+        design_link: responses.design_link,
+        source: responses.source
+    });
 
-    console.log(application);
-    // await Application.create([{
-    //     name: DataTypes.STRING,
-    //     email: DataTypes.STRING,
-    //     year: DataTypes.enum(["freshman", "sophomore", "junior"]),
-    //     status: "applied",
-    //     essay1: DataTypes.TEXT,
-    //     essay2: DataTypes.TEXT,
-    //     essay3: DataTypes.TEXT,
-    //     resume_link: DataTypes.STRING,
-    //     commitments: DataTypes.TEXT,
-    //     attendedVH: DataTypes.BOOLEAN,
-    //     feedback: DataTypes.TEXT,
-    //     github_link: DataTypes.STRING,
-    //     linkedin_link: DataTypes.STRING,
-    //     social_link: DataTypes.STRING,
-    //     design_link: DataTypes.STRING,
-    //     source: DataTypes.TEXT
-    // }]);
-
-    // // populate committee
-    // await CommitteeChoice.create([{
-    //     committee: DataTypes.enum(["operations", "development", "hacker experience", "design", "sponsorship", "content", "marketing"]),
-    //     isDirector: DataTypes.BOOLEAN,
-    //     applicationId: Relationships.belongsTo(Application),
-    // }]);
+    console.log(newApplication);
+    // const createCommitteeChoice = async(committee: string) => {
+    //     await CommitteeChoice.create([{
+    //         committee: committee,
+    //         applicationId: newApplication.id,
+    //     }]);
+    // }
+   
+    // committees.forEach((committee) => {
+    //     createCommitteeChoice(committee);
+    // })
 
     ctx.response.body = "Submission received!";
 };
