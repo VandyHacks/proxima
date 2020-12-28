@@ -59,6 +59,8 @@
 </style>
 
 <script>
+import { element } from "svelte/internal";
+
     import typeForm from "../typeformMockData.json";
     // console.log(typeForm)
     let result = [];
@@ -87,14 +89,26 @@
 
    
 
-//   import { onMount } from 'svelte';
+  import { onMount } from 'svelte';
 
-//   onMount(async () => {
-//         document.addEventListener('DOMContentLoaded', function() {
-//         var elems = document.querySelectorAll('.collapsible');
-//         var instances = M.Collapsible.init(elems, options);
-//     });
-//  });
+  onMount(async () => {
+        // document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('.collapsible');
+        console.log(elems)
+        var instances = M.Collapsible.init(elems, {accordion: false});
+        console.log(instances)
+    // });
+ });
+
+
+// You need to add the Initialization step:
+
+    // document.addEventListener('DOMContentLoaded', function() {
+    // var elems = document.querySelectorAll('.collapsible');
+    // console.log(elems)
+    // var instances = M.Collapsible.init(elems, {accordion: false});
+    // console.log(instances)
+    // });
 
 </script>
 
@@ -106,9 +120,9 @@
 <div class = "wrapper">
     <ul class="collapsible">
         {#each result as query}
-            <li class = "active">
-            <div class="collapsible-header">{query[0]}</div>
-            <div class="collapsible-body"><span>{query[1]}</span></div>
+            <li class = "">
+                <div class="collapsible-header">{query[0]}</div>
+                <div class="collapsible-body"><span>{query[1]}</span></div>
             </li>
         {/each}
       </ul>
