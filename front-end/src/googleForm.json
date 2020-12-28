@@ -10,7 +10,8 @@
         },
         {
             "question" : "Committees they applied for",
-            "type": "multiselect"
+            "type": "multiselect",
+            "options": ["Marketing", "Dev", "Sponsorship", "Design", "Operations", "Content", "Hacker Experience"]
         }
     ],
     "test" : [
