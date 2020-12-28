@@ -160,5 +160,6 @@
         {/if}
     {/each}
     </div>
+    <button class="btn waves-effect waves-light" type="submit" name="action">Submit</button>
     <!-- </div> -->
 </div>
