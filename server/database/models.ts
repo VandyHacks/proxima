@@ -87,7 +87,8 @@ class Question extends Model {
             autoIncrement: true
         },
         content: DataTypes.TEXT,
-        specificity: DataTypes.enum(["general", "operations", "development", "hacker experience", "design", "sponsorship", "content", "marketing", "director"])
+        specificity: DataTypes.enum(["general", "operations", "development", "hacker experience", "design", "sponsorship", "content", "marketing", "director"]),
+        type: DataTypes.enum(["paragraph", "radio"])
     };
 }
 
