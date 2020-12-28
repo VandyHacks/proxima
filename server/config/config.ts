@@ -11,5 +11,4 @@ if (!Deno.env.get('TEST_ENVIRONMENT')) {
   };
 }
 
-console.log(config)
 export { config }; 
