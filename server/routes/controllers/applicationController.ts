@@ -21,7 +21,6 @@ const parseTypeForm = async(ctx: Context) => {
         }
     });
 
-
     let newApplication = await Application.create({
         name: `${responses.firstName} ${responses.lastName}`,
         email: responses.email,
