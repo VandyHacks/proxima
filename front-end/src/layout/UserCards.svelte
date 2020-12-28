@@ -245,11 +245,13 @@
           </td>
 
           <td>
-            <button class="sort btn white waves-effect waves-light padding">
+            
               <Link to="/notes" on:click={() => passName(inter['name'])}>
-                Take Notes
+                <button class="sort btn blue waves-effect waves-light padding"> 
+                  Interview
+                </button>
               </Link>
-            </button>
+           
           </td>
 
           <td>
