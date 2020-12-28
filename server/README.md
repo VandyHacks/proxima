@@ -8,3 +8,12 @@ List of tech used:
 
 Run:
 `deno run --allow-net --allow-env --allow-read app.ts`
+
+Create `.env` in root folder, following this template:
+
+```
+HOSTNAME = localhost
+DATABASENAME = postgres
+DBUSER = postgres
+DBPASSWORD = mypassword
+```
