@@ -6,7 +6,7 @@ const parseTypeForm = async(ctx: Context) => {
     // populate application
     const application: {form_response: {definition: {fields: any[]}, answers: any}} = await ctx.request.body().value;
     let responses: any = {};
-    let committees: [string];
+    let committees: [string] = [""];
 
     application.form_response.answers.forEach((answer: any) => {
         // Map field reference name (set in TypeForm) to the response
@@ -43,16 +43,13 @@ const parseTypeForm = async(ctx: Context) => {
     });
 
     console.log(newApplication);
-    // const createCommitteeChoice = async(committee: string) => {
-    //     await CommitteeChoice.create([{
-    //         committee: committee,
-    //         applicationId: newApplication.id,
-    //     }]);
-    // }
-   
-    // committees.forEach((committee) => {
-    //     createCommitteeChoice(committee);
-    // })
+
+    for(let i = 0; i < committees.length; i++){
+        await CommitteeChoice.create({
+            committee: committees[i],
+            applicationId: 2,
+        });
+    }
 
     ctx.response.body = "Submission received!";
 };

@@ -3,6 +3,7 @@ import { config } from "../config/config.ts";
 import { QuestionNote, Question, Note, Application, CommitteeChoice } from "./models.ts";
 
 const db = await new Database('postgres', config.database);
-db.link([QuestionNote, Question, Note, Application, CommitteeChoice]);
+// db.link([QuestionNote, Question, Note, Application, sCommitteeChoice]);
+db.link([Application, CommitteeChoice, QuestionNote, Question, Note]);
 
 export default db;

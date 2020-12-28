@@ -75,6 +75,10 @@ class Note extends Model {
     static application(){
         return this.hasOne(Application);
     }
+    
+    static questions(){
+        return this.hasMany(Question);
+    }
 }
 
 class Question extends Model {
@@ -89,6 +93,10 @@ class Question extends Model {
         content: DataTypes.TEXT,
         specificity: DataTypes.enum(["general", "operations", "development", "hacker experience", "design", "sponsorship", "content", "marketing"])
     };
+
+    static notes() {
+        return this.hasMany(Note);
+    }
 }
 
 class QuestionNote extends Model {
