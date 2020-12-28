@@ -124,7 +124,7 @@
   }
   .search {
     /* background-color: green;  */
-    width: 47.4%;
+    width: 30%;
     display: flex;
     flex-direction: column;
   }
@@ -143,12 +143,12 @@
       <button class="sort btn waves-effect waves-light" data-sort="name">
         Sort By Name
       </button>
-      <button class="sort btn waves-effect waves-light" data-sort="accept">
+      <!-- <button class="sort btn waves-effect waves-light" data-sort="accept">
         Sort By Interview Status
       </button>
       <button class="sort btn waves-effect waves-light" data-sort="interview">
         Sort By Acceptance Status
-      </button>
+      </button> -->
     </div>
 
   </div>
@@ -243,13 +243,13 @@
               </Link>
             </b>
           </td>
-
           <td>
-            <button class="sort btn white waves-effect waves-light padding">
               <Link to="/notes" on:click={() => passName(inter['name'])}>
-                Take Notes
+                <button class="sort btn blue waves-effect waves-light padding"> 
+                  Interview
+                </button>
               </Link>
-            </button>
+           
           </td>
 
           <td>

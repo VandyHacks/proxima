@@ -1,0 +1,63 @@
+{
+    "intro" : [
+        {
+            "question": "Name of interviewer",
+            "type": "paragraph"
+        },
+        {
+            "question" : "Name of Interviewee",
+            "type": "paragraph"
+        },
+        {
+            "question" : "Committees they applied for",
+            "type": "multiselect",
+            "options": ["Marketing", "Dev", "Sponsorship", "Design", "Operations", "Content", "Hacker Experience"]
+        }
+    ],
+    "introQuestions" : [
+        {
+            "question": "Why do you want to be a part of planning VandyHacks?",
+            "type": "paragraph"
+        },
+        {
+            "question" : "What do you want to get out of being an organizer that you can’t from being just a participant?            ",
+            "type": "paragraph"
+        },
+        {
+            "question" : "One of our goals at VandyHacks is to make Computer Science and participation in events accessible to all. We want to make sure that everybody (our teammates, as well as hackathon participants) treats others with respect. What would you do to make sure our team and the events we organize are conducted in an inclusive and respectful environment?",
+            "type": "paragraph"
+        },
+        {
+            "question": "Personal Action — Let's assume that you just took on a task that is due in 2 weeks. What are you going to do to make sure you complete it by then? However, you begin to understand that you will not be able to complete it by the deadline, what are you going to do?",
+            "type": "paragraph",
+            "purpose": "The purpose of this question is to see how they manage and prioritize their tasks. Feel free to ask follow-ups for their response."
+        },
+        {
+            "question": "Group Action #1 — Tell us about a time in which you worked on a team. How did you interact with your teammates to complete the particular task / goal?",
+            "type": "paragraph",
+            "purpose": "This is a questions to gauge their teamwork abilities. Collaboration is a big part of VH work, so we want to see how well they work in teams."
+        },
+        {
+            "question": "Group Action #2 — If you see that your teammate's idea may not be beneficial, or if you come into a disagreement with your teammate, what are you going to do? What would you do if you received constructive feedback yourself?",
+            "type": "paragraph",
+            "purpose": "Assess how well they react to disagreements and handle conflicts. See if they value feedback and are generally emotionally intelligent."
+        },
+        {
+            "question": "Reliability",
+            "type": "radio"
+        },
+        {
+            "question": "Interest/Enthusiasm",
+            "type": "radio"
+        },
+        {
+            "question": "Teamwork",
+            "type": "radio"
+        }, 
+        {
+            "question": "Please rate their overall behavioral - weight the three categories equally",
+            "type": "radio"
+        }
+    ]
+}
+
