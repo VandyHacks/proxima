@@ -45,6 +45,18 @@
         {
             "question": "Reliability",
             "type": "radio"
+        },
+        {
+            "question": "Interest/Enthusiasm",
+            "type": "radio"
+        },
+        {
+            "question": "Teamwork",
+            "type": "radio"
+        }, 
+        {
+            "question": "Please rate their overall behavioral - weight the three categories equally",
+            "type": "radio"
         }
     ]
 }

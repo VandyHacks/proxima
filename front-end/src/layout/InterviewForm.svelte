@@ -54,6 +54,11 @@
     console.log(result); 
     console.log(result[1][1][0])
     // console.log(result)
+
+    // hacky change this! 
+    function randNum() {
+        return Math.random();
+    }
 </script>
 
 
@@ -133,6 +138,7 @@
         </div>
         {/if}
         {#if question["type"] == "radio"}
+        <!-- {randomNum = Math.random()} -->
         <div class = "section">
             <h5>{question["question"]}</h5>              
             <!-- <form action="#"> -->
@@ -142,7 +148,7 @@
                   {#each {length: 7} as _, i}
                   <p>
                     <label>
-                      <input name="group1" type="radio" checked />
+                      <input name="group1" type="radio" />
                       <span>{i + 1}</span>
                     </label>
                   </p>
