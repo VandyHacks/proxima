@@ -42,15 +42,13 @@ const parseTypeForm = async(ctx: Context) => {
         source: responses.source
     });
 
-    console.log(newApplication);
 
     for(let i = 0; i < committees.length; i++){
         await CommitteeChoice.create({
             committee: committees[i],
-            applicationId: 2,
+            applicationId: newApplication.id as number,
         });
     }
-
     ctx.response.body = "Submission received!";
 };
 

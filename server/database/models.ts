@@ -76,9 +76,9 @@ class Note extends Model {
         return this.hasOne(Application);
     }
     
-    static questions(){
-        return this.hasMany(Question);
-    }
+    // static questions(){
+    //     return this.hasMany(Question);
+    // }
 }
 
 class Question extends Model {
@@ -94,9 +94,9 @@ class Question extends Model {
         specificity: DataTypes.enum(["general", "operations", "development", "hacker experience", "design", "sponsorship", "content", "marketing"])
     };
 
-    static notes() {
-        return this.hasMany(Note);
-    }
+    // static notes() {
+    //     return this.hasMany(Note);
+    // }
 }
 
 class QuestionNote extends Model {
@@ -112,6 +112,9 @@ class QuestionNote extends Model {
         questionId: Relationships.belongsTo(Question)
     };
 }
+
+
+// const QuestionNote = Relationships.manyToMany(Question, Note);
 
 
 export { Application, CommitteeChoice, QuestionNote, Note, Question };

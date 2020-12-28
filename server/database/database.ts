@@ -4,6 +4,6 @@ import { QuestionNote, Question, Note, Application, CommitteeChoice } from "./mo
 
 const db = await new Database('postgres', config.database);
 // db.link([QuestionNote, Question, Note, Application, sCommitteeChoice]);
-db.link([Application, CommitteeChoice, QuestionNote, Question, Note]);
+db.link([Application, CommitteeChoice, Question, Note, QuestionNote]);
 
 export default db;
