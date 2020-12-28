@@ -5,7 +5,8 @@
     import { Router, Link, Route } from "svelte-routing";
     import PageTwo from "./PageTwo.svelte"
     import PageThree from "./PageThree.svelte"
-import { component_subscribe } from "svelte/internal";
+    import { component_subscribe } from "svelte/internal";
+    window.scrollTo({top: 0})
 </script>
 <Router>
 	<div>
