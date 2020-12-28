@@ -1,6 +1,6 @@
 # Proxima 🚀 🌌
 
-<div style="text-align:center"><
+<div style="text-align:center">
     <img src = "res/readme.png" />
 </div>
 
