@@ -2,15 +2,38 @@
 import app from "../../app.ts";
 import { Context } from "../../deps.ts"
 
+
 const parseTypeForm = async(ctx: Context) => {
     // populate application
-    const application = await ctx.request.body().value;
+    const application: {form_response: {definition: {fields: any[]}, answers: any}} = await ctx.request.body().value;
+    let responses: any = {};
+    let committees: [string];
+
+    application.form_response.answers.forEach((answer: any) => {
+        // Map field reference name (set in TypeForm) to the response
+        if (answer.field.ref === "year"){
+            responses["year"] = answer.choice.label.split(' ')[0].toLowerCase();
+        }
+        else if (answer.field.ref === "committees"){
+            committees = answer.choices.label.map((c: string) => c.toLowerCase());
+        }
+        else{
+            responses[answer.field.ref] = answer[answer.type];
+        }
+    });
+
+    console.log(committees);
+    console.log(responses)
+
+    // Add their year
+    responses[answer.field.]
+
     console.log(application);
     // await Application.create([{
     //     name: DataTypes.STRING,
     //     email: DataTypes.STRING,
     //     year: DataTypes.enum(["freshman", "sophomore", "junior"]),
-    //     status: DataTypes.enum(["applied", "to_interview", "interviewed", "rejected", "unsure"]),
+    //     status: "applied",
     //     essay1: DataTypes.TEXT,
     //     essay2: DataTypes.TEXT,
     //     essay3: DataTypes.TEXT,
