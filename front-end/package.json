@@ -1,5 +1,6 @@
 {
   "name": "svelte-app",
+  "homepage": "https://proxima.aadarshjha.vercel.app",
   "version": "1.0.0",
   "scripts": {
     "build": "rollup -c",
