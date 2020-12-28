@@ -28,11 +28,16 @@
         font-size: 20px;
         margin: 10px; 
     }
-    .introduction {
+    .introduction, .introquestions {
         display: flex; 
         flex-direction: column;
         justify-content: center;
         align-items: center;
+    }
+    .radio {
+        display: flex; 
+        flex-direction: row;
+        justify-content: space-evenly;
     }
 </style>
 
@@ -101,8 +106,53 @@
                 We will be taking notes on our laptops to refer back to while you answer.</p>
         </div>
     </div>
-   
-    <div>
-
+    <div class = "introquestions">
+        {#each result[1][1] as question}
+        {#if question["type"] == "paragraph"}
+            <div class = "section">
+                <h5>{question["question"]}</h5>
+                {#if question["purpose"] != null}
+                    <p>{question["purpose"]}</p>
+                {/if}
+                <input type="text">
+            </div>
+        {/if}
+        {#if question["type"] == "multiselect"}
+        <div class = "section">
+            <h5>{question["question"]}</h5>              
+            <form action="#">
+                {#each question["options"] as ele}
+                <p>
+                    <label>
+                        <input type="checkbox" />
+                        <span>{ele}</span>
+                    </label>
+                </p>
+                {/each}
+            </form>
+        </div>
+        {/if}
+        {#if question["type"] == "radio"}
+        <div class = "section">
+            <h5>{question["question"]}</h5>              
+            <!-- <form action="#"> -->
+                <!-- {#each question["options"] as ele} -->
+                
+                <div class = "radio">
+                  {#each {length: 7} as _, i}
+                  <p>
+                    <label>
+                      <input name="group1" type="radio" checked />
+                      <span>{i + 1}</span>
+                    </label>
+                  </p>
+                  {/each}
+                </div>
+                
+            <!-- </form> -->
+        </div>
+        {/if}
+    {/each}
     </div>
+    <!-- </div> -->
 </div>
