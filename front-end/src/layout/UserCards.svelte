@@ -243,9 +243,7 @@
               </Link>
             </b>
           </td>
-
           <td>
-            
               <Link to="/notes" on:click={() => passName(inter['name'])}>
                 <button class="sort btn blue waves-effect waves-light padding"> 
                   Interview
