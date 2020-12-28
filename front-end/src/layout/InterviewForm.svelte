@@ -37,9 +37,18 @@
 </style>
 
 <script>
-    // import googleForm from "../googleForm.json"
+    // 
+    // console.log(googleForm)
+    import googleForm from "../googleForm.json"
     // console.log(googleForm)
 
+    let result = [];
+    for (let i in googleForm) {
+        result.push([i, googleForm[i]]);
+    }
+    console.log(result[0]); 
+    console.log(result[1][1][0])
+    // console.log(result)
 </script>
 
 
@@ -54,7 +63,14 @@
             <img src="res/vandy.png" alt = "VandyHacks Board!"/>
         </div>
         <!-- some dynamic stuff -->
-        
+
+        <!-- svelte for and if statement -->
+        <!-- the json encodes what type of thing ecah thing is lol -->
+        {#each result[0] as question}
+            {#if question[1]["type"] == "paragraph"}
+            <p>{question[0]["question"]}</p>
+            {/if}
+        {/each}
     </div>
    
     <div>

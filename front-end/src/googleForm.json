@@ -1,5 +1,31 @@
-[
-    {
+{
+    "intro" : [
+        {
+            "question": "Name of interviewer",
+            "type": "paragraph"
+        },
+        {
+            "question" : "Name of Interviewee",
+            "type": "paragraph"
+        },
+        {
+            "question" : "Committees they applied for",
+            "type": "multiselect"
+        }
+    ],
+    "test" : [
+        {
+            "question": "Name of interviewer",
+            "type": "paragraph"
+        },
+        {
+            "question" : "Name of Interviewee",
+            "type": "paragraph"
+        },
+        {
+            "question" : "Committees they applied for",
+            "type": "multiselect"
+        }
+    ]
+}
 
-    },
-]
