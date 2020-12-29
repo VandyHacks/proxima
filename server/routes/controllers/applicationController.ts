@@ -1,7 +1,13 @@
 import { Application, CommitteeChoice } from "../../database/models.ts"
 import { Context } from "../../deps.ts"
 
-
+/**
+ * Parsing is very specific to the kind of form we have right now.
+ * For exampl, I am getting 'freshman', 'sophomore', etc. by splitting
+ * the year field in the TypeForm. TODO: add typeform entries as a table 
+ * and generalize the parsing.
+ * @param ctx 
+ */
 const parseTypeForm = async(ctx: Context) => {
     // populate application
     const application: {form_response: {definition: {fields: any[]}, answers: any}} = await ctx.request.body().value;
@@ -55,5 +61,12 @@ const displayApplications = async(ctx: Context) => {
     
 };
 
+/**
+ * ApplicationID and new status are sent in the body.
+ * @param ctx : body: {applicationId: number, status: string}}
+ */
+const updateStatus = async(ctx: Context) => {
 
-export { parseTypeForm }
+};
+
+export { parseTypeForm, displayApplications, updateStatus }

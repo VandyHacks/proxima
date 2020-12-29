@@ -7,6 +7,9 @@ const router = new Router();
 // Application submission
 router.post('/typeform/submit', applicationController.parseTypeForm);
 
+// Update status
+router.post('/application/status', applicationController.updateStatus);
+
 // Add questions to interview question list
 router.post('/interview/questions/add', notesController.questionCreate);
 
@@ -18,8 +21,6 @@ router.get('/interview/questions', notesController.getQuestionsForApplicant);
 
 
 
-// // Creating questions
-// router.post('/interview/questions/add', notesController.questionCreate);
 
 // router.get('/interview/:id/questions', notesController.questionCreate)
 
