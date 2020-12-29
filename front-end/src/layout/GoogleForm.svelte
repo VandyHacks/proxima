@@ -45,7 +45,7 @@
 <div class = "wrapper">
     <ul class="collapsible">
         {#each result as query}
-            <li class = "">
+            <li class = "active">
                 <div class="collapsible-header">{query[0]}</div>
                 <div class="collapsible-body"><span>{query[1]}</span></div>
             </li>
