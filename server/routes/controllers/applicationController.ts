@@ -59,11 +59,11 @@ const parseTypeForm = async(ctx: Context) => {
 
 /**
  * Display all applications for the grid on the main page. 
- * @param param0 
+ * @param {response} 
  */
 const displayApplications = async({response}: Context) => {
     let applications: any[] = await Application.select('id', 'name', 'email', 'year', 'director', 'status', 'resume_link').orderBy('id').all();
-    
+
     for(let application of applications) {
         application.committees = [];
         let committees = await CommitteeChoice.select('committee').where('applicationId', application.id as number).get() as Model[];
