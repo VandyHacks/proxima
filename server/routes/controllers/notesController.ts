@@ -1,7 +1,6 @@
 // import { Application, CommitteeChoice, QuestionNote, Note, Question } from "../../database/models.ts"
 import { Context } from "../../deps.ts"
 import { CommitteeChoice, Question, QuestionNote } from "../../database/models.ts"
-import { createParams } from "https://raw.githubusercontent.com/deno-postgres/deno-postgres/master/connection_params.ts";
 import { Model } from "https://deno.land/x/denodb@v1.0.18/lib/model.ts";
 
 
