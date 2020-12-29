@@ -2,6 +2,7 @@
 import { Context } from "../../deps.ts"
 import { CommitteeChoice, Question, QuestionNote } from "../../database/models.ts"
 import { createParams } from "https://raw.githubusercontent.com/deno-postgres/deno-postgres/master/connection_params.ts";
+import { Model } from "https://deno.land/x/denodb@v1.0.18/lib/model.ts";
 
 
 // Get array of objects: {content: string, specificity: string}
@@ -22,20 +23,24 @@ const questionCreate = async(ctx: Context) => {
 // Get the committees for the application 
 // pre: body value is a number that shows the Id for an application
 const getQuestionsForApplicant = async({request, response}: Context) => {
-    let appId: number = await request.body().value as number;
+    const appId: number = await request.body().value as number;
 
     // Get general questions first
-    let questions = await Question.select('content', 'specificity', 'description')
-    .where('specificity', 'general');
-    
-    console.log(questions)
 
-    const committees = await CommitteeChoice.select('committee').where('applicationId');
+    let questions: Model[] = await Question.select('content', 'specificity', 'description')
+    .where('specificity', 'general').get() as Model[];
+
+    // Get committees of this application
+    const committees: Model[] = await CommitteeChoice.select('committee').where('applicationId', appId).get() as Model[];
 
     console.log(committees);
 
-    // questions.push(await Question.select('content', 'specificity', 'description')
-    // .where('specificity', 'ops'));
+    // Get questions for all committees of this applicaiton
+    committees.forEach(async(committee) => {
+        let comQuestion: Model[] = await Question.select('content', 'specificity', 'description')
+        .where('specificity', committee.committee as string).get() as Model[];
+        questions.push(...comQuestion);
+    })
 
     response.body = questions;
 }
