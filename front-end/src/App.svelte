@@ -5,7 +5,6 @@
 	import '../node_modules/animate.css/animate.min.css'
 	import '../node_modules/list.js/dist/list.min.js';
 	import Title from './layout/Title.svelte'
-	import TableDesc from './table/TableDesc.svelte'
 	import UserCards from './table/UserCards.svelte'
 	import PageOne from './Pages/PageOne.svelte'; 
 	import { Router, Link, Route } from "svelte-routing";
