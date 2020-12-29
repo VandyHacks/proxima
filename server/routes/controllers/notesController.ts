@@ -26,21 +26,19 @@ const getQuestionsForApplicant = async({request, response}: Context) => {
     const appId: number = await request.body().value as number;
 
     // Get general questions first
-
     let questions: Model[] = await Question.select('content', 'specificity', 'description')
     .where('specificity', 'general').get() as Model[];
 
     // Get committees of this application
     const committees: Model[] = await CommitteeChoice.select('committee').where('applicationId', appId).get() as Model[];
 
-    console.log(committees);
 
     // Get questions for all committees of this applicaiton
-    committees.forEach(async(committee) => {
+    for (let committee of committees){
         let comQuestion: Model[] = await Question.select('content', 'specificity', 'description')
         .where('specificity', committee.committee as string).get() as Model[];
         questions.push(...comQuestion);
-    })
+    }
 
     response.body = questions;
 }
