@@ -1,7 +1,6 @@
 <script>
-    import Title from "./Title.svelte";
-    import TableDesc from "./TableDesc.svelte";
-    import UserCards from "./UserCards.svelte"; 
+    import Title from "../layout/Title.svelte";
+    import UserCards from "../table/UserCards.svelte"; 
     import { Router, Link, Route } from "svelte-routing";
     import PageTwo from "./PageTwo.svelte"
     import PageThree from "./PageThree.svelte"
@@ -13,7 +12,6 @@
         <!-- Test -->
         <Route path = "/">
             <Title/>
-            <TableDesc/>
             <UserCards/>
         </Route>
         <Route path = "/interview" component = "{PageTwo}"/>

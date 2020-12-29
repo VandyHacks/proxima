@@ -1,7 +1,7 @@
 <script>
-  import Title from "./Title.svelte";
+  import Title from "../layout/Title.svelte";
   import { Link } from "svelte-routing";
-  import InterviwForm from "./InterviewForm.svelte";
+  import InterviwForm from "../forms/InterviewForm.svelte";
 
   // passing user name from the previous page
   // and then obtaining full context.
