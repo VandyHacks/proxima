@@ -68,7 +68,8 @@ const displayApplications = async({request, response}: Context) => {
  * Send email based on status update.
  */
 const sendEmail = async (email: string, status: string) => {
-    console.log(`${status} email sent to ${email}`);
+    console.log(`Update of status to ${status} email sent to ${email}`);
+    // TODO: email send out
 }
 
 
@@ -82,7 +83,7 @@ const updateStatus = async({request, response}: Context) => {
     const newStatus: string = body.status;
 
     // Get application to update
-    const application: Model = await Application.select('status', 'email').where('id', appId).get() as Model;
+    const application: Model = await Application.select('id', 'status', 'email').find(appId);
 
     // Logic for emails
     sendEmail(application.email as string, newStatus);
@@ -90,6 +91,8 @@ const updateStatus = async({request, response}: Context) => {
     // Update status
     application.status = newStatus; 
     await application.update();
+    console.log(application)
+    response.body = `Updated status to ${newStatus} for ${application.email}`;
 };
 
 export { parseTypeForm, displayApplications, updateStatus }

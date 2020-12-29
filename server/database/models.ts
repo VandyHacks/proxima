@@ -13,7 +13,7 @@ class Application extends Model {
         email: DataTypes.STRING,
         year: DataTypes.enum(["freshman", "sophomore", "junior"]),
         director: DataTypes.BOOLEAN,
-        status: DataTypes.enum(["applied", "to_interview", "interviewed", "rejected", "unsure"]),
+        status: DataTypes.enum(["applied", "to_interview", "interviewed", "accepted", "rejected", "unsure"]),
         essay1: DataTypes.TEXT,
         essay2: DataTypes.TEXT,
         essay3: DataTypes.TEXT,
