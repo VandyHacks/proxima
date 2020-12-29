@@ -31,8 +31,8 @@ const getQuestionsForApplicant = async({request, response}: Context) => {
     const appId: number = await request.body().value as number;
 
     // Get general questions first
-    let questions: Model[] = await Question.select('content', 'specificity', 'description')
-    .where('specificity', 'general').get() as Model[];
+    let questions: Model[] = await Question.select('id', 'content', 'specificity', 'description')
+    .where('specificity', 'general').orderBy('id').get() as Model[];
 
     // Get committees of this application
     const committees: Model[] = await CommitteeChoice.select('committee').where('applicationId', appId).get() as Model[];
@@ -40,8 +40,8 @@ const getQuestionsForApplicant = async({request, response}: Context) => {
 
     // Get questions for all committees of this applicaiton
     for (let committee of committees){
-        let comQuestion: Model[] = await Question.select('content', 'specificity', 'description')
-        .where('specificity', committee.committee as string).get() as Model[];
+        let comQuestion: Model[] = await Question.select('id', 'content', 'specificity', 'description')
+        .where('specificity', committee.committee as string).orderBy('id').get() as Model[];
         questions.push(...comQuestion);
     }
 
@@ -53,7 +53,31 @@ const getQuestionsForApplicant = async({request, response}: Context) => {
  * @param ctx 
  */
 const getAllQuestions = async(ctx: Context) => {
-    ctx.response.body = await Question.select('content', 'specificity', 'description').all();
+    ctx.response.body = await Question.select('id', 'content', 'specificity', 'description').all();
 }
 
-export { questionCreate, getQuestionsForApplicant, getAllQuestions }
+/**
+ * Add notes for interview questions and for an applicant. 
+ * Body: {
+ *  applicationId: number, 
+ *  interviewer_name: string, 
+ *  reliability: number, [1-7]
+ *  interest: number, [1-7]
+ *  teamwork: number, [1-7]
+ *  overall: number [1-7]
+ *  thoughts: string [paragraph],
+ *  questionAnswers: [{questionId: number, response: string}]
+ * ] }
+ * @param {request, response}
+ */
+const addNotes = async({request, response}: Context) => {
+
+}
+
+
+/**
+ * 
+ */
+
+
+export { questionCreate, getQuestionsForApplicant, getAllQuestions, addNotes }

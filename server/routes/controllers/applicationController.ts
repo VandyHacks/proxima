@@ -62,7 +62,7 @@ const parseTypeForm = async(ctx: Context) => {
  * @param {response} 
  */
 const displayApplications = async({response}: Context) => {
-    let applications: any[] = await Application.select('id', 'name', 'email', 'year', 'director', 'status', 'resume_link').orderBy('id').all();
+    let applications: any[] = await Application.select('id', 'name', 'email', 'year', 'director', 'status', 'resume_link', 'github_link', 'linkedin_link', 'social_link', 'design_link').orderBy('id').all();
 
     for(let application of applications) {
         application.committees = [];
@@ -73,6 +73,16 @@ const displayApplications = async({response}: Context) => {
     }
     response.body = applications;
 };
+
+
+/**
+ * body: number, representing applicationId
+ */
+const getApplicationResponses = async({request, response}: Context) => {
+    const appId: number = await request.body().value as number;
+    response.body = await Application.select('essay1', 'essay2', 'essay3', 'resume_link', 'commitments', 'attendedVH', 'feedback', 'source').find(appId);
+}
+
 
 
 /**
@@ -105,4 +115,6 @@ const updateStatus = async({request, response}: Context) => {
     response.body = `Updated status to ${newStatus} for ${application.email}`;
 };
 
-export { parseTypeForm, displayApplications, updateStatus }
+
+
+export { parseTypeForm, displayApplications, updateStatus, getApplicationResponses }
