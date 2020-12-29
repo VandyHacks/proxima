@@ -10,8 +10,11 @@ router.post('/typeform/submit', applicationController.parseTypeForm);
 // Add questions to interview question list
 router.post('/interview/questions/add', notesController.questionCreate);
 
-// Fetch questions for an applicant
-router.get('/interview/questions', notesController.getQuestions);
+// Fetch all questions 
+router.get('/interview/questions/list', notesController.getAllQuestions);
+
+// Fetch questions for a specific applicant
+router.get('/interview/questions', notesController.getQuestionsForApplicant);
 
 
 

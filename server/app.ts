@@ -12,7 +12,7 @@ app.use(basicMiddleware.requestTimingMiddleware);
 app.use(router.routes());
 
 
-await db.sync();
+await db.sync({drop: true});
 
 if (!Deno.env.get('TEST_ENVIRONMENT')) {
     app.listen({ port: 7777 });
