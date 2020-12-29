@@ -1,3 +1,5 @@
+import { Model } from "https://deno.land/x/denodb@v1.0.18/lib/model.ts";
+import { send } from "https://deno.land/x/oak@v6.3.2/send.ts";
 import { Application, CommitteeChoice } from "../../database/models.ts"
 import { Context } from "../../deps.ts"
 
@@ -47,7 +49,7 @@ const parseTypeForm = async(ctx: Context) => {
         source: responses.source
     });
 
-
+    // Create committee relations for an applicant
     for(let i = 0; i < committees.length; i++){
         await CommitteeChoice.create({
             committee: committees[i],
@@ -57,16 +59,37 @@ const parseTypeForm = async(ctx: Context) => {
     ctx.response.body = "Submission received!";
 };
 
-const displayApplications = async(ctx: Context) => {
+const displayApplications = async({request, response}: Context) => {
     
 };
 
+
+/**
+ * Send email based on status update.
+ */
+const sendEmail = async (email: string, status: string) => {
+    console.log(`${status} email sent to ${email}`);
+}
+
+
 /**
  * ApplicationID and new status are sent in the body.
- * @param ctx : body: {applicationId: number, status: string}}
+ * @param ctx : body: {applicationId: number, status: string}
  */
-const updateStatus = async(ctx: Context) => {
+const updateStatus = async({request, response}: Context) => {
+    const body: {applicationId: number, status: string} = await request.body().value;
+    const appId: number = body.applicationId;
+    const newStatus: string = body.status;
 
+    // Get application to update
+    const application: Model = await Application.select('status', 'email').where('id', appId).get() as Model;
+
+    // Logic for emails
+    sendEmail(application.email as string, newStatus);
+
+    // Update status
+    application.status = newStatus; 
+    await application.update();
 };
 
 export { parseTypeForm, displayApplications, updateStatus }

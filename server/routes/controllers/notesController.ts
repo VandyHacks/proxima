@@ -3,8 +3,11 @@ import { Context } from "../../deps.ts"
 import { CommitteeChoice, Question, QuestionNote } from "../../database/models.ts"
 import { Model } from "https://deno.land/x/denodb@v1.0.18/lib/model.ts";
 
-
-// Get array of objects: {content: string, specificity: string}
+/**
+ * Adds the question to the database
+ * Body: {content: string, specificity: string, description: string}
+ * @param ctx 
+ */
 const questionCreate = async(ctx: Context) => {
     // populate committee
     const questionData: any = await ctx.request.body().value;
@@ -19,8 +22,11 @@ const questionCreate = async(ctx: Context) => {
     ctx.response.body = "Questions Added";
 };
 
-// Get the committees for the application 
-// pre: body value is a number that shows the Id for an application
+
+/**
+ *  
+ * @param param0 - body's value is a number for applicationId
+ */
 const getQuestionsForApplicant = async({request, response}: Context) => {
     const appId: number = await request.body().value as number;
 
@@ -42,7 +48,10 @@ const getQuestionsForApplicant = async({request, response}: Context) => {
     response.body = questions;
 }
 
-// Get a list of all questions
+/**
+ * Return a list of all questions.
+ * @param ctx 
+ */
 const getAllQuestions = async(ctx: Context) => {
     ctx.response.body = await Question.select('content', 'specificity', 'description').all();
 }
