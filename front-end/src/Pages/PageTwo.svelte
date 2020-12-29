@@ -1,8 +1,8 @@
 <script>
-    import Title from "./Title.svelte";
+    import Title from "../layout/Title.svelte";
     import { Link } from "svelte-routing";
-    import TypeForm from "./TypeForm.svelte"; 
-    import GoogleForm from "./GoogleForm.svelte"; 
+    import TypeForm from "../forms/TypeForm.svelte"; 
+    import GoogleForm from "../forms/GoogleForm.svelte"; 
 
     // passing user name from the previous page 
     // and then obtaining full context.

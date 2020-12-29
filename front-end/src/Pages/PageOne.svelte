@@ -1,10 +1,10 @@
 <script>
     import Title from "../layout/Title.svelte";
-    import TableDesc from "../layout/TableDesc.svelte";
-    import UserCards from "../layout/UserCards.svelte"; 
+    import TableDesc from "../table/TableDesc.svelte";
+    import UserCards from "../table/UserCards.svelte"; 
     import { Router, Link, Route } from "svelte-routing";
-    import PageTwo from "../layout/PageTwo.svelte"
-    import PageThree from "../layout/PageThree.svelte"
+    import PageTwo from "./PageTwo.svelte"
+    import PageThree from "./PageThree.svelte"
     import { component_subscribe } from "svelte/internal";
     window.scrollTo({top: 0})
 </script>

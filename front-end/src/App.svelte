@@ -3,15 +3,13 @@
 	import '../node_modules/materialize-css/dist/css/materialize.min.css';
 	import '../node_modules/materialize-css/dist/js/materialize.min.js';
 	import '../node_modules/animate.css/animate.min.css'
-	import './slider/slider-radio'
-	import './slider/slider-radio.css'
 	import '../node_modules/list.js/dist/list.min.js';
 	import Title from './layout/Title.svelte'
-	import TableDesc from './layout/TableDesc.svelte'
-	import UserCards from './layout/UserCards.svelte'
-	import PageOne from './layout/PageOne.svelte'; 
+	import TableDesc from './table/TableDesc.svelte'
+	import UserCards from './table/UserCards.svelte'
+	import PageOne from './Pages/PageOne.svelte'; 
 	import { Router, Link, Route } from "svelte-routing";
-	import PageTwo from './layout/PageTwo.svelte';
+	import PageTwo from './Pages/PageTwo.svelte';
 
 </script>
 <style>
