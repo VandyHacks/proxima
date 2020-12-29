@@ -8,7 +8,7 @@ const router = new Router();
 router.post('/typeform/submit', applicationController.parseTypeForm);
 
 // Add questions to interview question list
-router.post('/questions/add', notesController.questionCreate);
+router.post('/interview/questions/add', notesController.questionCreate);
 
 // Fetch questions for an applicant
 router.get('/interview/questions', notesController.getQuestions);
