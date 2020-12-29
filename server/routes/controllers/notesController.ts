@@ -15,7 +15,7 @@ const questionCreate = async(ctx: Context) => {
 // Get the id of application
 const getQuestions = async(ctx: Context) => {
     // Get the committees for the application 
-
+    
     ctx.response.body = await Question.select('content, specificity')
     .where('', '');
 }
