@@ -21,13 +21,14 @@ router.post('/interview/questions/add', notesController.questionCreate);
 /**
  * GET REQUESTS
  */
+// Fetch all applications for the grid
+router.get('/applications', applicationController.displayApplications);
 
 // Fetch all questions 
 router.get('/interview/questions/list', notesController.getAllQuestions);
 
 // Fetch questions for a specific applicant
 router.get('/interview/questions', notesController.getQuestionsForApplicant);
-
 
 
 // router.get('/interview/:id/questions', notesController.questionCreate)

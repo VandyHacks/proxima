@@ -1,7 +1,5 @@
-import { Model } from "https://deno.land/x/denodb@v1.0.18/lib/model.ts";
-import { send } from "https://deno.land/x/oak@v6.3.2/send.ts";
 import { Application, CommitteeChoice } from "../../database/models.ts"
-import { Context } from "../../deps.ts"
+import { Context, Model } from "../../deps.ts"
 
 /**
  * Parsing is very specific to the kind of form we have right now.
@@ -59,8 +57,21 @@ const parseTypeForm = async(ctx: Context) => {
     ctx.response.body = "Submission received!";
 };
 
-const displayApplications = async({request, response}: Context) => {
+/**
+ * Display all applications for the grid on the main page. 
+ * @param param0 
+ */
+const displayApplications = async({response}: Context) => {
+    let applications: any[] = await Application.select('id', 'name', 'email', 'year', 'director', 'status', 'resume_link').orderBy('id').all();
     
+    for(let application of applications) {
+        application.committees = [];
+        let committees = await CommitteeChoice.select('committee').where('applicationId', application.id as number).get() as Model[];
+        for(let committeeObj of committees){
+            application.committees.push(committeeObj.committee)
+        }
+    }
+    response.body = applications;
 };
 
 
@@ -91,7 +102,6 @@ const updateStatus = async({request, response}: Context) => {
     // Update status
     application.status = newStatus; 
     await application.update();
-    console.log(application)
     response.body = `Updated status to ${newStatus} for ${application.email}`;
 };
 
