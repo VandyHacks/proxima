@@ -103,7 +103,30 @@
     }
     returnState();
   }
-  function unsure(name) {
+  function unsure(event, name) {
+
+    let domElement = ((event['target']).parentElement.parentElement.parentElement.parentElement); 
+    console.log(domElement)
+
+    // if the domElement is within the other rejections table
+
+    // rejects
+    // console.log(document.getElementById('rejects').childNodes)
+    let list = Array.from(document.getElementById('rejects').childNodes); 
+    console.log(list); 
+    for (let ele of list) {
+      console.log(domElement); 
+      console.log(ele); 
+      // console.log(domElement)
+      // console.log(ele)
+      if (domElement == ele) {
+        console.log("hello world"); 
+        domElement.remove(); 
+        // add it back to the primary list : 
+        document.getElementById('candidates').append(domElement); 
+      }
+    }
+
     let ele;
     for (ele of mockData) {
       if (ele["name"] == name) {
@@ -332,14 +355,14 @@
                 {#if inter['status'] == 'unsure'}
                   <input
                     class="interview"
-                    on:click={() => unsure(inter['name'])}
+                    on:click={() => unsure(event, inter['name'])}
                     name="group1"
                     type="radio"
                     checked />
                 {:else}
                   <input
                     class="interview"
-                    on:click={() => unsure(inter['name'])}
+                    on:click={() => unsure(event, inter['name'])}
                     name="group1"
                     type="radio" />
                 {/if}
