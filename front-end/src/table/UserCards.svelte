@@ -3,6 +3,7 @@
   import { onMount } from "svelte";
   import List from "list.js";
   import mockData from "../mockData.json";
+  import swal from "../../node_modules/sweetalert/dist/sweetalert.min.js"
 
   onMount(async () => {
     var options = {
@@ -10,18 +11,78 @@
     };
     var userList = new List("users", options);
 
-    console.log;
+    let test = document.querySelectorAll('input'); 
+    console.log(test); 
+
+    for (let ele of test) {
+      document.addEventListener('click', function() {
+        
+      })
+    }
+
+
+    // console.log;
   });
 
-  function shouldInterview(name) {
-    let ele;
-    for (ele of mockData) {
-      if (ele["name"] == name) {
-        // update if we should interview:
-        ele["shouldInterview"] = "yes";
-      }
-    }
-    returnState();
+  // async function generateAlert() {
+  //   // we generate the alert before we upate the db. 
+
+  // }
+
+  function shouldInterview(name, test) {
+    console.log(name)
+    var cnfrm = confirm('Are you sure?');
+        if(cnfrm != true)
+        {
+          return false;
+        }
+
+    // swal("Good job!", "You clicked the button!", "success");
+    // var ask = confirm("You have chosen  as your type \n If you have chosen the right type, Click Ok! ")
+    
+    // if (ask) {
+    //     alert("You clicked ok");
+    // }
+    // else {
+    //   return false; 
+    //     // alert("You clicked cancel");
+    //     // console.log(name['srcElement'])
+    //     // name['srcElement'].checked = false;
+    // }
+
+
+    // var cnfrm = confirm('Are you sure?');
+    // if(cnfrm != true)
+    // {
+    //   return false;
+    // }
+
+    // swal({
+    //   title: "Are you sure?",
+    //   text: "Once deleted, you will not be able to recover this imaginary file!",
+    //   icon: "warning",
+    //   buttons: true,
+    //   dangerMode: true,
+    // })
+    // .then((willChange) => {
+    //   if (willChange) {
+    //     let ele;
+    //     for (ele of mockData) {
+    //       if (ele["name"] == name) {
+    //         // update if we should interview:
+    //         ele["shouldInterview"] = "yes";
+    //       }
+    //     }
+    //     returnState();
+    //   } else {
+    //     name['srcElement'].checked = false;  
+    //     console.log("done change!"); 
+    //   }
+    // });
+
+
+    // console.log(name + "" +  test); 
+    
   }
 
   function shouldNotInterview(name) {
@@ -179,15 +240,18 @@
               <label>
                 {#if inter['shouldInterview'] == 'yes'}
                   <input
-                    on:click={() => shouldInterview(inter['name'])}
+                    on:change={() => shouldInterview(event, inter['name'])}
                     name="group1"
                     type="radio"
+                    class = "test"
                     checked />
                 {:else}
                   <input
-                    on:click={() => shouldInterview(inter['name'])}
+                    on:change={() => shouldInterview(event, inter['name'])}
                     name="group1"
-                    type="radio" />
+                    type="radio" 
+                    class = "test"
+                    />
                 {/if}
                 <span>Should Interview</span>
               </label>
@@ -199,12 +263,16 @@
                     on:click={() => shouldNotInterview(inter['name'])}
                     name="group1"
                     type="radio"
-                    checked />
+                    checked
+                    class = "test"
+                     />
                 {:else}
                   <input
                     on:click={() => shouldNotInterview(inter['name'])}
                     name="group1"
-                    type="radio" />
+                    type="radio" 
+                    class = "test"
+                    />
                 {/if}
                 <span>Should Not Interview</span>
               </label>
@@ -216,12 +284,16 @@
                     on:click={() => unevaluated(inter['name'])}
                     name="group1"
                     type="radio"
-                    checked />
+                    checked 
+                    class = "test"
+                    />
                 {:else}
                   <input
                     on:click={() => unevaluated(inter['name'])}
                     name="group1"
-                    type="radio" />
+                    type="radio" 
+                    class = "test"
+                    />
                 {/if}
                 <span>Unevaluted</span>
               </label>
