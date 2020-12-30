@@ -29,6 +29,9 @@ router.get('/applications', applicationController.displayApplications);
 // Fetch application responses for a specific applicant
 router.get('/applications/responses', applicationController.getApplicationResponses);
 
+// Fetch all interview notes for an applicant
+router.get('/applications/notes', notesController.getNotes);
+
 // Fetch all questions 
 router.get('/interview/questions/list', notesController.getAllQuestions);
 

@@ -112,4 +112,4 @@ const getNotes = async({request, response}: Context) => {
     response.body = notes;
 }
 
-export { questionCreate, getQuestionsForApplicant, getAllQuestions, addNotes }
+export { questionCreate, getQuestionsForApplicant, getAllQuestions, addNotes, getNotes }
