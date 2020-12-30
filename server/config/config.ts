@@ -1,23 +1,22 @@
-let config: {database?: any, smtp?: any} = {};
+let config: {database: any, smtp: any, email: string} = {
 
-// Set the database configuration
-if (!Deno.env.get('TEST_ENVIRONMENT')) {
-  config.database = {
+  // Set up the database configuration
+  database: {
     hostname: Deno.env.get("DB_HOSTNAME"),
     database: Deno.env.get("DB_NAME"),
     username: Deno.env.get("DB_USER"),
     password: Deno.env.get("DB_PASSWORD"),
     port: 5432
-  };
+  },
 
-  config.smtp = {
+  // Set up the email confiduration
+  smtp: {
     hostname: Deno.env.get("SMTP_HOSTNAME"),
-    port: Deno.env.get("SMTP_PORT"),
+    port: parseInt(<string> Deno.env.get("SMTP_PORT"), 10),
     username: Deno.env.get("SMTP_USER"),
     password: Deno.env.get("SMTP_PASSWORD"),
-  };
-
-  config.smtp = Deno.env.get("EMAIL_ADDRESS")
+  },
+  email: Deno.env.get("EMAIL_ADDRESS") as string
 }
 
 export { config }; 
