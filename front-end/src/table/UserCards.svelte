@@ -121,7 +121,30 @@
   }
 
   function freezeRow(event) {
-    console.log(event['target'].parentElement.parentElement); 
+
+    let button = event['target']; 
+    let tableRow = event['target'].parentElement.parentElement;  
+
+    // basically just apply disbled to all inputs in the paticular row. 
+    console.log(tableRow); 
+    let array = Array.from(tableRow.querySelectorAll('input')); 
+
+    for (let ele of array) {
+      // console.log(ele.getAttribute('disabled'))
+      if(ele.getAttribute("disabled") == true) {
+        ele.setAttribute('disabled', false); 
+      } else {
+        ele.setAttribute("disabled", "true");
+      }
+      
+    }
+    // console.log(button.textContent)
+    if (button.textContent == "Unfinalize") {
+      button.textContent = "Finalize"; 
+    } else {
+      button.textContent = "Unfinalize"; 
+    }
+    
   }
 </script>
 
@@ -203,7 +226,7 @@
 
     <tbody class="list" id = "candidates">
       {#each mockData as inter}
-        <tr>
+        <tr >
           <!-- svelte if -->
 
           <td class="name">{inter['name']}</td>
