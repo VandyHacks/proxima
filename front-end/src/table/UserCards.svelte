@@ -126,13 +126,13 @@
     let tableRow = event['target'].parentElement.parentElement;  
 
     // basically just apply disbled to all inputs in the paticular row. 
-    console.log(tableRow); 
     let array = Array.from(tableRow.querySelectorAll('input')); 
 
     for (let ele of array) {
       // console.log(ele.getAttribute('disabled'))
-      if(ele.getAttribute("disabled") == true) {
-        ele.setAttribute('disabled', false); 
+      // console.log(ele.getAttribute("disabled"))
+      if(ele.getAttribute("disabled") == "true") {
+        ele.removeAttribute("disabled"); 
       } else {
         ele.setAttribute("disabled", "true");
       }
