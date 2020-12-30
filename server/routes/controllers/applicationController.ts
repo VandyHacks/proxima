@@ -6,11 +6,11 @@ import { Context, Model } from "../../deps.ts"
  * For exampl, I am getting 'freshman', 'sophomore', etc. by splitting
  * the year field in the TypeForm. TODO: add typeform entries as a table 
  * and generalize the parsing.
- * @param ctx 
+ * @param {request, response} 
  */
-const parseTypeForm = async(ctx: Context) => {
+const parseTypeForm = async({request, response}: Context) => {
     // populate application
-    const application: {form_response: {definition: {fields: any[]}, answers: any}} = await ctx.request.body().value;
+    const application: {form_response: {definition: {fields: any[]}, answers: any}} = await request.body().value;
     let responses: any = {};
     let committees: [string] = [""];
 
@@ -54,7 +54,7 @@ const parseTypeForm = async(ctx: Context) => {
             applicationId: newApplication.id as number,
         });
     }
-    ctx.response.body = "Submission received!";
+    response.body = "Submission received!";
 };
 
 /**
@@ -96,7 +96,7 @@ const sendEmail = async (email: string, status: string) => {
 
 /**
  * ApplicationID and new status are sent in the body.
- * @param ctx : body: {applicationId: number, status: string}
+ * @param {request, response} : body: {applicationId: number, status: string}
  */
 const updateStatus = async({request, response}: Context) => {
     const body: {applicationId: number, status: string} = await request.body().value;
