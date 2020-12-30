@@ -60,6 +60,9 @@ const parseTypeForm = async({request, response}: Context) => {
 
 /**
  * Display all applications for the grid on the main page. 
+ * {
+ * 
+ * }
  * @param {response} 
  */
 const displayApplications = async({response}: Context) => {
