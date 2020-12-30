@@ -1,6 +1,5 @@
 import { Context, Model } from "../../deps.ts"
 import { CommitteeChoice, Note, Question, QuestionNote } from "../../database/models.ts"
-import { send } from "../../utils/smtpClient.ts"
 
 
 /**
