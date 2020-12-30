@@ -51,9 +51,15 @@
     returnState();
   }
   function reject(event, name) {
+    console.log(event); 
 
     // our tables are structured similarly: 
-    let domElement = document.getElementById(event[''])
+    let domElement = ((event['target']).parentElement.parentElement.parentElement.parentElement); 
+    // let domElement = document.getElementById(;) 
+    domElement.remove(); 
+    updateRejectTable(domElement); 
+
+    //update the backend. 
 
     let ele;
     for (ele of mockData) {
@@ -82,6 +88,11 @@
     console.log(localStorage.getItem("curName"));
   }
   // returnState();
+
+  function updateRejectTable(domEle) {
+    console.log(domEle); 
+    document.getElementById('rejects').innerHTML += (domEle).toString(); 
+  }
 </script>
 
 <style>
@@ -315,3 +326,21 @@
   <h5>Reject Applicants</h5>
 </center>
 
+<div id = "users">
+  <table>
+    <thead>
+      <tr>
+        <th>Applicant Name</th>
+        <th>Interview Status</th>
+        <th>Committees</th>
+        <th>Interview Notes</th>
+        <th>Interview Form</th>
+        <th>Acceptance Status</th>
+      </tr>
+    </thead>
+    <tbody id = "rejects">
+
+    </tbody>
+  </table>
+
+</div>
