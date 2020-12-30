@@ -2,7 +2,7 @@ import { SmtpClient } from "../deps.ts"
 import { config } from "../config/config.ts"
 
 
-export default async function send(recepient: string, subject: string, message: string) {
+async function send(recepient: string, subject: string, message: string) {
     const client = new SmtpClient();
     await client.connect(config.smtp);
 
@@ -15,3 +15,4 @@ export default async function send(recepient: string, subject: string, message: 
       
     await client.close();
 }
+export { send }
