@@ -68,12 +68,18 @@ const parseTypeForm = async({request, response}: Context) => {
  *  year: string,
  *  director: bool, 
  *  status: string,
- *  resume_link: string, 
- *  github_link: string,
- *  linkedin_link: string, 
- *  social_link: string,
- *  design_link: string
- *  committees: string[]
+ *  resume_link: string | null, 
+ *  github_link: string | null,
+ *  linkedin_link: string | null, 
+ *  social_link: string | null,
+ *  design_link: string | null,
+ *  committees: string[],
+ *  links: [
+ *   {type: "resume_link", href: string | null,
+ *   {type: "github_link", href: string | null},
+ *   {type: "linkedin_link", href: string | null},
+ *   {type: "social_link", href: string | null}
+ *  ]
  * }]
  * @param {response} 
  */
