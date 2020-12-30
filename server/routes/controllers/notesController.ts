@@ -1,14 +1,15 @@
 import { Context, Model } from "../../deps.ts"
 import { CommitteeChoice, Note, Question, QuestionNote } from "../../database/models.ts"
 
+
 /**
  * Adds the question to the database
  * Body: {content: string, specificity: string, description: string}
- * @param ctx 
+ * @param { request, response } 
  */
-const questionCreate = async(ctx: Context) => {
+const questionCreate = async({request, response}: Context) => {
     // populate committee
-    const questionData: any = await ctx.request.body().value;
+    const questionData: any = await request.body().value;
 
     await Question.create(
         {
@@ -17,7 +18,7 @@ const questionCreate = async(ctx: Context) => {
             description: questionData.description
         }
     );
-    ctx.response.body = "Questions Added";
+    response.body = "Questions Added";
 };
 
 
@@ -49,13 +50,13 @@ const getQuestionsForApplicant = async({request, response}: Context) => {
  * Return a list of all questions.
  * @param ctx 
  */
-const getAllQuestions = async(ctx: Context) => {
-    ctx.response.body = await Question.select('id', 'content', 'specificity', 'description').all();
+const getAllQuestions = async({response}: Context) => {
+    response.body = await Question.select('id', 'content', 'specificity', 'description').all();
 }
 
 /**
  * Add notes for interview questions and for an applicant. 
- * Body: {
+ * Body: { 
  *  applicationId: number, 
  *  interviewer_name: string, 
  *  reliability: number, [1-7]
@@ -64,15 +65,42 @@ const getAllQuestions = async(ctx: Context) => {
  *  overall: number [1-7]
  *  thoughts: string [paragraph],
  *  questionAnswers: [{questionId: number, response: string}]
- * ] }
+ *  }
  * @param {request, response}
  */
 const addNotes = async({request, response}: Context) => {
-    // Create Notes row
+    const noteData: {
+        applicationId: number, 
+        interviewer_name: string, 
+        reliability: number,
+        interest: number, 
+        teamwork: number, 
+        overall: number 
+        thoughts: string,
+        questionAnswers: {questionId: number, response: string}[]
+    } = await request.body().value;
 
+    // Create Notes row
+    let note: Model = await Note.create({
+        applicationId: noteData.applicationId,
+        interviewer_name: noteData.interviewer_name,
+        reliability: noteData.reliability,
+        interest: noteData.reliability,
+        teamwork: noteData.teamwork,
+        overall: noteData.overall,
+        thoughts: noteData.thoughts
+    });
 
     // Create QuestionNote row
+    for(let questionNote of noteData.questionAnswers){
+        await QuestionNote.create({
+            response: questionNote.response,
+            noteId: note.id as number,
+            questionId: questionNote.questionId
+        });
+    }
 
+    response.body = `Notes and responses successfully added from ${noteData.interviewer_name}`;
 }
 
 
@@ -81,10 +109,10 @@ const addNotes = async({request, response}: Context) => {
  * body: number, representing applicationId
  * response: {[
  *  interviewer_name: string,
-    reliability: number ([1, 2, 3, 4, 5, 6, 7]),
-    interest: number ([1, 2, 3, 4, 5, 6, 7]),
-    teamwork: number ([1, 2, 3, 4, 5, 6, 7]),
-    overall: number ([1, 2, 3, 4, 5, 6, 7]),
+    reliability: number [1-7],
+    interest: number [1-7],
+    teamwork: number [1-7],
+    overall: number [1-7],
     thoughts: string,
     responses: [{question: string, description: string, specificity: string, note: string}]
  * ]}

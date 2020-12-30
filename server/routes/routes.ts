@@ -39,9 +39,4 @@ router.get('/interview/questions/list', notesController.getAllQuestions);
 router.get('/interview/questions', notesController.getQuestionsForApplicant);
 
 
-
-
-// router.get('/', notesController.questionCreate)
-
-
 export { router };

@@ -63,8 +63,8 @@ class Note extends Model {
             primaryKey: true,
             autoIncrement: true
         },
-        interviewer_name: DataTypes.STRING,
         applicationId: Relationships.belongsTo(Application),
+        interviewer_name: DataTypes.STRING,
         reliability: DataTypes.enum([1, 2, 3, 4, 5, 6, 7]),
         interest: DataTypes.enum([1, 2, 3, 4, 5, 6, 7]),
         teamwork: DataTypes.enum([1, 2, 3, 4, 5, 6, 7]),
