@@ -168,17 +168,14 @@
   }
   table {
     width: 80%;
-    /* text-align: center; */
   }
   #users {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    /* background-color: red;  */
   }
   #search {
-    /* background-color: blue;  */
     width: 80%;
   }
   .search {
@@ -195,7 +192,7 @@
   }
 
   tr.director {
-    background-color: antiquewhite;
+    border-left: 3px solid #2196f3;
   }
 
 </style>
@@ -254,7 +251,7 @@
           </td>
 
           <td class="year">
-              {application['year']}
+              {application['year'].replace(/^./, application['year'][0].toUpperCase())}
           </td>
 
           <td class="committees">
@@ -266,7 +263,7 @@
           </td>
 
           <td class="links">
-
+               <i class="material-icons">insert_drive_file</i>
           </td>
 
           <td>

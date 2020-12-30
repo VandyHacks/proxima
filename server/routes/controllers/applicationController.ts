@@ -86,7 +86,15 @@ const displayApplications = async({response}: Context) => {
         for(let committeeObj of committees){
             application.committees.push(committeeObj.committee)
         }
+
+        application.links = [
+            {type: "resume_link", href: application.resume_link},
+            {type: "github_link", href: application.github_link},
+            {type: "linkedin_link", href: application.linkedin_link},
+            {type: "social_link", href: application.social_link}
+        ];
     }
+
     response.body = applications;
 };
 
