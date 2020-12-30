@@ -119,6 +119,33 @@
     console.log(domEle); 
     document.getElementById('rejects').append(domEle); 
   }
+
+  function freezeRow(event) {
+
+    let button = event['target']; 
+    let tableRow = event['target'].parentElement.parentElement;  
+
+    // basically just apply disbled to all inputs in the paticular row. 
+    let array = Array.from(tableRow.querySelectorAll('input')); 
+
+    for (let ele of array) {
+      // console.log(ele.getAttribute('disabled'))
+      // console.log(ele.getAttribute("disabled"))
+      if(ele.getAttribute("disabled") == "true") {
+        ele.removeAttribute("disabled"); 
+      } else {
+        ele.setAttribute("disabled", "true");
+      }
+      
+    }
+    // console.log(button.textContent)
+    if (button.textContent == "Unfinalize") {
+      button.textContent = "Finalize"; 
+    } else {
+      button.textContent = "Unfinalize"; 
+    }
+    
+  }
 </script>
 
 <style>
@@ -192,13 +219,14 @@
         <th>Interview Notes</th>
         <th>Interview Form</th>
         <th>Acceptance Status</th>
+        <th>Finalize Candidacy</th>
       </tr>
     </thead>
     <!-- svelte for each -->
 
     <tbody class="list" id = "candidates">
       {#each mockData as inter}
-        <tr>
+        <tr >
           <!-- svelte if -->
 
           <td class="name">{inter['name']}</td>
@@ -339,6 +367,11 @@
                 <span>Unsure</span>
               </label>
             </form>
+          </td>
+          <td>
+            <button on:click={() => freezeRow(event)} class = "sort btn blue waves-effect waves-light padding"> 
+              Finalize 
+            </button>
           </td>
         </tr>
       {/each}
