@@ -59,10 +59,22 @@ const parseTypeForm = async({request, response}: Context) => {
 };
 
 /**
- * Display all applications for the grid on the main page. 
- * {
- * 
- * }
+ * Display all applications for the grid on the main page.
+ * Resulting format of data in response:
+ * [{
+ *  id: numeber,
+ *  name: string,
+ *  email: string,
+ *  year: string,
+ *  director: bool, 
+ *  status: string,
+ *  resume_link: string, 
+ *  github_link: string,
+ *  linkedin_link: string, 
+ *  social_link: string,
+ *  design_link: string
+ *  committees: string[]
+ * }]
  * @param {response} 
  */
 const displayApplications = async({response}: Context) => {
