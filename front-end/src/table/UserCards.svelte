@@ -4,7 +4,6 @@
   import List from "list.js";
   import mockData from "../mockData.json";
 
-
   onMount(async () => {
     var options = {
       valueNames: ["name", "accept", "interview"]
@@ -171,15 +170,6 @@
 </script>
 
 <style>
-  * {
-    -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-    -khtml-user-select: none; /* Konqueror HTML */
-    -moz-user-select: none; /* Old versions of Firefox */
-    -ms-user-select: none; /* Internet Explorer/Edge */
-    user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome, Edge, Opera and Firefox */
-  }
   .padding {
     margin-top: 10px;
   }
@@ -212,8 +202,13 @@
     border-left: 3px solid #2196f3;
   }
 
+  tr.rejected {
+    border-left: 3px solid red;
+  }
+
+
   td.links > a{
-    color: #26a69a;
+    color: #2196f3;
   }
 
   td.links > a > i{
@@ -252,10 +247,10 @@
         <th>Email</th>
         <th>Year</th>
         <th>Committees</th>
-        <th>Links</th>
+        <th>Status</th>
         <th>Notes</th>
         <th>Interview Form</th>
-        <th>Status</th>
+        <th>Resume</th>
       </tr>
     </thead>
     <!-- svelte for each -->
@@ -269,6 +264,7 @@
             {application['name']}
           </td>
 
+
           <td class="email">
             <a href="mailto:{application['email']}">
               {application['email']}
@@ -279,6 +275,7 @@
               {application['year'].replace(/^./, application['year'][0].toUpperCase())}
           </td>
 
+
           <td class="committees">
             {#each application['committees'] as committee}
               <div class="chip">
@@ -287,15 +284,6 @@
             {/each}
           </td>
 
-          <td class="links">
-              {#each application['links'] as link}
-                {#if link.href}
-                  <a href="{link.href}" target="_blank">
-                    <i class="material-icons">{getIcon(link.type)}</i>
-                  </a>
-                {/if}
-              {/each}
-          </td>
 
           <td>
             <b>
@@ -304,6 +292,8 @@
               </Link>
             </b>
           </td>
+
+
           <td>
             <Link to="/notes" on:click={() => passName(application['name'])}>
               <button class="sort btn blue waves-effect waves-light padding"> 
@@ -313,69 +303,26 @@
            
           </td>
 
-          <td>
-            <form>
-              <!-- svelte-ignore a11y-label-has-associated-control -->
-              <label>
-                {#if application['status'] == 'accept'}
-                  <input
-                    class="interview"
-                    on:click={() => accept(event, application['name'])}
-                    name="group1"
-                    type="radio"
-                    checked />
-                {:else}
-                  <input
-                    class="interview"
-                    on:click={() => accept(event, application['name'])}
-                    name="group1"
-                    type="radio" />
-                {/if}
-                <span>Accept</span>
-              </label>
-              <!-- svelte-ignore a11y-label-has-associated-control -->
-              <label>
-                {#if application['status'] == 'reject'}
-                  <input
-                    class="interview"
-                    on:click={() => reject(event, application['name'])}
-                    name="group1"
-                    type="radio"
-                    checked />
-                {:else}
-                  <input
-                    class="interview"
-                    on:click={() => reject(event, application['name'])}
-                    name="group1"
-                    type="radio" />
-                {/if}
-                <span>Reject</span>
-              </label>
-              <!-- svelte-ignore a11y-label-has-associated-control -->
-              <label>
-                {#if application['status'] == 'unsure'}
-                  <input
-                    class="interview"
-                    on:click={() => unsure(event, application['name'])}
-                    name="group1"
-                    type="radio"
-                    checked />
-                {:else}
-                  <input
-                    class="interview"
-                    on:click={() => unsure(event, application['name'])}
-                    name="group1"
-                    type="radio" />
-                {/if}
-                <span>Unsure</span>
-              </label>
-            </form>
+
+          <td class="status">
+             <div class="input-field col s12">
+              <select>
+                <option value="1">Applied</option>
+                <option value="2">To interview</option>
+                <option value="3">Accept</option>
+                <option value="3">Reject</option>
+                <option value="3">Unsure</option>
+              </select>
+              <label>Change Status</label>
+            </div>
           </td>
-          <td>
-            <button on:click={() => freezeRow(event)} class = "sort btn blue waves-effect waves-light padding"> 
-              Finalize 
-            </button>
+
+          <td class="links">
+              <a href="{application.resume_link}" target="_blank">
+                    <i class="material-icons">{getIcon("resume_link")}</i>
+              </a>
           </td>
+
         </tr>
       {/each}
     </tbody>
@@ -396,10 +343,10 @@
         <th>Email</th>
         <th>Year</th>
         <th>Committees</th>
-        <th>Links</th>
         <th>Notes</th>
         <th>Interview Form</th>
         <th>Status</th>
+        <th>Links</th>
       </tr>
     </thead>
     <tbody id = "rejects">
