@@ -91,7 +91,7 @@
 
   function updateRejectTable(domEle) {
     console.log(domEle); 
-    document.getElementById('rejects').innerHTML += (domEle).toString(); 
+    document.getElementById('rejects').append(domEle); 
   }
 </script>
 
