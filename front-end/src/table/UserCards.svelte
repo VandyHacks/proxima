@@ -1,125 +1,21 @@
 <script>
   import { Link } from "svelte-routing";
   import { onMount } from "svelte";
-  import List from "list.js";
+  import Modal from './ChangeStatusModal.svelte';
   import mockData from "../mockData.json";
 
+  console.log(mockData)
   onMount(async () => {
-    var options = {
-      valueNames: ["name", "accept", "interview"]
-    };
-
-    var userList = new List("users", options);
+      // TODO: Use fetch api
   });
+  
 
 
+  // const { open } = getContext('simple-modal');
 
-  function shouldInterview(name) {
-    for (let ele of mockData) {
-      if (ele["name"] == name) {
-        // update if we should interview:
-        ele["shouldInterview"] = "yes";
-      }
-    }
-    returnState();
-  }
-
-
-  function shouldNotInterview(name) {
-    let ele;
-    for (ele of mockData) {
-      if (ele["name"] == name) {
-        // update if we should interview:
-        ele["shouldInterview"] = "no";
-      }
-    }
-    returnState();
-  }
-
-  function unevaluated(name) {
-    let ele;
-    for (ele of mockData) {
-      if (ele["name"] == name) {
-        // update if we should interview:
-        ele["shouldInterview"] = "unsure";
-      }
-    }
-    returnState();
-  }
-
-  function accept(event, name) {
-    // getting the row data. 
-    let domElement = ((event['target']).parentElement.parentElement.parentElement.parentElement); 
-    console.log(domElement)
-
-    let list = Array.from(document.getElementById('rejects').childNodes); 
-
-    // if we accept a candidate once theyre in the already rejected table, 
-    // we have to bring them back, this is how we do that. 
-    for (let ele of list) {
-      if (domElement == ele) {
-        domElement.remove(); 
-        document.getElementById('candidates').append(domElement); 
-      }
-    }
-
-    let ele;
-    for (ele of mockData) {
-      if (ele["name"] == name) {
-        // update if we should interview:
-        ele["status"] = "accept";
-      }
-    }
-    returnState();
-  }
-  function reject(event, name) {
-
-    // if we reject a candidate we put them in a rejections table
-    let domElement = ((event['target']).parentElement.parentElement.parentElement.parentElement); 
-    domElement.remove(); 
-    updateRejectTable(domElement); 
-
-    let ele;
-    for (ele of mockData) {
-      if (ele["name"] == name) {
-        ele["status"] = "reject";
-      }
-    }
-    returnState();
-  }
-  function unsure(event, name) {
-
-    // if we change the status of a candidate to unsure
-    // while theyre in the rejection table, we have to make sure
-    // we bring thembnack to the same view. again. 
-    let domElement = ((event['target']).parentElement.parentElement.parentElement.parentElement); 
-    console.log(domElement)
-    let list = Array.from(document.getElementById('rejects').childNodes); 
-    console.log(list); 
-    for (let ele of list) {
-      if (domElement == ele) {
-        domElement.remove(); 
-        document.getElementById('candidates').append(domElement); 
-      }
-    }
-
-    let ele;
-    for (ele of mockData) {
-      if (ele["name"] == name) {
-        // update if we should interview:
-        ele["status"] = "unsure";
-      }
-    }
-    returnState();
-  }
-
-
-  function updateRejectTable(domEle) {
-    console.log(domEle); 
-    document.getElementById('rejects').append(domEle); 
-  }
-
-
+  // const showPopup = () => {
+	// 	open(Modal, { message: "It's a popup!" });
+	// };
 </script>
 
 <style>
@@ -166,6 +62,10 @@
 
   td.links > a > i{
     width: 100%;
+  }
+
+  i.tiny {
+    font-size: 0.7rem;
   }
 
 </style>
@@ -243,8 +143,6 @@
           </td>
 
 
-
-
           <td>
             <Link to="/notes" on:click={() => passName(application['name'])}>
               <button class="sort btn blue waves-effect waves-light padding"> 
@@ -263,15 +161,16 @@
             </b>
           </td>
 
-
           <td class="status">
                <!-- Modal Trigger -->
-              <a class="waves-effect waves-light btn modal-trigger" href="#changeStatus{application['id']}">
+              <button class="waves-effect waves-light btn modal-trigger">
                 {application['status']}
-              </a>
+                <i class="tiny material-icons">edit</i>
+              </button>
           </td>
 
         </tr>
+
       {/each}
     </tbody>
 
@@ -283,7 +182,7 @@
   <h5>Reject Applicants</h5>
 </center>
 
-<div id = "users">
+<div id="users">
   <table>
     <thead>
       <tr class="column-names">
