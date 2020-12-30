@@ -8,11 +8,9 @@
       valueNames: ["name", "accept", "interview"]
     };
     var userList = new List("users", options);
-    console.log;
   });
   function shouldInterview(name) {
-    let ele;
-    for (ele of mockData) {
+    for (let ele of mockData) {
       if (ele["name"] == name) {
         // update if we should interview:
         ele["shouldInterview"] = "yes";
@@ -20,6 +18,7 @@
     }
     returnState();
   }
+
   function shouldNotInterview(name) {
     let ele;
     for (ele of mockData) {
@@ -30,6 +29,7 @@
     }
     returnState();
   }
+
   function unevaluated(name) {
     let ele;
     for (ele of mockData) {
@@ -40,8 +40,8 @@
     }
     returnState();
   }
-  function accept(event, name) {
 
+  function accept(event, name) {
     // getting the row data. 
     let domElement = ((event['target']).parentElement.parentElement.parentElement.parentElement); 
     console.log(domElement)
@@ -183,6 +183,10 @@
   button {
     margin-bottom: 10px;
   }
+
+  .column-names th {
+    text-align: center;
+  }
 </style>
 
 <center>
@@ -210,7 +214,7 @@
 
   <table class="striped responsive-table">
     <thead>
-      <tr>
+      <tr class="column-names">
         <th>Applicant Name</th>
         <th>Interview Status</th>
         <th>Committees</th>
@@ -226,7 +230,6 @@
       {#each mockData as inter}
         <tr >
           <!-- svelte if -->
-
           <td class="name">{inter['name']}</td>
           <td class="status">
             <form>
@@ -300,11 +303,11 @@
             </b>
           </td>
           <td>
-              <Link to="/notes" on:click={() => passName(inter['name'])}>
-                <button class="sort btn blue waves-effect waves-light padding"> 
-                  Interview
-                </button>
-              </Link>
+            <Link to="/notes" on:click={() => passName(inter['name'])}>
+              <button class="sort btn blue waves-effect waves-light padding"> 
+                Interview
+              </button>
+            </Link>
            
           </td>
 
@@ -386,13 +389,15 @@
 <div id = "users">
   <table>
     <thead>
-      <tr>
+      <tr class="column-names">
         <th>Applicant Name</th>
-        <th>Interview Status</th>
+        <th>Email</th>
+        <th>Year</th>
         <th>Committees</th>
-        <th>Interview Notes</th>
+        <th>Links</th>
+        <th>Notes</th>
         <th>Interview Form</th>
-        <th>Acceptance Status</th>
+        <th>Status</th>
       </tr>
     </thead>
     <tbody id = "rejects">
