@@ -1,7 +1,5 @@
-// import { Application, CommitteeChoice, QuestionNote, Note, Question } from "../../database/models.ts"
-import { Context } from "../../deps.ts"
-import { CommitteeChoice, Question, QuestionNote } from "../../database/models.ts"
-import { Model } from "https://deno.land/x/denodb@v1.0.18/lib/model.ts";
+import { Context, Model } from "../../deps.ts"
+import { CommitteeChoice, Note, Question, QuestionNote } from "../../database/models.ts"
 
 /**
  * Adds the question to the database
@@ -24,8 +22,8 @@ const questionCreate = async(ctx: Context) => {
 
 
 /**
- *  
- * @param param0 - body's value is a number for applicationId
+ * body's value is a number for applicationId
+ * @param param0
  */
 const getQuestionsForApplicant = async({request, response}: Context) => {
     const appId: number = await request.body().value as number;
@@ -37,9 +35,8 @@ const getQuestionsForApplicant = async({request, response}: Context) => {
     // Get committees of this application
     const committees: Model[] = await CommitteeChoice.select('committee').where('applicationId', appId).get() as Model[];
 
-
     // Get questions for all committees of this applicaiton
-    for (let committee of committees){
+    for (const committee of committees){
         let comQuestion: Model[] = await Question.select('id', 'content', 'specificity', 'description')
         .where('specificity', committee.committee as string).orderBy('id').get() as Model[];
         questions.push(...comQuestion);
@@ -71,13 +68,48 @@ const getAllQuestions = async(ctx: Context) => {
  * @param {request, response}
  */
 const addNotes = async({request, response}: Context) => {
+    // Create Notes row
+
+
+    // Create QuestionNote row
 
 }
 
 
 /**
- * 
+ * Get notes on interviews for a specific applicant
+ * body: number, representing applicationId
+ * response: {[
+ *  interviewer_name: string,
+    reliability: number ([1, 2, 3, 4, 5, 6, 7]),
+    interest: number ([1, 2, 3, 4, 5, 6, 7]),
+    teamwork: number ([1, 2, 3, 4, 5, 6, 7]),
+    overall: number ([1, 2, 3, 4, 5, 6, 7]),
+    thoughts: string,
+    responses: [{question: string, description: string, specificity: string, note: string}]
+ * ]}
  */
+const getNotes = async({request, response}: Context) => {
+    const appId: number = await request.body().value as number;
 
+    // Get Notes rows
+    let notes: any[] = await Note.select('id', 'interviewer_name', 'reliability', 'interest', 'teamwork', 'overall', 'thoughts').where('applicationId', appId).get() as Model[];
+    
+    // For every Notes row, add respective QuestionNote rows
+    for (let note of notes){
+        note.responses = [];
+        const questionNotes = await QuestionNote.select('questionId', 'response').where('noteId', note.id).get() as Model[];
+        for(let questionNote of questionNotes){
+            const question = await Question.select('content', 'description', 'specificity').find(questionNote.questionId as number) as Model;
+            note.responses.push({
+                question: question.content as string,
+                description: question.description as string,
+                specificity: question.specificity as string,
+                note: questionNote.response as string
+            });
+        }
+    }
+    response.body = notes;
+}
 
 export { questionCreate, getQuestionsForApplicant, getAllQuestions, addNotes }

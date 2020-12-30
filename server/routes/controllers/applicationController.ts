@@ -80,7 +80,7 @@ const displayApplications = async({response}: Context) => {
  */
 const getApplicationResponses = async({request, response}: Context) => {
     const appId: number = await request.body().value as number;
-    response.body = await Application.select('essay1', 'essay2', 'essay3', 'resume_link', 'commitments', 'attendedVH', 'feedback', 'source').find(appId);
+    response.body = await Application.select('essay1', 'essay2', 'essay3', 'commitments', 'attendedVH', 'feedback', 'source').find(appId);
 }
 
 
