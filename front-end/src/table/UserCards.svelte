@@ -42,37 +42,20 @@
   }
   function accept(event, name) {
 
-    // our tables are structured similarly: 
-
-
+    // getting the row data. 
     let domElement = ((event['target']).parentElement.parentElement.parentElement.parentElement); 
     console.log(domElement)
 
-    // if the domElement is within the other rejections table
-
-    // rejects
-    // console.log(document.getElementById('rejects').childNodes)
     let list = Array.from(document.getElementById('rejects').childNodes); 
-    console.log(list); 
+
+    // if we accept a candidate once theyre in the already rejected table, 
+    // we have to bring them back, this is how we do that. 
     for (let ele of list) {
-      console.log(domElement); 
-      console.log(ele); 
-      // console.log(domElement)
-      // console.log(ele)
       if (domElement == ele) {
-        console.log("hello world"); 
         domElement.remove(); 
-        // add it back to the primary list : 
         document.getElementById('candidates').append(domElement); 
       }
     }
-    // if(domElement in ) {
-    //   console.log("hello"); 
-    // }
-    // let domElement = document.getElementById(;) 
-    
-    // updateRejectTable(domElement); 
-
 
     let ele;
     for (ele of mockData) {
@@ -84,20 +67,15 @@
     returnState();
   }
   function reject(event, name) {
-    console.log(event); 
 
-    // our tables are structured similarly: 
+    // if we reject a candidate we put them in a rejections table
     let domElement = ((event['target']).parentElement.parentElement.parentElement.parentElement); 
-    // let domElement = document.getElementById(;) 
     domElement.remove(); 
     updateRejectTable(domElement); 
-
-    //update the backend. 
 
     let ele;
     for (ele of mockData) {
       if (ele["name"] == name) {
-        // update if we should interview:
         ele["status"] = "reject";
       }
     }
@@ -105,24 +83,16 @@
   }
   function unsure(event, name) {
 
+    // if we change the status of a candidate to unsure
+    // while theyre in the rejection table, we have to make sure
+    // we bring thembnack to the same view. again. 
     let domElement = ((event['target']).parentElement.parentElement.parentElement.parentElement); 
     console.log(domElement)
-
-    // if the domElement is within the other rejections table
-
-    // rejects
-    // console.log(document.getElementById('rejects').childNodes)
     let list = Array.from(document.getElementById('rejects').childNodes); 
     console.log(list); 
     for (let ele of list) {
-      console.log(domElement); 
-      console.log(ele); 
-      // console.log(domElement)
-      // console.log(ele)
       if (domElement == ele) {
-        console.log("hello world"); 
         domElement.remove(); 
-        // add it back to the primary list : 
         document.getElementById('candidates').append(domElement); 
       }
     }
