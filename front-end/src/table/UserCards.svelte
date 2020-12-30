@@ -192,6 +192,7 @@
         <th>Interview Notes</th>
         <th>Interview Form</th>
         <th>Acceptance Status</th>
+        <th>Finalize Candidacy</th>
       </tr>
     </thead>
     <!-- svelte for each -->
@@ -339,6 +340,11 @@
                 <span>Unsure</span>
               </label>
             </form>
+          </td>
+          <td>
+            <button class="sort btn blue waves-effect waves-light padding"> 
+              Finalize
+            </button>
           </td>
         </tr>
       {/each}
