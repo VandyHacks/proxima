@@ -3,16 +3,13 @@
   import { onMount } from "svelte";
   import List from "list.js";
   import mockData from "../mockData.json";
-
   onMount(async () => {
     var options = {
       valueNames: ["name", "accept", "interview"]
     };
     var userList = new List("users", options);
-
     console.log;
   });
-
   function shouldInterview(name) {
     let ele;
     for (ele of mockData) {
@@ -23,7 +20,6 @@
     }
     returnState();
   }
-
   function shouldNotInterview(name) {
     let ele;
     for (ele of mockData) {
@@ -34,7 +30,6 @@
     }
     returnState();
   }
-
   function unevaluated(name) {
     let ele;
     for (ele of mockData) {
@@ -45,8 +40,23 @@
     }
     returnState();
   }
+  function accept(event, name) {
 
-  function accept(name) {
+    // getting the row data. 
+    let domElement = ((event['target']).parentElement.parentElement.parentElement.parentElement); 
+    console.log(domElement)
+
+    let list = Array.from(document.getElementById('rejects').childNodes); 
+
+    // if we accept a candidate once theyre in the already rejected table, 
+    // we have to bring them back, this is how we do that. 
+    for (let ele of list) {
+      if (domElement == ele) {
+        domElement.remove(); 
+        document.getElementById('candidates').append(domElement); 
+      }
+    }
+
     let ele;
     for (ele of mockData) {
       if (ele["name"] == name) {
@@ -56,19 +66,37 @@
     }
     returnState();
   }
+  function reject(event, name) {
 
-  function reject(name) {
+    // if we reject a candidate we put them in a rejections table
+    let domElement = ((event['target']).parentElement.parentElement.parentElement.parentElement); 
+    domElement.remove(); 
+    updateRejectTable(domElement); 
+
     let ele;
     for (ele of mockData) {
       if (ele["name"] == name) {
-        // update if we should interview:
         ele["status"] = "reject";
       }
     }
     returnState();
   }
+  function unsure(event, name) {
 
-  function unsure(name) {
+    // if we change the status of a candidate to unsure
+    // while theyre in the rejection table, we have to make sure
+    // we bring thembnack to the same view. again. 
+    let domElement = ((event['target']).parentElement.parentElement.parentElement.parentElement); 
+    console.log(domElement)
+    let list = Array.from(document.getElementById('rejects').childNodes); 
+    console.log(list); 
+    for (let ele of list) {
+      if (domElement == ele) {
+        domElement.remove(); 
+        document.getElementById('candidates').append(domElement); 
+      }
+    }
+
     let ele;
     for (ele of mockData) {
       if (ele["name"] == name) {
@@ -78,17 +106,44 @@
     }
     returnState();
   }
-
   function returnState() {
     console.log(mockData);
   }
-
   function passName(name) {
     localStorage.setItem("curName", name);
     console.log(localStorage.getItem("curName"));
   }
-
   // returnState();
+
+  function updateRejectTable(domEle) {
+    console.log(domEle); 
+    document.getElementById('rejects').append(domEle); 
+  }
+
+  function freezeRow(event) {
+
+    let button = event['target']; 
+    let tableRow = event['target'].parentElement.parentElement;  
+
+    // basically just apply disbled to all inputs in the paticular row. 
+    let array = Array.from(tableRow.querySelectorAll('input')); 
+
+    for (let ele of array) {
+      if(ele.getAttribute("disabled") == "true") {
+        ele.removeAttribute("disabled"); 
+      } else {
+        ele.setAttribute("disabled", "true");
+      }
+      
+    }
+    // console.log(button.textContent)
+    if (button.textContent == "Unfinalize") {
+      button.textContent = "Finalize"; 
+    } else {
+      button.textContent = "Unfinalize"; 
+    }
+    
+  }
 </script>
 
 <style>
@@ -101,7 +156,6 @@
     user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
   }
-
   .padding {
     margin-top: 10px;
   }
@@ -109,7 +163,6 @@
     width: 80%;
     /* text-align: center; */
   }
-
   #users {
     display: flex;
     flex-direction: column;
@@ -117,7 +170,6 @@
     align-items: center;
     /* background-color: red;  */
   }
-
   #search {
     /* background-color: blue;  */
     width: 80%;
@@ -133,8 +185,11 @@
   }
 </style>
 
+<center>
+  <h5>Current Applicants</h5>
+</center>
 <!-- Trying the table idea -->
-<div id="users">
+<div id="users" class = "">
   <div id="search">
     <div>
       <input class="search" placeholder="Search By Name" />
@@ -162,13 +217,14 @@
         <th>Interview Notes</th>
         <th>Interview Form</th>
         <th>Acceptance Status</th>
+        <th>Finalize Candidacy</th>
       </tr>
     </thead>
     <!-- svelte for each -->
 
-    <tbody class="list">
+    <tbody class="list" id = "candidates">
       {#each mockData as inter}
-        <tr>
+        <tr >
           <!-- svelte if -->
 
           <td class="name">{inter['name']}</td>
@@ -259,14 +315,14 @@
                 {#if inter['status'] == 'accept'}
                   <input
                     class="interview"
-                    on:click={() => accept(inter['name'])}
+                    on:click={() => accept(event, inter['name'])}
                     name="group1"
                     type="radio"
                     checked />
                 {:else}
                   <input
                     class="interview"
-                    on:click={() => accept(inter['name'])}
+                    on:click={() => accept(event, inter['name'])}
                     name="group1"
                     type="radio" />
                 {/if}
@@ -277,14 +333,14 @@
                 {#if inter['status'] == 'reject'}
                   <input
                     class="interview"
-                    on:click={() => reject(inter['name'])}
+                    on:click={() => reject(event, inter['name'])}
                     name="group1"
                     type="radio"
                     checked />
                 {:else}
                   <input
                     class="interview"
-                    on:click={() => reject(inter['name'])}
+                    on:click={() => reject(event, inter['name'])}
                     name="group1"
                     type="radio" />
                 {/if}
@@ -295,14 +351,14 @@
                 {#if inter['status'] == 'unsure'}
                   <input
                     class="interview"
-                    on:click={() => unsure(inter['name'])}
+                    on:click={() => unsure(event, inter['name'])}
                     name="group1"
                     type="radio"
                     checked />
                 {:else}
                   <input
                     class="interview"
-                    on:click={() => unsure(inter['name'])}
+                    on:click={() => unsure(event, inter['name'])}
                     name="group1"
                     type="radio" />
                 {/if}
@@ -310,9 +366,38 @@
               </label>
             </form>
           </td>
+          <td>
+            <button on:click={() => freezeRow(event)} class = "sort btn blue waves-effect waves-light padding"> 
+              Finalize 
+            </button>
+          </td>
         </tr>
       {/each}
     </tbody>
 
   </table>
+</div>
+
+
+<center>
+  <h5>Reject Applicants</h5>
+</center>
+
+<div id = "users">
+  <table>
+    <thead>
+      <tr>
+        <th>Applicant Name</th>
+        <th>Interview Status</th>
+        <th>Committees</th>
+        <th>Interview Notes</th>
+        <th>Interview Form</th>
+        <th>Acceptance Status</th>
+      </tr>
+    </thead>
+    <tbody id = "rejects">
+
+    </tbody>
+  </table>
+
 </div>
