@@ -151,6 +151,23 @@
     }
     
   }
+
+
+  const getIcon = (type) => {
+    if (type === "resume_link"){
+      return "insert_drive_file";
+    }
+    else if (type === "github_link"){
+      return "code";
+    }
+    else if (type === "linkedin_link"){
+      return "card_travel";
+    }
+    else {
+      return "image";
+    }
+  }
+
 </script>
 
 <style>
@@ -193,6 +210,14 @@
 
   tr.director {
     border-left: 3px solid #2196f3;
+  }
+
+  td.links > a{
+    color: #26a69a;
+  }
+
+  td.links > a > i{
+    width: 100%;
   }
 
 </style>
@@ -263,7 +288,13 @@
           </td>
 
           <td class="links">
-               <i class="material-icons">insert_drive_file</i>
+              {#each application['links'] as link}
+                {#if link.href}
+                  <a href="{link.href}" target="_blank">
+                    <i class="material-icons">{getIcon(link.type)}</i>
+                  </a>
+                {/if}
+              {/each}
           </td>
 
           <td>

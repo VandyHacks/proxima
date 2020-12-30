@@ -13,6 +13,24 @@
         "design_link": null,
         "committees": [
             "hacker experience"
+        ],
+        "links": [
+            {
+                "type": "resume_link",
+                "href": "https://api.typeform.com/responses/files/a41ab3a9a0410290d1481c50aeecb7b1ab2432cd6c124823ec31261966992e4f/Blank_Form_w9___Pulled_4_1_2020_1_.pdf"
+            },
+            {
+                "type": "github_link",
+                "href": "https://github.com/saydus"
+            },
+            {
+                "type": "linkedin_link",
+                "href": "https://github.com/saydus"
+            },
+            {
+                "type": "social_link",
+                "href": "https://github.com/saydus"
+            }
         ]
     },
     {
@@ -31,6 +49,24 @@
             "operations",
             "hacker experience",
             "development"
+        ],
+        "links": [
+            {
+                "type": "resume_link",
+                "href": "https://api.typeform.com/responses/files/a41ab3a9a0410290d1481c50aeecb7b1ab2432cd6c124823ec31261966992e4f/Blank_Form_w9___Pulled_4_1_2020_1_.pdf"
+            },
+            {
+                "type": "github_link",
+                "href": "https://github.com/saydus"
+            },
+            {
+                "type": "linkedin_link",
+                "href": "https://github.com/saydus"
+            },
+            {
+                "type": "social_link",
+                "href": "https://github.com/saydus"
+            }
         ]
     },
     {
@@ -49,6 +85,24 @@
             "operations",
             "hacker experience",
             "development"
+        ],
+        "links": [
+            {
+                "type": "resume_link",
+                "href": "https://api.typeform.com/responses/files/a41ab3a9a0410290d1481c50aeecb7b1ab2432cd6c124823ec31261966992e4f/Blank_Form_w9___Pulled_4_1_2020_1_.pdf"
+            },
+            {
+                "type": "github_link",
+                "href": "https://github.com/saydus"
+            },
+            {
+                "type": "linkedin_link",
+                "href": null
+            },
+            {
+                "type": "social_link",
+                "href": null
+            }
         ]
     },
     {
@@ -66,6 +120,24 @@
         "committees": [
             "development",
             "hacker experience"
+        ],
+        "links": [
+            {
+                "type": "resume_link",
+                "href": null
+            },
+            {
+                "type": "github_link",
+                "href": null
+            },
+            {
+                "type": "linkedin_link",
+                "href": null
+            },
+            {
+                "type": "social_link",
+                "href": null
+            }
         ]
     }
 ]
