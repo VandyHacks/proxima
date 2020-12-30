@@ -1,21 +1,19 @@
 <script>
   import { Link } from "svelte-routing";
   import { onMount } from "svelte";
-  import Modal from './ChangeStatusModal.svelte';
   import mockData from "../mockData.json";
 
-  console.log(mockData)
+  console.log(mockData);
   onMount(async () => {
-      // TODO: Use fetch api
+    M.AutoInit();
+    // TODO: Use fetch api
   });
-  
-
 
   // const { open } = getContext('simple-modal');
 
   // const showPopup = () => {
-	// 	open(Modal, { message: "It's a popup!" });
-	// };
+  // 	open(Modal, { message: "It's a popup!" });
+  // };
 </script>
 
 <style>
@@ -43,7 +41,8 @@
   button {
     margin-bottom: 10px;
   }
-  tr.rows > td, tr.column-names > th {
+  tr.rows > td,
+  tr.column-names > th {
     text-align: center;
   }
 
@@ -55,26 +54,24 @@
     border-left: 3px solid red;
   }
 
-
-  td.links > a{
+  td.links > a {
     color: #2196f3;
   }
 
-  td.links > a > i{
+  td.links > a > i {
     width: 100%;
   }
 
   i.tiny {
     font-size: 0.7rem;
   }
-
 </style>
 
 <center>
   <h5>Current Applicants</h5>
 </center>
 <!-- Trying the table idea -->
-<div id="users" class = "">
+<div id="users" class="">
   <div id="search">
     <div>
       <input class="search" placeholder="Search By Name" />
@@ -90,7 +87,6 @@
         Sort By Acceptance Status
       </button> -->
     </div>
-
   </div>
 
   <table class="striped responsive-table">
@@ -108,75 +104,79 @@
     </thead>
     <!-- svelte for each -->
 
-    <tbody class="list" id = "candidates">
-      {#each mockData as application}
-
-        <tr class="rows{application['director']? ' director' : ''}">
-        
-          <td class="name text">
-            {application['name']}
-          </td>
-
+    <tbody class="list" id="candidates">
+      {#each mockData as { id, director, name, resume_link, email, year, committees, status } (id)}
+        <tr class="rows {director || ''}">
+          <td class="name">{name}</td>
           <td class="links">
-              <a href="{application.resume_link}" target="_blank">
-                    <i class="material-icons">insert_drive_file</i>
-              </a>
-          </td>
-
-          <td class="email">
-            <a href="mailto:{application['email']}">
-              {application['email']}
+            <a href={resume_link} target="_blank">
+              <i class="material-icons">insert_drive_file</i>
             </a>
           </td>
 
-          <td class="year">
-              {application['year'].replace(/^./, application['year'][0].toUpperCase())}
+          <td class="email">
+            <a href="mailto:{email}">{email}</a>
           </td>
 
+          <td class="year">{year.replace(/^./, year[0].toUpperCase())}</td>
 
           <td class="committees">
-            {#each application['committees'] as committee}
+            {#each committees as committee}
               <div class="chip">
                 {committee.replace(/^./, committee[0].toUpperCase())}
               </div>
             {/each}
           </td>
 
-
           <td>
-            <Link to="/notes" on:click={() => passName(application['name'])}>
-              <button class="sort btn blue waves-effect waves-light padding"> 
+            <Link to="/notes/${name}">
+              <button class="sort btn blue waves-effect waves-light padding">
                 Interview
               </button>
             </Link>
           </td>
 
-
-
           <td>
             <b>
-              <Link to="/interview" on:click={() => passName(application['name'])}>
-                View
-              </Link>
+              <Link to="/interview/${name}">View</Link>
             </b>
           </td>
 
           <td class="status">
-               <!-- Modal Trigger -->
-              <button class="waves-effect waves-light btn modal-trigger">
+            <!-- Modal Trigger -->
+            <!-- <a class="waves-effect waves-light btn modal-trigger" href="#modal1">
                 {application['status']}
                 <i class="tiny material-icons">edit</i>
-              </button>
+              </a> -->
+
+            <div class="input-field col s12">
+              <select>
+                <option value="1" selected>{status}</option>
+                <option value="2">Option 2</option>
+                <option value="3">Option 3</option>
+              </select>
+            </div>
+
+            <!-- Modal Structure -->
+            <div id="modal1" class="modal">
+              <div class="modal-content">
+                <h4>Modal Header</h4>
+                <p>A bunch of text</p>
+              </div>
+              <div class="modal-footer">
+                <a
+                  href="#!"
+                  class="modal-close waves-effect waves-green btn-flat">
+                  Agree
+                </a>
+              </div>
+            </div>
           </td>
-
         </tr>
-
       {/each}
     </tbody>
-
   </table>
 </div>
-
 
 <center>
   <h5>Reject Applicants</h5>
@@ -196,9 +196,6 @@
         <th>Links</th>
       </tr>
     </thead>
-    <tbody id = "rejects">
-
-    </tbody>
+    <tbody id="rejects" />
   </table>
-
 </div>
