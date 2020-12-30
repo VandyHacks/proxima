@@ -50,7 +50,11 @@
     }
     returnState();
   }
-  function reject(name) {
+  function reject(event, name) {
+
+    // our tables are structured similarly: 
+    let domElement = document.getElementById(event[''])
+
     let ele;
     for (ele of mockData) {
       if (ele["name"] == name) {
@@ -119,8 +123,11 @@
   }
 </style>
 
+<center>
+  <h5>Current Applicants</h5>
+</center>
 <!-- Trying the table idea -->
-<div id="users">
+<div id="users" class = "">
   <div id="search">
     <div>
       <input class="search" placeholder="Search By Name" />
@@ -263,14 +270,14 @@
                 {#if inter['status'] == 'reject'}
                   <input
                     class="interview"
-                    on:click={() => reject(inter['name'])}
+                    on:click={() => reject(event, inter['name'])}
                     name="group1"
                     type="radio"
                     checked />
                 {:else}
                   <input
                     class="interview"
-                    on:click={() => reject(inter['name'])}
+                    on:click={() => reject(event, inter['name'])}
                     name="group1"
                     type="radio" />
                 {/if}
@@ -302,3 +309,9 @@
 
   </table>
 </div>
+
+
+<center>
+  <h5>Reject Applicants</h5>
+</center>
+
