@@ -3,88 +3,23 @@
   import { onMount } from "svelte";
   import List from "list.js";
   import mockData from "../mockData.json";
-  import swal from "../../node_modules/sweetalert/dist/sweetalert.min.js"
-
   onMount(async () => {
     var options = {
       valueNames: ["name", "accept", "interview"]
     };
     var userList = new List("users", options);
-
-    let test = document.querySelectorAll('input'); 
-    console.log(test); 
-
-    for (let ele of test) {
-      document.addEventListener('click', function() {
-        
-      })
-    }
-
-
-    // console.log;
+    console.log;
   });
-
-  // async function generateAlert() {
-  //   // we generate the alert before we upate the db. 
-
-  // }
-
-  function shouldInterview(name, test) {
-    console.log(name)
-    var cnfrm = confirm('Are you sure?');
-        if(cnfrm != true)
-        {
-          return false;
-        }
-
-    // swal("Good job!", "You clicked the button!", "success");
-    // var ask = confirm("You have chosen  as your type \n If you have chosen the right type, Click Ok! ")
-    
-    // if (ask) {
-    //     alert("You clicked ok");
-    // }
-    // else {
-    //   return false; 
-    //     // alert("You clicked cancel");
-    //     // console.log(name['srcElement'])
-    //     // name['srcElement'].checked = false;
-    // }
-
-
-    // var cnfrm = confirm('Are you sure?');
-    // if(cnfrm != true)
-    // {
-    //   return false;
-    // }
-
-    // swal({
-    //   title: "Are you sure?",
-    //   text: "Once deleted, you will not be able to recover this imaginary file!",
-    //   icon: "warning",
-    //   buttons: true,
-    //   dangerMode: true,
-    // })
-    // .then((willChange) => {
-    //   if (willChange) {
-    //     let ele;
-    //     for (ele of mockData) {
-    //       if (ele["name"] == name) {
-    //         // update if we should interview:
-    //         ele["shouldInterview"] = "yes";
-    //       }
-    //     }
-    //     returnState();
-    //   } else {
-    //     name['srcElement'].checked = false;  
-    //     console.log("done change!"); 
-    //   }
-    // });
-
-
-    // console.log(name + "" +  test); 
-    
+  function shouldInterview(name) {
+    let ele;
+    for (ele of mockData) {
+      if (ele["name"] == name) {
+        // update if we should interview:
+        ele["shouldInterview"] = "yes";
+      }
+    }
+    returnState();
   }
-
   function shouldNotInterview(name) {
     let ele;
     for (ele of mockData) {
@@ -95,7 +30,6 @@
     }
     returnState();
   }
-
   function unevaluated(name) {
     let ele;
     for (ele of mockData) {
@@ -106,7 +40,6 @@
     }
     returnState();
   }
-
   function accept(name) {
     let ele;
     for (ele of mockData) {
@@ -117,7 +50,6 @@
     }
     returnState();
   }
-
   function reject(name) {
     let ele;
     for (ele of mockData) {
@@ -128,7 +60,6 @@
     }
     returnState();
   }
-
   function unsure(name) {
     let ele;
     for (ele of mockData) {
@@ -139,16 +70,13 @@
     }
     returnState();
   }
-
   function returnState() {
     console.log(mockData);
   }
-
   function passName(name) {
     localStorage.setItem("curName", name);
     console.log(localStorage.getItem("curName"));
   }
-
   // returnState();
 </script>
 
@@ -162,7 +90,6 @@
     user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
   }
-
   .padding {
     margin-top: 10px;
   }
@@ -170,7 +97,6 @@
     width: 80%;
     /* text-align: center; */
   }
-
   #users {
     display: flex;
     flex-direction: column;
@@ -178,7 +104,6 @@
     align-items: center;
     /* background-color: red;  */
   }
-
   #search {
     /* background-color: blue;  */
     width: 80%;
@@ -240,18 +165,15 @@
               <label>
                 {#if inter['shouldInterview'] == 'yes'}
                   <input
-                    on:change={() => shouldInterview(event, inter['name'])}
+                    on:click={() => shouldInterview(inter['name'])}
                     name="group1"
                     type="radio"
-                    class = "test"
                     checked />
                 {:else}
                   <input
-                    on:change={() => shouldInterview(event, inter['name'])}
+                    on:click={() => shouldInterview(inter['name'])}
                     name="group1"
-                    type="radio" 
-                    class = "test"
-                    />
+                    type="radio" />
                 {/if}
                 <span>Should Interview</span>
               </label>
@@ -263,16 +185,12 @@
                     on:click={() => shouldNotInterview(inter['name'])}
                     name="group1"
                     type="radio"
-                    checked
-                    class = "test"
-                     />
+                    checked />
                 {:else}
                   <input
                     on:click={() => shouldNotInterview(inter['name'])}
                     name="group1"
-                    type="radio" 
-                    class = "test"
-                    />
+                    type="radio" />
                 {/if}
                 <span>Should Not Interview</span>
               </label>
@@ -284,16 +202,12 @@
                     on:click={() => unevaluated(inter['name'])}
                     name="group1"
                     type="radio"
-                    checked 
-                    class = "test"
-                    />
+                    checked />
                 {:else}
                   <input
                     on:click={() => unevaluated(inter['name'])}
                     name="group1"
-                    type="radio" 
-                    class = "test"
-                    />
+                    type="radio" />
                 {/if}
                 <span>Unevaluted</span>
               </label>
