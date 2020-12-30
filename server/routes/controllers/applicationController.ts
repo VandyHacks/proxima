@@ -121,8 +121,6 @@ const sendEmail = async (email: string, status: string) => {
     }
 
     send(email, "VandyHacks Board Decision", emailMessage);
-    
-    console.log(`Update of status to ${status} email sent to ${email}`);
 }
 
 
@@ -144,9 +142,9 @@ const updateStatus = async({request, response}: Context) => {
     // Update status
     application.status = newStatus; 
     await application.update();
-    response.body = `Updated status to ${newStatus} for ${application.email}`;
-};
 
+    response.body = `Successfully updated ${application.email} with new status: ${newStatus}`
+};
 
 
 export { parseTypeForm, displayApplications, updateStatus, getApplicationResponses }
