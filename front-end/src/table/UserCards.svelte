@@ -8,12 +8,7 @@
     M.AutoInit();
     // TODO: Use fetch api
   });
-
-  // const { open } = getContext('simple-modal');
-
-  // const showPopup = () => {
-  // 	open(Modal, { message: "It's a popup!" });
-  // };
+  
 </script>
 
 <style>
@@ -129,7 +124,7 @@
           </td>
 
           <td>
-            <Link to="/notes/${name}">
+            <Link to="/notes/:{id}">
               <button class="sort btn blue waves-effect waves-light padding">
                 Interview
               </button>
@@ -138,7 +133,7 @@
 
           <td>
             <b>
-              <Link to="/interview/${name}">View</Link>
+              <Link to="/interview/:{id}">View</Link>
             </b>
           </td>
 

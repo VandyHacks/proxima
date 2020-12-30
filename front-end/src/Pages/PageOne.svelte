@@ -1,10 +1,9 @@
 <script>
     import Title from "../layout/Title.svelte";
     import UserCards from "../table/UserCards.svelte"; 
-    import { Router, Link, Route } from "svelte-routing";
+    import { Router, Route } from "svelte-routing";
     import PageTwo from "./PageTwo.svelte"
     import PageThree from "./PageThree.svelte"
-    import { component_subscribe } from "svelte/internal";
     window.scrollTo({top: 0})
 </script>
 <Router>
@@ -13,7 +12,7 @@
             <Title/>
             <UserCards/>
         </Route>
-        <Route path = "/interview" component = "{PageTwo}"/>
-        <Route path = "/notes" component = "{PageThree}" />
+        <Route path = "/interview/:applicationId" component = "{PageTwo}"/>
+        <Route path = "/notes/:applicationId" component = "{PageThree}" />
 	</div>
 </Router>
