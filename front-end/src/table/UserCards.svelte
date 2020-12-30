@@ -119,6 +119,10 @@
     console.log(domEle); 
     document.getElementById('rejects').append(domEle); 
   }
+
+  function freezeRow(event) {
+    console.log(event['target'].parentElement.parentElement); 
+  }
 </script>
 
 <style>
@@ -342,8 +346,8 @@
             </form>
           </td>
           <td>
-            <button class="sort btn blue waves-effect waves-light padding"> 
-              Finalize
+            <button on:click={() => freezeRow(event)} class = "sort btn blue waves-effect waves-light padding"> 
+              Finalize 
             </button>
           </td>
         </tr>
