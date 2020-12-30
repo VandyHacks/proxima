@@ -40,7 +40,23 @@
     }
     returnState();
   }
-  function accept(name) {
+  function accept(event, name) {
+
+    // getting the row data. 
+    let domElement = ((event['target']).parentElement.parentElement.parentElement.parentElement); 
+    console.log(domElement)
+
+    let list = Array.from(document.getElementById('rejects').childNodes); 
+
+    // if we accept a candidate once theyre in the already rejected table, 
+    // we have to bring them back, this is how we do that. 
+    for (let ele of list) {
+      if (domElement == ele) {
+        domElement.remove(); 
+        document.getElementById('candidates').append(domElement); 
+      }
+    }
+
     let ele;
     for (ele of mockData) {
       if (ele["name"] == name) {
@@ -50,17 +66,37 @@
     }
     returnState();
   }
-  function reject(name) {
+  function reject(event, name) {
+
+    // if we reject a candidate we put them in a rejections table
+    let domElement = ((event['target']).parentElement.parentElement.parentElement.parentElement); 
+    domElement.remove(); 
+    updateRejectTable(domElement); 
+
     let ele;
     for (ele of mockData) {
       if (ele["name"] == name) {
-        // update if we should interview:
         ele["status"] = "reject";
       }
     }
     returnState();
   }
-  function unsure(name) {
+  function unsure(event, name) {
+
+    // if we change the status of a candidate to unsure
+    // while theyre in the rejection table, we have to make sure
+    // we bring thembnack to the same view. again. 
+    let domElement = ((event['target']).parentElement.parentElement.parentElement.parentElement); 
+    console.log(domElement)
+    let list = Array.from(document.getElementById('rejects').childNodes); 
+    console.log(list); 
+    for (let ele of list) {
+      if (domElement == ele) {
+        domElement.remove(); 
+        document.getElementById('candidates').append(domElement); 
+      }
+    }
+
     let ele;
     for (ele of mockData) {
       if (ele["name"] == name) {
@@ -78,6 +114,11 @@
     console.log(localStorage.getItem("curName"));
   }
   // returnState();
+
+  function updateRejectTable(domEle) {
+    console.log(domEle); 
+    document.getElementById('rejects').append(domEle); 
+  }
 </script>
 
 <style>
@@ -119,8 +160,11 @@
   }
 </style>
 
+<center>
+  <h5>Current Applicants</h5>
+</center>
 <!-- Trying the table idea -->
-<div id="users">
+<div id="users" class = "">
   <div id="search">
     <div>
       <input class="search" placeholder="Search By Name" />
@@ -152,7 +196,7 @@
     </thead>
     <!-- svelte for each -->
 
-    <tbody class="list">
+    <tbody class="list" id = "candidates">
       {#each mockData as inter}
         <tr>
           <!-- svelte if -->
@@ -245,14 +289,14 @@
                 {#if inter['status'] == 'accept'}
                   <input
                     class="interview"
-                    on:click={() => accept(inter['name'])}
+                    on:click={() => accept(event, inter['name'])}
                     name="group1"
                     type="radio"
                     checked />
                 {:else}
                   <input
                     class="interview"
-                    on:click={() => accept(inter['name'])}
+                    on:click={() => accept(event, inter['name'])}
                     name="group1"
                     type="radio" />
                 {/if}
@@ -263,14 +307,14 @@
                 {#if inter['status'] == 'reject'}
                   <input
                     class="interview"
-                    on:click={() => reject(inter['name'])}
+                    on:click={() => reject(event, inter['name'])}
                     name="group1"
                     type="radio"
                     checked />
                 {:else}
                   <input
                     class="interview"
-                    on:click={() => reject(inter['name'])}
+                    on:click={() => reject(event, inter['name'])}
                     name="group1"
                     type="radio" />
                 {/if}
@@ -281,14 +325,14 @@
                 {#if inter['status'] == 'unsure'}
                   <input
                     class="interview"
-                    on:click={() => unsure(inter['name'])}
+                    on:click={() => unsure(event, inter['name'])}
                     name="group1"
                     type="radio"
                     checked />
                 {:else}
                   <input
                     class="interview"
-                    on:click={() => unsure(inter['name'])}
+                    on:click={() => unsure(event, inter['name'])}
                     name="group1"
                     type="radio" />
                 {/if}
@@ -301,4 +345,28 @@
     </tbody>
 
   </table>
+</div>
+
+
+<center>
+  <h5>Reject Applicants</h5>
+</center>
+
+<div id = "users">
+  <table>
+    <thead>
+      <tr>
+        <th>Applicant Name</th>
+        <th>Interview Status</th>
+        <th>Committees</th>
+        <th>Interview Notes</th>
+        <th>Interview Form</th>
+        <th>Acceptance Status</th>
+      </tr>
+    </thead>
+    <tbody id = "rejects">
+
+    </tbody>
+  </table>
+
 </div>
