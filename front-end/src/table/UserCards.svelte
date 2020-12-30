@@ -3,12 +3,17 @@
   import { onMount } from "svelte";
   import List from "list.js";
   import mockData from "../mockData.json";
+
+
   onMount(async () => {
     var options = {
       valueNames: ["name", "accept", "interview"]
     };
+
     var userList = new List("users", options);
   });
+
+
   function shouldInterview(name) {
     for (let ele of mockData) {
       if (ele["name"] == name) {
@@ -18,6 +23,8 @@
     }
     returnState();
   }
+
+
 
   function shouldNotInterview(name) {
     let ele;
@@ -183,10 +190,14 @@
   button {
     margin-bottom: 10px;
   }
-
-  .column-names th {
+  tr.rows > td, tr.column-names > th {
     text-align: center;
   }
+
+  tr.director {
+    background-color: antiquewhite;
+  }
+
 </style>
 
 <center>
@@ -216,94 +227,57 @@
     <thead>
       <tr class="column-names">
         <th>Applicant Name</th>
-        <th>Interview Status</th>
+        <th>Email</th>
+        <th>Year</th>
         <th>Committees</th>
-        <th>Interview Notes</th>
+        <th>Links</th>
+        <th>Notes</th>
         <th>Interview Form</th>
-        <th>Acceptance Status</th>
-        <th>Finalize Candidacy</th>
+        <th>Status</th>
       </tr>
     </thead>
     <!-- svelte for each -->
 
     <tbody class="list" id = "candidates">
-      {#each mockData as inter}
-        <tr >
-          <!-- svelte if -->
-          <td class="name">{inter['name']}</td>
-          <td class="status">
-            <form>
-              <!-- svelte-ignore a11y-label-has-associated-control -->
+      {#each mockData as application}
 
-              <label>
-                {#if inter['shouldInterview'] == 'yes'}
-                  <input
-                    on:click={() => shouldInterview(inter['name'])}
-                    name="group1"
-                    type="radio"
-                    checked />
-                {:else}
-                  <input
-                    on:click={() => shouldInterview(inter['name'])}
-                    name="group1"
-                    type="radio" />
-                {/if}
-                <span>Should Interview</span>
-              </label>
-              <!-- svelte-ignore a11y-label-has-associated-control -->
-
-              <label>
-                {#if inter['shouldInterview'] == 'no'}
-                  <input
-                    on:click={() => shouldNotInterview(inter['name'])}
-                    name="group1"
-                    type="radio"
-                    checked />
-                {:else}
-                  <input
-                    on:click={() => shouldNotInterview(inter['name'])}
-                    name="group1"
-                    type="radio" />
-                {/if}
-                <span>Should Not Interview</span>
-              </label>
-              <!-- svelte-ignore a11y-label-has-associated-control -->
-
-              <label>
-                {#if inter['shouldInterview'] == 'unsure'}
-                  <input
-                    on:click={() => unevaluated(inter['name'])}
-                    name="group1"
-                    type="radio"
-                    checked />
-                {:else}
-                  <input
-                    on:click={() => unevaluated(inter['name'])}
-                    name="group1"
-                    type="radio" />
-                {/if}
-                <span>Unevaluted</span>
-              </label>
-            </form>
+        <tr class="rows{application['director']? ' director' : ''}">
+        
+          <td class="name text">
+            {application['name']}
           </td>
 
-          <td>
-            {#each inter['committees'] as committee}
+          <td class="email">
+            <a href="mailto:{application['email']}">
+              {application['email']}
+            </a>
+          </td>
+
+          <td class="year">
+              {application['year']}
+          </td>
+
+          <td class="committees">
+            {#each application['committees'] as committee}
               <div class="chip">
                 {committee.replace(/^./, committee[0].toUpperCase())}
               </div>
             {/each}
           </td>
 
+          <td class="links">
+
+          </td>
+
           <td>
             <b>
-              <Link to="/interview" on:click={() => passName(inter['name'])}>
+              <Link to="/interview" on:click={() => passName(application['name'])}>
                 Interview Notes
               </Link>
             </b>
           </td>
           <td>
-            <Link to="/notes" on:click={() => passName(inter['name'])}>
+            <Link to="/notes" on:click={() => passName(application['name'])}>
               <button class="sort btn blue waves-effect waves-light padding"> 
                 Interview
               </button>
@@ -315,17 +289,17 @@
             <form>
               <!-- svelte-ignore a11y-label-has-associated-control -->
               <label>
-                {#if inter['status'] == 'accept'}
+                {#if application['status'] == 'accept'}
                   <input
                     class="interview"
-                    on:click={() => accept(event, inter['name'])}
+                    on:click={() => accept(event, application['name'])}
                     name="group1"
                     type="radio"
                     checked />
                 {:else}
                   <input
                     class="interview"
-                    on:click={() => accept(event, inter['name'])}
+                    on:click={() => accept(event, application['name'])}
                     name="group1"
                     type="radio" />
                 {/if}
@@ -333,17 +307,17 @@
               </label>
               <!-- svelte-ignore a11y-label-has-associated-control -->
               <label>
-                {#if inter['status'] == 'reject'}
+                {#if application['status'] == 'reject'}
                   <input
                     class="interview"
-                    on:click={() => reject(event, inter['name'])}
+                    on:click={() => reject(event, application['name'])}
                     name="group1"
                     type="radio"
                     checked />
                 {:else}
                   <input
                     class="interview"
-                    on:click={() => reject(event, inter['name'])}
+                    on:click={() => reject(event, application['name'])}
                     name="group1"
                     type="radio" />
                 {/if}
@@ -351,17 +325,17 @@
               </label>
               <!-- svelte-ignore a11y-label-has-associated-control -->
               <label>
-                {#if inter['status'] == 'unsure'}
+                {#if application['status'] == 'unsure'}
                   <input
                     class="interview"
-                    on:click={() => unsure(event, inter['name'])}
+                    on:click={() => unsure(event, application['name'])}
                     name="group1"
                     type="radio"
                     checked />
                 {:else}
                   <input
                     class="interview"
-                    on:click={() => unsure(event, inter['name'])}
+                    on:click={() => unsure(event, application['name'])}
                     name="group1"
                     type="radio" />
                 {/if}

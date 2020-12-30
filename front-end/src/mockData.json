@@ -1,74 +1,71 @@
 [
-        {
-            "name": "Aadarsh Jha",
-            "shouldInterview": "no", 
-            "status": "accept",
-            "committees": ["content", "sponsorship", "design"]
-        },
-        {
-            "name": "Saydolimkhon Agzamkhodjaev",
-            "shouldInterview": "no",
-            "status": "unsure",
-            "committees": ["content", "sponsorship", "design"]
-        },
-        {
-            "name": "Samuel Lee",
-            "shouldInterview": "no", 
-            "status": "reject",
-            "committees": ["content", "sponsorship", "design"]
-        }, 
-        {
-            "name": "John Doe",
-            "shouldInterview": "unsure", 
-            "status": "accept",
-            "committees": ["content", "sponsorship", "design"]
-        }, 
-        {
-            "name": "Surya Thalli",
-            "shouldInterview": "unsure", 
-            "status": "accept",
-            "committees": ["content", "sponsorship", "design"]
-        }, 
-        {
-            "name": "Gabriel Ting",
-            "shouldInterview": "unsure", 
-            "status": "accept",
-            "committees": ["content", "sponsorship", "design"]
-        }, 
-        {
-            "name": "Ananya Gondi",
-            "shouldInterview": "unsure", 
-            "status": "unsure",
-            "committees": ["content", "sponsorship", "design"]
-        }, 
-        {
-            "name": "Ilya Iforgothislastname",
-            "shouldInterview": "unsure", 
-            "status": "unsure",
-            "committees": ["content", "sponsorship", "design"]
-        }, 
-        {
-            "name": "Ashwin Kumar",
-            "shouldInterview": "unsure", 
-            "status": "unsure",
-            "committees": ["content", "sponsorship", "design"]
-        }, 
-        {
-            "name": "Matt Leon",
-            "shouldInterview": "unsure", 
-            "status": "reject",
-            "committees": ["content", "sponsorship", "design"]
-        },
-        {
-            "name": "Ben Cooper",
-            "shouldInterview": "unsure", 
-            "status": "unsure",
-            "committees": ["content", "sponsorship", "design"]
-        }, 
-        {
-            "name": "Test User",
-            "shouldInterview": "unsure", 
-            "status": "reject",
-            "committees": ["content", "sponsorship", "design"]
-        }
+    {
+        "id": 1,
+        "name": "Aadarsh Agzamkhodjaev",
+        "email": "aadarsh.jha@vanderbilt.edu",
+        "year": "junior",
+        "director": false,
+        "status": "applied",
+        "resume_link": "https://api.typeform.com/responses/files/a41ab3a9a0410290d1481c50aeecb7b1ab2432cd6c124823ec31261966992e4f/Blank_Form_w9___Pulled_4_1_2020_1_.pdf",
+        "github_link": "https://github.com/saydus",
+        "linkedin_link": null,
+        "social_link": null,
+        "design_link": null,
+        "committees": [
+            "hacker experience"
+        ]
+    },
+    {
+        "id": 2,
+        "name": "Sayd Agzamkhodjaev",
+        "email": "saydolimkhon@gmail.com",
+        "year": "freshman",
+        "director": true,
+        "status": "applied",
+        "resume_link": "https://api.typeform.com/responses/files/1426937dae432c0ecb970025d21599c11ba8f11215e565b71a14d9bfb0d7f759/VH_Interviewer_Document___reformatted.pdf",
+        "github_link": "https://github.com/saydus",
+        "linkedin_link": "https://linedin.com/saydolim",
+        "social_link": null,
+        "design_link": null,
+        "committees": [
+            "operations",
+            "hacker experience",
+            "development"
+        ]
+    },
+    {
+        "id": 3,
+        "name": "Ilya Ermakov",
+        "email": "ilya.ermakov@vanderbilt.edu",
+        "year": "sophomore",
+        "director": false,
+        "status": "applied",
+        "resume_link": "https://api.typeform.com/responses/files/1426937dae432c0ecb970025d21599c11ba8f11215e565b71a14d9bfb0d7f759/VH_Interviewer_Document___reformatted.pdf",
+        "github_link": "https://github.com/saydus",
+        "linkedin_link": "https://linkedin.com/in/saydolim",
+        "social_link": null,
+        "design_link": null,
+        "committees": [
+            "operations",
+            "hacker experience",
+            "development"
+        ]
+    },
+    {
+        "id": 4,
+        "name": "Aadi Bajpai",
+        "email": "aadi.bajpai@vanderbilt.edu",
+        "year": "freshman",
+        "director": false,
+        "status": "applied",
+        "resume_link": "https://api.typeform.com/responses/files/1426937dae432c0ecb970025d21599c11ba8f11215e565b71a14d9bfb0d7f759/VH_Interviewer_Document___reformatted.pdf",
+        "github_link": "https://github.com/saydus",
+        "linkedin_link": "https://linkedin.com/in/saydolim",
+        "social_link": "https://instagram.com/aadi",
+        "design_link": null,
+        "committees": [
+            "development",
+            "hacker experience"
+        ]
+    }
 ]
