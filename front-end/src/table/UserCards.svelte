@@ -120,21 +120,6 @@
   }
 
 
-  const getIcon = (type) => {
-    if (type === "resume_link"){
-      return "insert_drive_file";
-    }
-    else if (type === "github_link"){
-      return "code";
-    }
-    else if (type === "linkedin_link"){
-      return "card_travel";
-    }
-    else {
-      return "image";
-    }
-  }
-
 </script>
 
 <style>
@@ -234,7 +219,7 @@
 
           <td class="links">
               <a href="{application.resume_link}" target="_blank">
-                    <i class="material-icons">{getIcon("resume_link")}</i>
+                    <i class="material-icons">insert_drive_file</i>
               </a>
           </td>
 
