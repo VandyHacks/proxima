@@ -12,8 +12,14 @@ Run:
 Create `.env` in root folder, following this template:
 
 ```
-HOSTNAME = localhost
-DATABASENAME = postgres
-DBUSER = postgres
-DBPASSWORD = mypassword
+DB_HOSTNAME = localhost
+DB_NAME = postgres
+DB_USER = postgres
+DB_PASSWORD = somepass
+
+SMTP_HOSTNAME = smtp.gmail.com
+SMTP_PORT = 465
+SMTP_USER = myname
+SMTP_PASSWORD = mypassword
+EMAIL_ADDRESS = info@vandyhacks.org
 ```

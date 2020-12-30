@@ -1,5 +1,6 @@
 import { Application, CommitteeChoice } from "../../database/models.ts"
 import { Context, Model } from "../../deps.ts"
+import { send } from "../../utils/smtpClient.ts"
 
 /**
  * Parsing is very specific to the kind of form we have right now.
@@ -89,8 +90,24 @@ const getApplicationResponses = async({request, response}: Context) => {
  * Send email based on status update.
  */
 const sendEmail = async (email: string, status: string) => {
+    let emailMessage: string;
+    if (status === "accepted"){
+        emailMessage = "Congratualations! You are accepted!"
+    }
+    else if(status === "rejected"){
+        emailMessage = "Unfortunately, we were not able to extend the position on VH boar to you."
+    }
+    else if(status === "to_interview"){
+        emailMessage = "Hey! Let's talk tomorrow 2pm CST."
+    }
+    else {
+        console.log("Wrong status passed to sending emails. We have no emails for this case.")
+        return;
+    }
+
+    send(email, "VandyHacks Board Decision", emailMessage);
+    
     console.log(`Update of status to ${status} email sent to ${email}`);
-    // TODO: email send out
 }
 
 
