@@ -1,8 +1,11 @@
-import { Application } from "./deps.ts";
+import { Application, parse } from "./deps.ts";
 import { router } from "./routes/routes.ts";
 import db from "./database/database.ts";
 
 import * as basicMiddleware from './middlewares/basicMiddleware.ts';
+
+const { args } = Deno;
+const argPort = parse(args).port;
 
 const app = new Application();
 
@@ -14,7 +17,7 @@ app.use(router.routes());
 await db.sync();
 
 if (!Deno.env.get('TEST_ENVIRONMENT')) {
-    app.listen({ port: 7777 });
+    app.listen({ port: argPort ? Number(argPort) : 7777 });
 }
   
 export default app;
