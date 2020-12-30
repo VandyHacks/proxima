@@ -13,6 +13,7 @@
   });
 
 
+
   function shouldInterview(name) {
     for (let ele of mockData) {
       if (ele["name"] == name) {
@@ -22,7 +23,6 @@
     }
     returnState();
   }
-
 
 
   function shouldNotInterview(name) {
@@ -112,43 +112,11 @@
     }
     returnState();
   }
-  function returnState() {
-    console.log(mockData);
-  }
-  function passName(name) {
-    localStorage.setItem("curName", name);
-    console.log(localStorage.getItem("curName"));
-  }
-  // returnState();
+
 
   function updateRejectTable(domEle) {
     console.log(domEle); 
     document.getElementById('rejects').append(domEle); 
-  }
-
-  function freezeRow(event) {
-
-    let button = event['target']; 
-    let tableRow = event['target'].parentElement.parentElement;  
-
-    // basically just apply disbled to all inputs in the paticular row. 
-    let array = Array.from(tableRow.querySelectorAll('input')); 
-
-    for (let ele of array) {
-      if(ele.getAttribute("disabled") == "true") {
-        ele.removeAttribute("disabled"); 
-      } else {
-        ele.setAttribute("disabled", "true");
-      }
-      
-    }
-    // console.log(button.textContent)
-    if (button.textContent == "Unfinalize") {
-      button.textContent = "Finalize"; 
-    } else {
-      button.textContent = "Unfinalize"; 
-    }
-    
   }
 
 
@@ -244,13 +212,13 @@
     <thead>
       <tr class="column-names">
         <th>Applicant Name</th>
+        <th>Resume</th>
         <th>Email</th>
         <th>Year</th>
         <th>Committees</th>
-        <th>Status</th>
-        <th>Notes</th>
         <th>Interview Form</th>
-        <th>Resume</th>
+        <th>Application Notes</th>
+        <th>Status</th>
       </tr>
     </thead>
     <!-- svelte for each -->
@@ -264,6 +232,11 @@
             {application['name']}
           </td>
 
+          <td class="links">
+              <a href="{application.resume_link}" target="_blank">
+                    <i class="material-icons">{getIcon("resume_link")}</i>
+              </a>
+          </td>
 
           <td class="email">
             <a href="mailto:{application['email']}">
@@ -285,13 +258,6 @@
           </td>
 
 
-          <td>
-            <b>
-              <Link to="/interview" on:click={() => passName(application['name'])}>
-                Interview Notes
-              </Link>
-            </b>
-          </td>
 
 
           <td>
@@ -300,26 +266,23 @@
                 Interview
               </button>
             </Link>
-           
+          </td>
+
+
+
+          <td>
+            <b>
+              <Link to="/interview" on:click={() => passName(application['name'])}>
+                View
+              </Link>
+            </b>
           </td>
 
 
           <td class="status">
-             <div class="input-field col s12">
-              <select>
-                <option value="1">Applied</option>
-                <option value="2">To interview</option>
-                <option value="3">Accept</option>
-                <option value="3">Reject</option>
-                <option value="3">Unsure</option>
-              </select>
-              <label>Change Status</label>
-            </div>
-          </td>
-
-          <td class="links">
-              <a href="{application.resume_link}" target="_blank">
-                    <i class="material-icons">{getIcon("resume_link")}</i>
+               <!-- Modal Trigger -->
+              <a class="waves-effect waves-light btn modal-trigger" href="#changeStatus{application['id']}">
+                {application['status']}
               </a>
           </td>
 
