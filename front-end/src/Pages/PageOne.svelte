@@ -1,6 +1,6 @@
 <script>
     import Title from "../layout/Title.svelte";
-    import UserCards from "../table/UserCards.svelte"; 
+    import Table from "../table/Table.svelte"; 
     import { Router, Route } from "svelte-routing";
     import PageTwo from "./PageTwo.svelte"
     import PageThree from "./PageThree.svelte"
@@ -10,13 +10,13 @@
 	<div>
         <Route path = "/">
             <Title/>
-            <UserCards/>
+            <Table/>
         </Route>
-        <Route path = "/interview/:applicationId" let:params>
+        <Route path="/interview/:applicationId" let:params>
             <PageTwo applicationId="{params.applicationId}"/>
         </Route>
 
-        <Route path = "/notes/:applicationId" let:params>
+        <Route path="/notes/:applicationId" let:params>
             <PageThree applicationId="{params.applicationId}"/>
         </Route>
 	</div>

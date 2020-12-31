@@ -9,35 +9,49 @@
     // Materialize initialization
     M.AutoInit();
 
+    // Fetch data from back-end
+
+
     // Search functionality
-    let options = {
-      valueNames: ["name", "accept", "interview"]
+    const options = {
+      valueNames: ["name", "email", "committees"]
     };
-    let userList = new List("users", options);
+    const userList = new List("users", options);
   });
 
-  
+  const moveUser = () => {
 
+  }
+  
 
 
 </script>
 
 <style>
-  .padding {
-    margin-top: 10px;
-  }
   table {
     width: 80%;
   }
-  #users {
+  .users {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-top: 20px;
   }
+
+  .users h5 {
+
+  }
+
   #search {
     width: 80%;
   }
+
+  tr.column-names > th {
+  text-align: center;
+  }
+  
+
   .search {
     /* background-color: green;  */
     width: 30%;
@@ -47,37 +61,15 @@
   button {
     margin-bottom: 10px;
   }
-  tr.rows > td,
-  tr.column-names > th {
-    text-align: center;
-  }
-
-  tr.director {
-    border-left: 3px solid #2196f3;
-  }
-
-  tr.rejected {
-    border-left: 3px solid red;
-  }
-
-  td.links > a {
-    color: #2196f3;
-  }
-
-  td.links > a > i {
-    width: 100%;
-  }
-
-  i.tiny {
-    font-size: 0.7rem;
-  }
+  
 </style>
 
-<center>
-  <h5>Current Applicants</h5>
-</center>
+
+  
+
 <!-- Trying the table idea -->
-<div id="users" class="">
+<div class="users">
+  <h5>Current Applicants</h5>
   <div id="search">
     <div>
       <input class="search" placeholder="Search By Name" />
@@ -118,24 +110,28 @@
   </table>
 </div>
 
-<center>
-  <h5>Reject Applicants</h5>
-</center>
 
-<div id="users">
+<div class="users">
+  <h5>Reject Applicants</h5>
   <table>
     <thead>
       <tr class="column-names">
         <th>Applicant Name</th>
+        <th>Resume</th>
         <th>Email</th>
         <th>Year</th>
         <th>Committees</th>
-        <th>Notes</th>
         <th>Interview Form</th>
+        <th>Application Notes</th>
         <th>Status</th>
-        <th>Links</th>
       </tr>
     </thead>
-    <tbody id="rejects" />
+    <tbody class="list" id="finalized">
+      {#each applications as application }
+        {#if application.status === "rejected"}
+          <Row application={application}/>
+        {/if}
+      {/each}
+    </tbody>
   </table>
 </div>
