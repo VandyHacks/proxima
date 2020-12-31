@@ -140,7 +140,8 @@ const sendEmail = async (email: string, status: string) => {
 
 /**
  * ApplicationID and new status are sent in the body.
- * @param {request, response} : body: {applicationId: number, status: string}
+ * body: {applicationId: number, status: string}
+ * @param {request, response} : 
  */
 const updateStatus = async({request, response}: Context) => {
     const body: {applicationId: number, status: string} = await request.body().value;

@@ -12,7 +12,12 @@
             <Title/>
             <UserCards/>
         </Route>
-        <Route path = "/interview/:applicationId" component = "{PageTwo}"/>
-        <Route path = "/notes/:applicationId" component = "{PageThree}" />
+        <Route path = "/interview/:applicationId" let:params>
+            <PageTwo applicationId="{params.applicationId}"/>
+        </Route>
+
+        <Route path = "/notes/:applicationId" let:params>
+            <PageThree applicationId="{params.applicationId}"/>
+        </Route>
 	</div>
 </Router>

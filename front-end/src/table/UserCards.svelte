@@ -2,12 +2,17 @@
   import { Link } from "svelte-routing";
   import { onMount } from "svelte";
   import mockData from "../mockData.json";
+  import List from "list.js";
 
-  console.log(mockData);
+
   onMount(async () => {
     M.AutoInit();
-    // TODO: Use fetch api
+    let options = {
+      valueNames: ["name", "accept", "interview"]
+    };
+    let userList = new List("users", options);
   });
+
   
 </script>
 
@@ -102,7 +107,10 @@
     <tbody class="list" id="candidates">
       {#each mockData as { id, director, name, resume_link, email, year, committees, status } (id)}
         <tr class="rows {director || ''}">
-          <td class="name">{name}</td>
+          <td class="name">
+            {name}
+          </td>
+
           <td class="links">
             <a href={resume_link} target="_blank">
               <i class="material-icons">insert_drive_file</i>
@@ -110,7 +118,9 @@
           </td>
 
           <td class="email">
-            <a href="mailto:{email}">{email}</a>
+            <a href="mailto:{email}">
+            {email}
+            </a>
           </td>
 
           <td class="year">{year.replace(/^./, year[0].toUpperCase())}</td>
@@ -138,34 +148,18 @@
           </td>
 
           <td class="status">
-            <!-- Modal Trigger -->
-            <!-- <a class="waves-effect waves-light btn modal-trigger" href="#modal1">
-                {application['status']}
-                <i class="tiny material-icons">edit</i>
-              </a> -->
-
-            <div class="input-field col s12">
-              <select>
-                <option value="1" selected>{status}</option>
-                <option value="2">Option 2</option>
-                <option value="3">Option 3</option>
-              </select>
-            </div>
-
-            <!-- Modal Structure -->
-            <div id="modal1" class="modal">
-              <div class="modal-content">
-                <h4>Modal Header</h4>
-                <p>A bunch of text</p>
-              </div>
-              <div class="modal-footer">
-                <a
-                  href="#!"
-                  class="modal-close waves-effect waves-green btn-flat">
-                  Agree
-                </a>
-              </div>
-            </div>
+             <!-- Dropdown Trigger -->
+            <a class='dropdown-trigger btn' href='#' data-target='dropdown{id}'>
+              {status}
+              <i class="tiny material-icons">edit</i>
+            </a>
+            <!-- Dropdown Structure -->
+            <ul id='dropdown{id}' class='dropdown-content'>
+              <li><a href="#!">Accepted</a></li>
+              <li><a href="#!">Rejected</a></li>
+              <li><a href="#!">Interview</a></li>
+            </ul>
+            
           </td>
         </tr>
       {/each}
