@@ -131,14 +131,28 @@ surge public my-project.surge.sh
   commitments: string,
   attendedVH: boolean,
   feedback: string,
-  source: string
+  source: string,
+  resume_link: string | null,
+  github_link: string | null,
+  linkedin_link: string | null,
+  social_link: string | null,
+  design_link: string | null,
+  committees: string[],
+  links: [
+    {type: "resume_link", href: string | null,
+    {type: "github_link", href: string | null},
+    {type: "linkedin_link", href: string | null},
+    {type: "social_link", href: string | null}
+  ]
 }
 ```
 
-Example: `/mockData/applicaitonResponses.json` 2. **Get** all interview notes for an applicant
-Link: `localhost:7777/applications/notes`
-Body: `applicationId: number` (just a number as text)
-Return: Array of objects in the following format:
+Example: `/mockData/applicaitonResponses.json`
+
+2. **Get** all interview notes for an applicant
+   Link: `localhost:7777/applications/notes`
+   Body: `applicationId: number` (just a number as text)
+   Return: Array of objects in the following format:
 
 ```
 [{

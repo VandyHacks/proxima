@@ -68,18 +68,6 @@ const parseTypeForm = async({request, response}: Context) => {
  *  year: string,
  *  director: bool, 
  *  status: string,
- *  resume_link: string | null, 
- *  github_link: string | null,
- *  linkedin_link: string | null, 
- *  social_link: string | null,
- *  design_link: string | null,
- *  committees: string[],
- *  links: [
- *   {type: "resume_link", href: string | null,
- *   {type: "github_link", href: string | null},
- *   {type: "linkedin_link", href: string | null},
- *   {type: "social_link", href: string | null}
- *  ]
  * }]
  * @param {response} 
  */
@@ -92,13 +80,6 @@ const displayApplications = async({response}: Context) => {
         for(let committeeObj of committees){
             application.committees.push(committeeObj.committee)
         }
-
-        application.links = [
-            {type: "resume_link", href: application.resume_link},
-            {type: "github_link", href: application.github_link},
-            {type: "linkedin_link", href: application.linkedin_link},
-            {type: "social_link", href: application.social_link}
-        ];
     }
 
     response.body = applications;
@@ -116,11 +97,32 @@ const displayApplications = async({response}: Context) => {
  *  attendedVH: boolean,
  *  feedback: string,
  *  source: string
+ *  resume_link: string | null, 
+ *  github_link: string | null,
+ *  linkedin_link: string | null, 
+ *  social_link: string | null,
+ *  design_link: string | null,
+ *  committees: string[],
+ *  links: [
+ *   {type: "resume_link", href: string | null,
+ *   {type: "github_link", href: string | null},
+ *   {type: "linkedin_link", href: string | null},
+ *   {type: "social_link", href: string | null}
+ *  ]
  * }
  */
 const getApplicationResponses = async({request, response}: Context) => {
     const appId: number = await request.body().value as number;
-    response.body = await Application.select('essay1', 'essay2', 'essay3', 'commitments', 'attendedVH', 'feedback', 'source').find(appId);
+    let application: any = await Application.select('essay1', 'essay2', 'essay3', 'commitments', 'attendedVH', 'feedback', 'source', 'resume_link', 'github_link', 'linkedin_link', 'social_link', 'design_link').find(appId);
+
+    application.links = [
+        {type: "resume_link", href: application.resume_link},
+        {type: "github_link", href: application.github_link},
+        {type: "linkedin_link", href: application.linkedin_link},
+        {type: "social_link", href: application.social_link}
+    ];
+
+    response.body = application;
 }
 
 
