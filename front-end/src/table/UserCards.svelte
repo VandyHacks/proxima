@@ -134,7 +134,7 @@
           </td>
 
           <td>
-            <Link to="/notes/:{id}">
+            <Link to="/notes/{id}">
               <button class="sort btn blue waves-effect waves-light padding">
                 Interview
               </button>
@@ -143,7 +143,7 @@
 
           <td>
             <b>
-              <Link to="/interview/:{id}">View</Link>
+              <Link to="/interview/{id}">View</Link>
             </b>
           </td>
 
