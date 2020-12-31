@@ -107,6 +107,16 @@ const displayApplications = async({response}: Context) => {
 
 /**
  * body: number, representing applicationId
+ * response:
+ * {
+ *  essay1: string,
+ *  essay2: string,
+ *  essay3: string,
+ *  commitments: string,
+ *  attendedVH: boolean,
+ *  feedback: string,
+ *  source: string
+ * }
  */
 const getApplicationResponses = async({request, response}: Context) => {
     const appId: number = await request.body().value as number;

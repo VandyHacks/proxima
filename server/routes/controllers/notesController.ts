@@ -23,7 +23,15 @@ const questionCreate = async({request, response}: Context) => {
 
 
 /**
- * body's value is a number for applicationId
+ * body:
+ * applicationId: number
+ * Return:
+ * [{
+        "id": number,
+        "content": string,
+        "specificity": string, (osp, hacker experience, ...)
+        "description": string
+    }]
  * @param param0
  */
 const getQuestionsForApplicant = async({request, response}: Context) => {
@@ -107,7 +115,7 @@ const addNotes = async({request, response}: Context) => {
 /**
  * Get notes on interviews for a specific applicant
  * body: number, representing applicationId
- * response: {[
+ * response: [{
  *  interviewer_name: string,
     reliability: number [1-7],
     interest: number [1-7],
@@ -115,7 +123,7 @@ const addNotes = async({request, response}: Context) => {
     overall: number [1-7],
     thoughts: string,
     responses: [{question: string, description: string, specificity: string, note: string}]
- * ]}
+ * }]
  */
 const getNotes = async({request, response}: Context) => {
     const appId: number = await request.body().value as number;

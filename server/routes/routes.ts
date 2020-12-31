@@ -38,5 +38,4 @@ router.get('/interview/questions/list', notesController.getAllQuestions);
 // Fetch questions for a specific applicant
 router.get('/interview/questions', notesController.getQuestionsForApplicant);
 
-
 export { router };
