@@ -125,13 +125,13 @@ surge public my-project.surge.sh
 
 ```
 {
-essay1: string,
-essay2: string,
-essay3: string,
-commitments: string,
-attendedVH: boolean,
-feedback: string,
-source: string
+    essay1: string,
+    essay2: string,
+    essay3: string,
+    commitments: string,
+    attendedVH: boolean,
+    feedback: string,
+    source: string
 }
 ```
 
@@ -142,14 +142,14 @@ Return: Array of objects in the following format:
 
 ```
 [{
-interviewer_name: string,
-reliability: number [1-7],
-interest: number [1-7],
-teamwork: number [1-7],
-overall: number [1-7],
-thoughts: string,
-responses: [{question: string, description: string, specificity: string, note: string}]
-** }]
+    interviewer_name: string,
+    reliability: number [1-7],
+    interest: number [1-7],
+    teamwork: number [1-7],
+    overall: number [1-7],
+    thoughts: string,
+    responses: [{question: string, description: string, specificity: string, note: string}]
+}]
 ```
 
 Example: `mockData/interviewNotesForApplicant.json` 3. **Post** status update:
