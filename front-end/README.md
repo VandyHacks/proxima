@@ -197,8 +197,8 @@ Body: Data from a form on the page in the following format:
 
 ```
 {
-	content: string,
-	specificity: string,
-	description: string
+  content: string,
+  specificity: string,
+  description: string
 }
 ```
