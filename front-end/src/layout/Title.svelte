@@ -17,9 +17,10 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 
-<h6>
-  External Recruitment Data For VHIII
-</h6>
+
+<h5 class="center-align">
+  External Recruitment Data For VH VIII
+</h5>
 
 <style>
   #title {
