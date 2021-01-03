@@ -34,7 +34,6 @@
         console.log(elems)
         var instances = M.Collapsible.init(elems, {accordion: false});
         console.log(instances)
-
     });
 </script>
 
