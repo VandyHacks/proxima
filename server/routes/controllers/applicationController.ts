@@ -1,5 +1,5 @@
 import { Application, CommitteeChoice } from "../../database/models.ts"
-import { Context, Model } from "../../deps.ts"
+import { RouterContext, Model } from "../../deps.ts"
 import { send } from "../../utils/smtpClient.ts"
 
 /**
@@ -9,7 +9,7 @@ import { send } from "../../utils/smtpClient.ts"
  * and generalize the parsing.
  * @param {request, response} 
  */
-const parseTypeForm = async({request, response}: Context) => {
+const parseTypeForm = async({request, response}: RouterContext) => {
     // populate application
     const application: {form_response: {definition: {fields: any[]}, answers: any}} = await request.body().value;
     let responses: any = {};
@@ -71,7 +71,7 @@ const parseTypeForm = async({request, response}: Context) => {
  * }]
  * @param {response} 
  */
-const displayApplications = async({response}: Context) => {
+const displayApplications = async({response}: RouterContext) => {
     let applications: any[] = await Application.select('id', 'name', 'email', 'year', 'director', 'status', 'resume_link', 'github_link', 'linkedin_link', 'social_link', 'design_link').orderBy('id').all();
 
     for(let application of applications) {
@@ -111,7 +111,7 @@ const displayApplications = async({response}: Context) => {
  *  ]
  * }
  */
-const getApplicationResponses = async({request, response}: Context) => {
+const getApplicationResponses = async({request, response}: RouterContext) => {
     const appId: number = await request.body().value as number;
     let application: any = await Application.select('essay1', 'essay2', 'essay3', 'commitments', 'attendedVH', 'feedback', 'source', 'resume_link', 'github_link', 'linkedin_link', 'social_link', 'design_link').find(appId);
 
@@ -152,12 +152,11 @@ const sendEmail = async (email: string, status: string) => {
 
 /**
  * ApplicationID and new status are sent in the body.
- * body: {applicationId: number, status: string}
- * @param {request, response} : 
+ * body: {status: string}
  */
-const updateStatus = async({request, response}: Context) => {
-    const body: {applicationId: number, status: string} = await request.body().value;
-    const appId: number = body.applicationId;
+const updateStatus = async({params, request, response}: RouterContext) => {
+    const body: {status: string} = await request.body().value;
+    const appId = params.applicationId as unknown as number;
     const newStatus: string = body.status;
 
     // Get application to update
