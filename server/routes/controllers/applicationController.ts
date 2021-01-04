@@ -1,6 +1,7 @@
 import { Application, CommitteeChoice } from "../../database/models.ts"
 import { RouterContext, Model } from "../../deps.ts"
 import { send } from "../../utils/smtpClient.ts"
+import { getNotes } from "./notesController";
 
 /**
  * Parsing is very specific to the kind of form we have right now.
@@ -90,30 +91,42 @@ const displayApplications = async({response}: RouterContext) => {
  * body: number, representing applicationId
  * response:
  * {
- *  essay1: string,
- *  essay2: string,
- *  essay3: string,
- *  commitments: string,
- *  attendedVH: boolean,
- *  feedback: string,
- *  source: string
- *  resume_link: string | null, 
- *  github_link: string | null,
- *  linkedin_link: string | null, 
- *  social_link: string | null,
- *  design_link: string | null,
- *  committees: string[],
- *  links: [
- *   {type: "resume_link", href: string | null,
- *   {type: "github_link", href: string | null},
- *   {type: "linkedin_link", href: string | null},
- *   {type: "social_link", href: string | null}
- *  ]
- * }
+ *  application: {
+ *    essay1: string,
+ *    essay2: string,
+ *    essay3: string,
+ *    commitments: string,
+ *    attendedVH: boolean,
+ *    feedback: string,
+ *    source: string
+ *    resume_link: string | null, 
+ *    github_link: string | null,
+ *    linkedin_link: string | null, 
+ *    social_link: string | null,
+ *    design_link: string | null,
+ *    committees: string[],
+ *    links: [
+ *     {type: "resume_link", href: string | null,
+ *     {type: "github_link", href: string | null},
+ *     {type: "linkedin_link", href: string | null},
+ *     {type: "social_link", href: string | null}
+ *    ]
+ *   },
+ *  notes: 
+ *   [{
+ *    interviewer_name: string,
+ *    reliability: number [1-7],
+ *    interest: number [1-7],
+ *    teamwork: number [1-7],
+ *    overall: number [1-7],
+ *    thoughts: string,
+ *    responses: [{question: string, description: string, specificity: string, note: string}]
+ *   }]
+ *  }
  */
-const getApplicationResponses = async({request, response}: RouterContext) => {
-    const appId: number = await request.body().value as number;
-    let application: any = await Application.select('essay1', 'essay2', 'essay3', 'commitments', 'attendedVH', 'feedback', 'source', 'resume_link', 'github_link', 'linkedin_link', 'social_link', 'design_link').find(appId);
+const getApplicationResponses = async({params, response}: RouterContext) => {
+    const applicationId: number = params.applicationId as unknown as number;
+    let application: any = await Application.select('essay1', 'essay2', 'essay3', 'commitments', 'attendedVH', 'feedback', 'source', 'resume_link', 'github_link', 'linkedin_link', 'social_link', 'design_link').find(applicationId);
 
     application.links = [
         {type: "resume_link", href: application.resume_link},
@@ -122,7 +135,10 @@ const getApplicationResponses = async({request, response}: RouterContext) => {
         {type: "social_link", href: application.social_link}
     ];
 
-    response.body = application;
+    response.body = await {
+        application: application,
+        notes: getNotes(applicationId)
+    }
 }
 
 
