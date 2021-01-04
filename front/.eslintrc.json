@@ -1,0 +1,27 @@
+{
+  "env": {
+    "browser": true,
+    "es2017": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2017,
+    "sourceType": "module"
+  },
+  "extends": ["eslint:recommended"],
+  "plugins": ["svelte3"],
+  "overrides": [
+    {
+      "files": ["**/*.svelte"],
+      "processor": "svelte3/svelte3"
+    }
+  ],
+  "ignorePatterns": ["public/", "**/*.ts"],
+  "rules": {
+    "no-var": "error",
+    "semi": "error",
+    "max-params": ["error", 4],
+    "eqeqeq": "error",
+    "camelcase": "error",
+    "no-unused-vars": "error"
+  }
+}

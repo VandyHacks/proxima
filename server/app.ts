@@ -1,4 +1,4 @@
-import { Application, parse } from "./deps.ts";
+import { Application, parse, oakCors } from "./deps.ts";
 import { router } from "./routes/routes.ts";
 import db from "./database/database.ts";
 
@@ -8,6 +8,8 @@ const { args } = Deno;
 const argPort = parse(args).port;
 
 const app = new Application();
+
+app.use(oakCors());
 
 app.use(basicMiddleware.errorMiddleware);
 app.use(basicMiddleware.requestTimingMiddleware);
