@@ -63,8 +63,7 @@ const getAllQuestions = async({response}: RouterContext) => {
 
 /**
  * Add notes for interview questions and for an applicant. 
- * Body: { 
- *  applicationId: number, 
+ * body: { 
  *  interviewer_name: string, 
  *  reliability: number, [1-7]
  *  interest: number, [1-7]
@@ -73,11 +72,10 @@ const getAllQuestions = async({response}: RouterContext) => {
  *  thoughts: string [paragraph],
  *  questionAnswers: [{questionId: number, response: string}]
  *  }
- * @param {request, response}
+ * @param {params, request, response}
  */
-const addNotes = async({request, response}: RouterContext) => {
+const addNotes = async({params, request, response}: RouterContext) => {
     const noteData: {
-        applicationId: number, 
         interviewer_name: string, 
         reliability: number,
         interest: number, 
@@ -86,10 +84,11 @@ const addNotes = async({request, response}: RouterContext) => {
         thoughts: string,
         questionAnswers: {questionId: number, response: string}[]
     } = await request.body().value;
+    const applicationId = params.applicationId as unknown as number;
 
     // Create Notes row
     let note: Model = await Note.create({
-        applicationId: noteData.applicationId,
+        applicationId: applicationId,
         interviewer_name: noteData.interviewer_name,
         reliability: noteData.reliability,
         interest: noteData.reliability,

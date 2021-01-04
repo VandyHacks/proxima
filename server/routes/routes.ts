@@ -21,6 +21,15 @@ router.put('/applications/:applicationId', applicationController.updateStatus);
 router.post('/questions', notesController.questionCreate);
 
 // Add interview notes to the application 
+// body: { 
+//   interviewer_name: string, 
+//   reliability: number, [1-7]
+//   interest: number, [1-7]
+//   teamwork: number, [1-7]
+//   overall: number [1-7]
+//   thoughts: string [paragraph],
+//   questionAnswers: [{questionId: number, response: string}]
+// }
 router.post('/applications/:applicationId/notes', notesController.addNotes);
 
 /**
