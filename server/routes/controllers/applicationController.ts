@@ -135,9 +135,9 @@ const getApplicationResponses = async({params, response}: RouterContext) => {
         {type: "social_link", href: application.social_link}
     ];
 
-    response.body = await {
+    response.body = {
         application: application,
-        notes: getNotes(applicationId)
+        notes: await getNotes(applicationId)
     }
 }
 
