@@ -12,13 +12,13 @@ const router = new Router();
 router.post('/typeform/submit', applicationController.parseTypeForm);
 
 // Update status
-router.post('/application/status', applicationController.updateStatus);
+router.put('/applications/:applicationid', applicationController.updateStatus);
 
 // Add questions to interview question list
-router.post('/interview/questions/add', notesController.questionCreate);
+router.post('/questions', notesController.questionCreate);
 
 // Add interview notes to the application 
-router.post('/interview/notes/add', notesController.addNotes);
+router.post('/applications/:applicationid/notes', notesController.addNotes);
 
 /**
  * GET REQUESTS
@@ -27,15 +27,12 @@ router.post('/interview/notes/add', notesController.addNotes);
 router.get('/applications', applicationController.displayApplications);
 
 // Fetch application responses for a specific applicant
-router.get('/applications/responses', applicationController.getApplicationResponses);
-
-// Fetch all interview notes for an applicant
-router.get('/applications/notes', notesController.getNotes);
+router.get('/applications/:applicationid', applicationController.getApplicationResponses);
 
 // Fetch all questions 
-router.get('/interview/questions/list', notesController.getAllQuestions);
+router.get('/questions', notesController.getAllQuestions);
 
 // Fetch questions for a specific applicant
-router.get('/interview/questions', notesController.getQuestionsForApplicant);
+router.get('/applications/:applicantid/questions', notesController.getQuestionsForApplicant);
 
 export { router };
