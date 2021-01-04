@@ -9,12 +9,15 @@ const router = new Router();
  */
 
 // Application submission
+// body: JSON following TypeForm WebHook format
 router.post('/typeform/submit', applicationController.parseTypeForm);
 
 // Update status (PUT request)
+// body: {status: string}
 router.put('/applications/:applicationId', applicationController.updateStatus);
 
 // Add questions to interview question list
+// body: {content: string, specificity: string, description: string}
 router.post('/questions', notesController.questionCreate);
 
 // Add interview notes to the application 

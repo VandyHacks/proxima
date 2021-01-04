@@ -1,13 +1,12 @@
-import { Context, Model } from "../../deps.ts"
+import { RouterContext, Model } from "../../deps.ts"
 import { CommitteeChoice, Note, Question, QuestionNote } from "../../database/models.ts"
 
 
 /**
  * Adds the question to the database
  * Body: {content: string, specificity: string, description: string}
- * @param { request, response } 
  */
-const questionCreate = async({request, response}: Context) => {
+const questionCreate = async({request, response}: RouterContext) => {
     // populate committee
     const questionData: any = await request.body().value;
 
@@ -34,7 +33,7 @@ const questionCreate = async({request, response}: Context) => {
     }]
  * @param param0
  */
-const getQuestionsForApplicant = async({request, response}: Context) => {
+const getQuestionsForApplicant = async({request, response}: RouterContext) => {
     const appId: number = await request.body().value as number;
 
     // Get general questions first
@@ -58,7 +57,7 @@ const getQuestionsForApplicant = async({request, response}: Context) => {
  * Return a list of all questions.
  * @param ctx 
  */
-const getAllQuestions = async({response}: Context) => {
+const getAllQuestions = async({response}: RouterContext) => {
     response.body = await Question.select('id', 'content', 'specificity', 'description').all();
 }
 
@@ -76,7 +75,7 @@ const getAllQuestions = async({response}: Context) => {
  *  }
  * @param {request, response}
  */
-const addNotes = async({request, response}: Context) => {
+const addNotes = async({request, response}: RouterContext) => {
     const noteData: {
         applicationId: number, 
         interviewer_name: string, 
@@ -125,7 +124,7 @@ const addNotes = async({request, response}: Context) => {
     responses: [{question: string, description: string, specificity: string, note: string}]
  * }]
  */
-const getNotes = async({request, response}: Context) => {
+const getNotes = async({request, response}: RouterContext) => {
     const appId: number = await request.body().value as number;
 
     // Get Notes rows
