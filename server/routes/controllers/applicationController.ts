@@ -63,17 +63,19 @@ const parseTypeForm = async({request, response}: RouterContext) => {
  * Display all applications for the grid on the main page.
  * Resulting format of data in response:
  * [{
- *  id: numeber,
+ *  id: number,
  *  name: string,
  *  email: string,
  *  year: string,
  *  director: bool, 
  *  status: string,
+ *  resume_link: string,
+ *  committee_accepted: string
  * }]
  * @param {response} 
  */
 const displayApplications = async({response}: RouterContext) => {
-    let applications: any[] = await Application.select('id', 'name', 'email', 'year', 'director', 'status', 'resume_link', 'github_link', 'linkedin_link', 'social_link', 'design_link').orderBy('id').all();
+    let applications: any[] = await Application.select('id', 'name', 'email', 'year', 'director', 'status', 'resume_link', 'committee_accepted').orderBy('id').all();
 
     for(let application of applications) {
         application.committees = [];
@@ -105,12 +107,6 @@ const displayApplications = async({response}: RouterContext) => {
  *    social_link: string | null,
  *    design_link: string | null,
  *    committees: string[],
- *    links: [
- *     {type: "resume_link", href: string | null,
- *     {type: "github_link", href: string | null},
- *     {type: "linkedin_link", href: string | null},
- *     {type: "social_link", href: string | null}
- *    ]
  *   },
  *  notes: 
  *   [{
@@ -126,14 +122,32 @@ const displayApplications = async({response}: RouterContext) => {
  */
 const getApplicationResponses = async({params, response}: RouterContext) => {
     const applicationId: number = params.applicationId as unknown as number;
-    let application: any = await Application.select('essay1', 'essay2', 'essay3', 'commitments', 'attendedVH', 'feedback', 'source', 'resume_link', 'github_link', 'linkedin_link', 'social_link', 'design_link').find(applicationId);
-
-    application.links = [
-        {type: "resume_link", href: application.resume_link},
-        {type: "github_link", href: application.github_link},
-        {type: "linkedin_link", href: application.linkedin_link},
-        {type: "social_link", href: application.social_link}
-    ];
+    let application: any = await Application.select(
+        'name',
+        'email',
+        'year',
+        'director',
+        'status',
+        'essay1', 
+        'essay2', 
+        'essay3', 
+        'commitments', 
+        'attendedVH', 
+        'feedback', 
+        'source', 
+        'resume_link', 
+        'github_link', 
+        'linkedin_link', 
+        'social_link', 
+        'design_link',
+        'committee_accepted')
+    .find(applicationId);
+    
+    application.committees = [];
+    let committees = await CommitteeChoice.select('committee').where('applicationId', application.id as number).get() as Model[];
+    for(let committeeObj of committees){
+        application.committees.push(committeeObj.committee)
+    }
 
     response.body = {
         application: application,
@@ -146,10 +160,10 @@ const getApplicationResponses = async({params, response}: RouterContext) => {
 /**
  * Send email based on status update.
  */
-const sendEmail = async (email: string, status: string) => {
+const sendEmail = async (email: string, status: string, committee?: string) => {
     let emailMessage: string;
     if (status === "accepted"){
-        emailMessage = "Congratualations! You are accepted!"
+        emailMessage = `Congratualations! You are accepted to ${committee} committee!`
     }
     else if(status === "rejected"){
         emailMessage = "Unfortunately, we were not able to extend the position on VH boar to you."
@@ -168,21 +182,28 @@ const sendEmail = async (email: string, status: string) => {
 
 /**
  * ApplicationID and new status are sent in the body.
- * body: {status: string}
+ * body: {status: string, committee?: string}
  */
 const updateStatus = async({params, request, response}: RouterContext) => {
-    const body: {status: string} = await request.body().value;
-    const appId = params.applicationId as unknown as number;
+    const body: {status: string, committee?: string} = await request.body().value;
+    const applicationId = params.applicationId as unknown as number;
     const newStatus: string = body.status;
+    const committee: string = body.committee;
 
     // Get application to update
-    const application: Model = await Application.select('id', 'status', 'email').find(appId);
+    const application: Model = await Application.select('id', 'status', 'email').find(applicationId);
 
     // Logic for emails
     sendEmail(application.email as string, newStatus);
 
     // Update status
-    application.status = newStatus; 
+    application.status = newStatus;
+    
+    // Update committees if accepted
+    if (newStatus === "accepted"){
+        application.committee_accepted = committee;
+    }
+
     await application.update();
 
     response.body = `Successfully updated ${application.email} with new status: ${newStatus}`
