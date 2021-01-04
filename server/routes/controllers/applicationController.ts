@@ -75,7 +75,7 @@ const parseTypeForm = async({request, response}: RouterContext) => {
 const displayApplications = async({response}: RouterContext) => {
     let applications: any[] = await Application.select('id', 'name', 'email', 'year', 'director', 'status', 'resume_link', 'github_link', 'linkedin_link', 'social_link', 'design_link').orderBy('id').all();
 
-    for(let application of applications) {
+    for (let application of applications) {
         application.committees = [];
         let committees = await CommitteeChoice.select('committee').where('applicationId', application.id as number).get() as Model[];
         for(let committeeObj of committees){
@@ -126,7 +126,25 @@ const displayApplications = async({response}: RouterContext) => {
  */
 const getApplicationResponses = async({params, response}: RouterContext) => {
     const applicationId: number = params.applicationId as unknown as number;
-    let application: any = await Application.select('essay1', 'essay2', 'essay3', 'commitments', 'attendedVH', 'feedback', 'source', 'resume_link', 'github_link', 'linkedin_link', 'social_link', 'design_link').find(applicationId);
+    let application: any = await Application.select(
+        'name',
+        'email',
+        'year',
+        'director',
+        'status',
+        'essay1', 
+        'essay2', 
+        'essay3', 
+        'commitments', 
+        'attendedVH', 
+        'feedback', 
+        'source', 
+        'resume_link', 
+        'github_link', 
+        'linkedin_link', 
+        'social_link', 
+        'design_link')
+    .find(applicationId);
 
     application.links = [
         {type: "resume_link", href: application.resume_link},
@@ -134,6 +152,12 @@ const getApplicationResponses = async({params, response}: RouterContext) => {
         {type: "linkedin_link", href: application.linkedin_link},
         {type: "social_link", href: application.social_link}
     ];
+
+    application.committees = [];
+    let committees = await CommitteeChoice.select('committee').where('applicationId', application.id as number).get() as Model[];
+    for(let committeeObj of committees){
+            application.committees.push(committeeObj.committee)
+    }
 
     response.body = {
         application: application,
