@@ -9,7 +9,7 @@ let config: {database: any, smtp: any, email: string} = {
     port: 5432
   },
 
-  // Set up the email confiduration
+  // Set up the email configuration
   smtp: {
     hostname: Deno.env.get("SMTP_HOSTNAME"),
     port: parseInt(<string> Deno.env.get("SMTP_PORT"), 10),

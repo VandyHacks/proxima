@@ -23,3 +23,7 @@ SMTP_USER = myname
 SMTP_PASSWORD = mypassword
 EMAIL_ADDRESS = info@vandyhacks.org
 ```
+
+## Deno version
+
+It is important to use Deno version before 1.6 because of this [issue](https://github.com/denodrivers/postgres/issues/188) in Postgres dependency.
