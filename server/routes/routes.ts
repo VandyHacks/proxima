@@ -5,37 +5,35 @@ import * as notesController from "./controllers/notesController.ts"
 const router = new Router();
 
 /**
- * POST REQUESTS 
+ * POST/PUT REQUESTS 
  */
 
 // Application submission
 router.post('/typeform/submit', applicationController.parseTypeForm);
 
-// Update status
-router.post('/application/status', applicationController.updateStatus);
+// Update status (PUT request)
+router.put('/applications/:applicationId', applicationController.updateStatus);
 
 // Add questions to interview question list
-router.post('/interview/questions/add', notesController.questionCreate);
+router.post('/questions', notesController.questionCreate);
 
 // Add interview notes to the application 
-router.post('/interview/notes/add', notesController.addNotes);
+router.post('/applications/:applicationId/notes', notesController.addNotes);
 
 /**
  * GET REQUESTS
  */
+
 // Fetch all applications for the grid
 router.get('/applications', applicationController.displayApplications);
 
-// Fetch application responses for a specific applicant
-router.get('/applications/responses', applicationController.getApplicationResponses);
-
-// Fetch all interview notes for an applicant
-router.get('/applications/notes', notesController.getNotes);
+// Fetch application responses and notes for a specific applicant
+router.get('/applications/:applicationId', applicationController.getApplicationResponses);
 
 // Fetch all questions 
-router.get('/interview/questions/list', notesController.getAllQuestions);
+router.get('/questions', notesController.getAllQuestions);
 
 // Fetch questions for a specific applicant
-router.get('/interview/questions', notesController.getQuestionsForApplicant);
+router.get('/applications/:applicationId/questions', notesController.getQuestionsForApplicant);
 
 export { router };
