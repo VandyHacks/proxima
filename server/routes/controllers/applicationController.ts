@@ -1,7 +1,7 @@
 import { Application, CommitteeChoice } from "../../database/models.ts"
 import { RouterContext, Model } from "../../deps.ts"
 import { send } from "../../utils/smtpClient.ts"
-import { getNotes } from "./notesController";
+import { getNotes } from "./notesController.ts";
 
 /**
  * Parsing is very specific to the kind of form we have right now.
