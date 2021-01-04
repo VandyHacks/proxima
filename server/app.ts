@@ -1,5 +1,4 @@
-import { Application, parse } from "./deps.ts";
-import { oakCors } from "https://deno.land/x/cors/mod.ts";
+import { Application, parse, oakCors } from "./deps.ts";
 import { router } from "./routes/routes.ts";
 import db from "./database/database.ts";
 
