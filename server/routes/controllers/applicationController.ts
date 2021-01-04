@@ -46,7 +46,8 @@ const parseTypeForm = async({request, response}: RouterContext) => {
         linkedin_link: responses.linkedin_link,
         social_link: responses.social_link,
         design_link: responses.design_link,
-        source: responses.source
+        source: responses.source,
+        committee_accepted: "undecided"
     });
 
     // Create committee relations for an applicant
@@ -106,6 +107,7 @@ const displayApplications = async({response}: RouterContext) => {
  *    linkedin_link: string | null, 
  *    social_link: string | null,
  *    design_link: string | null,
+ *    committee_accepted: string | null,
  *    committees: string[],
  *   },
  *  notes: 
@@ -144,7 +146,7 @@ const getApplicationResponses = async({params, response}: RouterContext) => {
     .find(applicationId);
     
     application.committees = [];
-    let committees = await CommitteeChoice.select('committee').where('applicationId', application.id as number).get() as Model[];
+    let committees = await CommitteeChoice.select('committee').where('applicationId', applicationId as number).get() as Model[];
     for(let committeeObj of committees){
         application.committees.push(committeeObj.committee)
     }
@@ -188,7 +190,7 @@ const updateStatus = async({params, request, response}: RouterContext) => {
     const body: {status: string, committee?: string} = await request.body().value;
     const applicationId = params.applicationId as unknown as number;
     const newStatus: string = body.status;
-    const committee: string = body.committee;
+    const committee: string | undefined = body.committee;
 
     // Get application to update
     const application: Model = await Application.select('id', 'status', 'email').find(applicationId);
@@ -201,7 +203,7 @@ const updateStatus = async({params, request, response}: RouterContext) => {
     
     // Update committees if accepted
     if (newStatus === "accepted"){
-        application.committee_accepted = committee;
+        application.committee_accepted = committee as string;
     }
 
     await application.update();

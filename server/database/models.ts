@@ -25,7 +25,8 @@ class Application extends Model {
         linkedin_link: DataTypes.STRING,
         social_link: DataTypes.STRING,
         design_link: DataTypes.STRING,
-        source: DataTypes.TEXT
+        source: DataTypes.TEXT,
+        committee_accepted: DataTypes.enum(["undecided", "operations", "development", "hacker experience", "design", "sponsorship", "content", "marketing"]),
     };
 
     static committees() {
