@@ -12,6 +12,7 @@
   } from 'carbon-components-svelte';
   import Document32 from 'carbon-icons-svelte/lib/Document32';
   import { onMount } from 'svelte';
+  import { click } from 'svelte-pathfinder';
   import wretch from 'wretch';
 
   import { API_URL } from '../config/api';
@@ -63,6 +64,8 @@
   });
 </script>
 
+<svelte:window on:click={click} />
+
 {#if loading}
   <DataTableSkeleton />
 {:else}
@@ -77,16 +80,12 @@
         <a target="_blank" href={cell.value}>
           <Document32 />
         </a>
-        {:else if cell.key === 'name'}
-        <Link inline href="/applicants/{row.id}">
-          {cell.value}
-        </Link>
+      {:else if cell.key === 'name'}
+        <Link inline href="/applicants/{row.id}">{cell.value}</Link>
       {:else if cell.key === 'overflow'}
         <OverflowMenu flipped>
           <OverflowMenuItem text="Take notes" />
-          <OverflowMenuItem
-            href="/applicants/{row.id}"
-            text="Application" />
+          <OverflowMenuItem href="/applicants/{row.id}" text="Application" />
         </OverflowMenu>
       {:else if cell.key === 'status'}
         {capitalizeFirstLetter(cell.value)}
