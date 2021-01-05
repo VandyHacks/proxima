@@ -78,6 +78,25 @@ class Note extends Model {
     }
 }
 
+class Comments extends Model {
+    static table = 'comments';
+    static timestamps = true;
+    static fields = {
+        id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true
+        },
+        applicationId: Relationships.belongsTo(Application),
+        commenter_name: DataTypes.STRING,
+        content: DataTypes.TEXT
+    };
+
+    static application(){
+        return this.hasOne(Application);
+    }
+}
+
 class Question extends Model {
     static table = 'questions';
     static timestamps = true;
@@ -109,4 +128,4 @@ class QuestionNote extends Model {
 
 
 
-export { Application, CommitteeChoice, QuestionNote, Note, Question };
+export {Application, CommitteeChoice, Comments, QuestionNote, Note, Question };

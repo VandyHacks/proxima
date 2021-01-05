@@ -1,7 +1,7 @@
 import { Application, CommitteeChoice } from "../../database/models.ts"
 import { RouterContext, Model } from "../../deps.ts"
 import { send } from "../../utils/smtpClient.ts"
-import { getNotes } from "./notesController.ts";
+import { getNotes, getComments } from "./notesController.ts";
 
 /**
  * Parsing is very specific to the kind of form we have right now.
@@ -91,10 +91,73 @@ const displayApplications = async({response}: RouterContext) => {
 
 
 /**
+ * Helper method that gets application responses, populated by the TypeForm webhook.
+ * Return:
+ *   {
+ *    name: string,
+ *    email: string,
+ *    year: string,
+ *    director: boolean,
+ *    status: string,
+ *    essay1: string,
+ *    essay2: string,
+ *    essay3: string,
+ *    commitments: string,
+ *    attendedVH: boolean,
+ *    feedback: string,
+ *    source: string
+ *    resume_link: string | null, 
+ *    github_link: string | null,
+ *    linkedin_link: string | null, 
+ *    social_link: string | null,
+ *    design_link: string | null,
+ *    committee_accepted: string | null,
+ *    committees: string[],
+*   }
+ * @param applicationId 
+ */
+const getApplicationResponse = async(applicationId: number) => {
+    let application: any = await Application.select(
+        'name',
+        'email',
+        'year',
+        'director',
+        'status',
+        'essay1',
+        'essay2',
+        'essay3', 
+        'commitments',
+        'attendedVH',
+        'feedback',
+        'source',
+        'resume_link',
+        'github_link',
+        'linkedin_link', 
+        'social_link',
+        'design_link',
+        'committee_accepted')
+    .find(applicationId);
+    
+    application.committees = [];
+    let committees = await CommitteeChoice.select('committee').where('applicationId', applicationId as number).get() as Model[];
+    for(let committeeObj of committees){
+        application.committees.push(committeeObj.committee)
+    }
+
+    return application;
+}
+
+
+/**
  * body: number, representing applicationId
  * response:
  * {
  *  application: {
+ *    name: string,
+ *    email: string,
+ *    year: string,
+ *    director: boolean,
+ *    status: string,
  *    essay1: string,
  *    essay2: string,
  *    essay3: string,
@@ -119,43 +182,20 @@ const displayApplications = async({response}: RouterContext) => {
  *    overall: number [1-7],
  *    thoughts: string,
  *    responses: [{question: string, description: string, specificity: string, note: string}]
- *   }]
+ *   }],
+ *  comments: [{commenter_name: string, content: string}]
  *  }
  */
-const getApplicationResponses = async({params, response}: RouterContext) => {
+const getApplicantData = async({params, response}: RouterContext) => {
     const applicationId: number = params.applicationId as unknown as number;
-    let application: any = await Application.select(
-        'name',
-        'email',
-        'year',
-        'director',
-        'status',
-        'essay1', 
-        'essay2', 
-        'essay3', 
-        'commitments', 
-        'attendedVH', 
-        'feedback', 
-        'source', 
-        'resume_link', 
-        'github_link', 
-        'linkedin_link', 
-        'social_link', 
-        'design_link',
-        'committee_accepted')
-    .find(applicationId);
-    
-    application.committees = [];
-    let committees = await CommitteeChoice.select('committee').where('applicationId', applicationId as number).get() as Model[];
-    for(let committeeObj of committees){
-        application.committees.push(committeeObj.committee)
-    }
 
     response.body = {
-        application: application,
-        notes: await getNotes(applicationId)
+        application: await getApplicationResponse(applicationId),
+        notes: await getNotes(applicationId),
+        comments: await getComments(applicationId)
     }
 }
+
 
 
 
@@ -179,7 +219,7 @@ const sendEmail = async (email: string, status: string, committee?: string) => {
     }
 
     send(email, "VandyHacks Board Decision", emailMessage);
-}
+};
 
 
 /**
@@ -212,4 +252,4 @@ const updateStatus = async({params, request, response}: RouterContext) => {
 };
 
 
-export { parseTypeForm, displayApplications, updateStatus, getApplicationResponses }
+export { parseTypeForm, displayApplications, updateStatus, getApplicantData }

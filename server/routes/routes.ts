@@ -20,6 +20,9 @@ router.post('/questions', notesController.questionCreate);
 // Add interview notes to the application 
 router.post('/applications/:applicationId/notes', notesController.addNotes);
 
+// Add comments to the applicaiton
+router.post('/applications/:applicationId/comments', notesController.addComments);
+
 /**
  * GET REQUESTS
  */
@@ -28,7 +31,7 @@ router.post('/applications/:applicationId/notes', notesController.addNotes);
 router.get('/applications', applicationController.displayApplications);
 
 // Fetch application responses and notes for a specific applicant
-router.get('/applications/:applicationId', applicationController.getApplicationResponses);
+router.get('/applications/:applicationId', applicationController.getApplicantData);
 
 // Fetch all questions 
 router.get('/questions', notesController.getAllQuestions);

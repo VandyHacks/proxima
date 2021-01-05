@@ -1,5 +1,5 @@
 import { RouterContext, Model } from "../../deps.ts"
-import { CommitteeChoice, Note, Question, QuestionNote } from "../../database/models.ts"
+import { CommitteeChoice, Note, Question, QuestionNote, Comments } from "../../database/models.ts"
 
 
 /**
@@ -31,7 +31,7 @@ const questionCreate = async({request, response}: RouterContext) => {
     }]
  * @param param0
  */
-const getQuestionsForApplicant = async({params, request, response}: RouterContext) => {
+const getQuestionsForApplicant = async({params, response}: RouterContext) => {
     const applicationId: number = params.applicationId as unknown as number;
 
     // Get general questions first
@@ -142,4 +142,32 @@ const getNotes = async(applicationId: number) => {
     return notes;
 }
 
-export { questionCreate, getQuestionsForApplicant, getAllQuestions, addNotes, getNotes }
+/**
+ * Adds notes to the application. 
+ * body:
+ * {commenter_name: string, content: string}
+ */
+const addComments = async({params, request, response}: RouterContext) => {
+    const applicationId = params.applicationId as unknown as number;
+    const body: {commenter_name: string, content: string} = await request.body().value;
+
+    await Comments.create({
+        applicationId: applicationId,
+        commenter_name: body.commenter_name,
+        content: body.content
+    });
+
+    response.body = "Successfully added comments";
+}
+
+/**
+ * Get comments for the application.
+ * params: applicationId
+ * return: [{commenter_name: string, content: string}]
+ */
+const getComments = async(applicationId: number) => {
+    return await Comments.select('commenter_name', 'content')
+            .where('applicationId', applicationId).get() as Model[];;
+}
+
+export { questionCreate, getQuestionsForApplicant, getAllQuestions, addNotes, getNotes, addComments, getComments }
