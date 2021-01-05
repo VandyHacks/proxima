@@ -1,20 +1,9 @@
 <script lang="ts">
   import {
-    DataTable,
     Tag,
-    DataTableSkeleton,
-    Link,
     Column,
     Row,
     Tile,
-    StructuredList,
-    StructuredListHead,
-    StructuredListRow,
-    StructuredListCell,
-    StructuredListBody,
-    Accordion,
-    AccordionItem,
-    ButtonSet,
     TextInput,
     Button,
     Slider,
@@ -22,12 +11,10 @@
     TextAreaSkeleton,
     Loading
   } from 'carbon-components-svelte';
-  import CheckmarkFilled32 from 'carbon-icons-svelte/lib/CheckmarkFilled32';
   import { onMount } from 'svelte';
   import wretch from 'wretch';
 
   import { API_URL } from '../config/api';
-  import { ApplicationStatus } from '../interfaces';
   import { capitalizeFirstLetter } from '../utils/filters';
   import { path } from 'svelte-pathfinder';
   import type { Application, Note, ApplicantResponse } from '../interfaces';
