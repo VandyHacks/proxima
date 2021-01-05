@@ -138,7 +138,7 @@
           <Document32 />
         </a>
       {:else if cell.key === 'notes'}
-        <Link inline href="/applicants/{row.id}/notes">
+        <Link inline href="/applicants/{$path.applicantid}/notes">
           <WatsonHealthTextAnnotationToggle32 />
         </Link>
       {:else if cell.key === 'links'}
