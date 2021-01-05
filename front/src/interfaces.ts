@@ -57,3 +57,11 @@ export interface Note {
   thoughts: string;
   responses: InterviewResponse[]
 }
+
+export interface ApplicantResponse {
+  questionId: number;
+  response: string;
+  content: string;
+  specificity: string;
+  description: string;
+}
