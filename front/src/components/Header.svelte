@@ -1,8 +1,5 @@
 <script lang="ts">
-  import {
-    SkipToContent,
-    Header,
-  } from 'carbon-components-svelte';
+  import { SkipToContent, Header } from 'carbon-components-svelte';
   import { getContext } from 'svelte';
 
   const ctx: { dark: any; light: any; updateVar: any } = getContext('Theme');
@@ -18,7 +15,10 @@
   }
 </script>
 
-<Header company="Proxima" platformName="Recruitment Application for VandyHacks" href="/">
+<Header
+  company="Proxima"
+  platformName="Recruitment Application for VandyHacks"
+  href="/">
   <div slot="skip-to-content">
     <SkipToContent />
   </div>

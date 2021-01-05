@@ -78,7 +78,7 @@ const parseTypeForm = async({request, response}: RouterContext) => {
 const displayApplications = async({response}: RouterContext) => {
     let applications: any[] = await Application.select('id', 'name', 'email', 'year', 'director', 'status', 'resume_link', 'committee_accepted').orderBy('id').all();
 
-    for(let application of applications) {
+    for (let application of applications) {
         application.committees = [];
         let committees = await CommitteeChoice.select('committee').where('applicationId', application.id as number).get() as Model[];
         for(let committeeObj of committees){

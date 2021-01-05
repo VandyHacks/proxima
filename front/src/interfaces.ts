@@ -1,7 +1,8 @@
 export enum ApplicationStatus {
   APPLIED = 'applied',
   TOINTERVIEW = 'to_interview',
-  REJECTED = 'rejected'
+  REJECTED = 'rejected',
+  ACCEPTED = 'accepted'
 }
 
 export enum CommitteeType {
@@ -14,17 +15,45 @@ export enum CommitteeType {
   MARKETING = 'marketing'
 }
 
+export enum ClassStanding {
+  FRESHMAN ="freshman",
+  SOPHOMORE = "sophomore", 
+  JUNIOR = "junior"
+}
+
 export interface Application {
-  id: number,
+  id: string,
   name: string,
   email: string,
-  year: string,
+  year: ClassStanding,
   director: boolean, 
   status: ApplicationStatus,
+  source: string;
+  essay1: string,
+  essay2: string,
+  essay3: string,
   resume_link: string
   github_link: string;
   linkedin_link: string;
   social_link: string | null;
   design_link: string | null;
   committees: CommitteeType[]
+}
+
+export interface InterviewResponse {
+  question: string,
+  description: string;
+  specificity: string;
+  note: string;
+}
+
+export interface Note {
+  id: string;
+  interviewer_name: string;
+  reliability: string;
+  interest: string;
+  teamwork: string;
+  overall: string;
+  thoughts: string;
+  responses: InterviewResponse[]
 }
