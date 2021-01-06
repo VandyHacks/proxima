@@ -33,10 +33,7 @@
   let rows = [];
 
   onMount(async () => {
-    const data: Array<any> = await wretch(`${API_URL}/questions`).get().json();
-    for (let i in data) {
-      rows.push(data[i]);
-    }
+    rows = await wretch(`${API_URL}/questions`).get().json();
     loading = false;
   });
 </script>

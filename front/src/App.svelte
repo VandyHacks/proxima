@@ -23,7 +23,7 @@
       <Modal
         passiveModal
         bind:open={$showErrorModal}
-        modalHeading="The error has occured">
+        modalHeading="An error has occurred">
         <p>{$errorMessage}</p>
       </Modal>
     </Grid>
