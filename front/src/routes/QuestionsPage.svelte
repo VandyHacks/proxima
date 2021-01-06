@@ -10,9 +10,11 @@
   import { onMount } from 'svelte';
   import { API_URL } from '../config/api';
   import { capitalizeFirstLetter } from '../utils/filters';
+
   import Add32 from 'carbon-icons-svelte/lib/Add32';
 
   let loading = true;
+
   let headers = [
     {
       key: 'id',
@@ -23,7 +25,7 @@
       value: 'Content'
     },
     {
-      key: 'committee',
+      key: 'specificity',
       value: 'Committee'
     }
   ];
@@ -49,7 +51,7 @@
       </ToolbarContent>
     </Toolbar>
     <span slot="cell" let:row let:cell>
-      {#if cell.key === 'committee'}
+      {#if cell.key === 'specificity'}
         {capitalizeFirstLetter(cell.value)}
       {:else}{cell.value}{/if}
     </span>
