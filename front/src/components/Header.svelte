@@ -7,22 +7,13 @@
     HeaderNavItem,
     HeaderUtilities
   } from 'carbon-components-svelte';
-  import { getContext } from 'svelte';
 
+  import { theme } from '../stores/themes.js';
   import Moon24 from 'carbon-icons-svelte/lib/Moon24';
+  import Sun24 from "carbon-icons-svelte/lib/Sun24";
 
-  export let isDark = true;
-
-  const ctx: { dark: any; light: any; updateVar: any } = getContext('Theme');
-
-  $: if (ctx) {
-    ctx.dark.subscribe(value => {
-      console.log('dark mode?', value);
-    });
-    ctx.light.subscribe(value => {
-      console.log('light mode?', value);
-    });
-    ctx.updateVar('--cds-productive-heading-06-font-size', '4rem');
+  const changeTheme = () => {
+    theme.set(($theme === 'g90') ? 'g10' : 'g90');
   }
 </script>
 
@@ -38,10 +29,8 @@
   <HeaderUtilities>
     <HeaderGlobalAction
       aria-label="Dark Mode"
-      icon={Moon24}
-      on:click={() => {
-        isDark = !isDark;
-      }} />
+      icon={($theme === 'g90') ? Sun24 : Moon24}
+      on:click={changeTheme} />
   </HeaderUtilities>
   <div slot="skip-to-content">
     <SkipToContent />

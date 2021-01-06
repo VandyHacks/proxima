@@ -1,57 +1,17 @@
 <script lang="ts">
-  type Theme = 'g90' | 'g100';
-
-  export let persist: boolean = false;
-  export let persistKey: string = 'theme';
-  export let theme: Theme = 'g90';
-  export const themes: Theme[] = ['g90', 'g100'];
-
-  import { onMount, afterUpdate, setContext } from 'svelte';
-  import { writable, derived } from 'svelte/store';
-
-  const isValidTheme = value => themes.includes(value);
-  const isDark = value =>
-    isValidTheme(value) && (value === 'g90' || value === 'g100');
-
-  const dark = writable(isDark(theme));
-  const light = derived(dark, _ => !_);
-
-  setContext('Theme', {
-    updateVar: (name: string, value: string) => {
-      document.documentElement.style.setProperty(name, value);
-    },
-    dark,
-    light
-  });
+  let persistKey = "carbon-theme";
+  const themes = ["light", "g10", "g90", "g100"];
+  import { onMount, afterUpdate } from "svelte";
+  import { theme } from "../stores/themes.js";
 
   onMount(() => {
-    try {
-      const persisted_theme = localStorage.getItem(persistKey);
-
-      if (isValidTheme(persisted_theme)) {
-        theme = persisted_theme as Theme;
-      }
-    } catch (error) {
-      console.error(error);
-    }
+    const persistedTheme = localStorage.getItem(persistKey);
+    theme.set(persistedTheme);
   });
-
   afterUpdate(() => {
-    if (isValidTheme(theme)) {
-      document.documentElement.setAttribute('theme', theme);
-      if (persist) {
-        localStorage.setItem(persistKey, theme);
-      }
-    } else {
-      console.warn(
-        `"${theme}" is not a valid Carbon theme. Choose from available themes: ${JSON.stringify(
-          themes
-        )}`
-      );
-    }
+    document.documentElement.setAttribute("theme", $theme);
+    localStorage.setItem(persistKey, $theme);
   });
-
-  $: dark.set(isDark(theme));
 </script>
 
 <slot />
