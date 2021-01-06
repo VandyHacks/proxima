@@ -1,10 +1,10 @@
 <script lang="ts">
-  type Theme = 'white' | 'g10' | 'g90' | 'g100';
+  type Theme = 'g90' | 'g100';
 
   export let persist: boolean = false;
   export let persistKey: string = 'theme';
-  export let theme: Theme = 'white';
-  export const themes: Theme[] = ['white', 'g10', 'g90', 'g100'];
+  export let theme: Theme = 'g90';
+  export const themes: Theme[] = ['g90', 'g100'];
 
   import { onMount, afterUpdate, setContext } from 'svelte';
   import { writable, derived } from 'svelte/store';

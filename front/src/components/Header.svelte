@@ -1,6 +1,17 @@
 <script lang="ts">
-  import { SkipToContent, Header } from 'carbon-components-svelte';
+  import {
+    SkipToContent,
+    Header,
+    HeaderGlobalAction,
+    HeaderNav,
+    HeaderNavItem,
+    HeaderUtilities
+  } from 'carbon-components-svelte';
   import { getContext } from 'svelte';
+
+  import Moon24 from 'carbon-icons-svelte/lib/Moon24';
+
+  export let isDark = true;
 
   const ctx: { dark: any; light: any; updateVar: any } = getContext('Theme');
 
@@ -17,8 +28,21 @@
 
 <Header
   company="Proxima"
-  platformName="Recruitment Application for VandyHacks"
+  platformName="VandyHacks"
+  uiShellAriaLabel="Proxima | Recruitment Application for VandyHacks"
   href="/">
+  <HeaderNav>
+    <HeaderNavItem href="/" text="Applications" />
+    <HeaderNavItem href="/questions" text="Questions" />
+  </HeaderNav>
+  <HeaderUtilities>
+    <HeaderGlobalAction
+      aria-label="Dark Mode"
+      icon={Moon24}
+      on:click={() => {
+        isDark = !isDark;
+      }} />
+  </HeaderUtilities>
   <div slot="skip-to-content">
     <SkipToContent />
   </div>
