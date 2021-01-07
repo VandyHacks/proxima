@@ -29,6 +29,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
         uses: bahmutov/npm-install@v1
+        with:
+          working-directory: front
       - name: Run lint
         run: npm run lint:check
       - name: Run ts validation
