@@ -50,7 +50,13 @@
   <DataTable sortable title="All Questions" {headers} {rows}>
     <Toolbar>
       <ToolbarContent>
-        <Button size="default" icon={Add32} kind="ghost" on:click={() => (open = true)}>Add Question</Button>
+        <Button
+          size="default"
+          icon={Add32}
+          kind="ghost"
+          on:click={() => (open = true)}>
+          Add Question
+        </Button>
       </ToolbarContent>
     </Toolbar>
     <span slot="cell" let:row let:cell>
@@ -69,18 +75,17 @@
       on:click:button--secondary={() => (open = false)}
       on:open
       on:close
-      on:submit
-    >
-
-
+      on:submit>
       <Form on:submit>
         <Dropdown
           titleText="Choose a committee:"
           selectedIndex={0}
-          items={[{ id: '0', text: 'General' }, { id: '1', text: 'Operations' }, { id: '2', text: 'Fax' }]}
-        />
-        <Tile></Tile>
-        <TextArea helperText="_" labelText="Description:" placeholder="Enter a description..." />
+          items={[{ id: '0', text: 'General' }, { id: '1', text: 'Operations' }, { id: '2', text: 'Fax' }]} />
+        <Tile />
+        <TextArea
+          helperText="_"
+          labelText="Description:"
+          placeholder="Enter a description..." />
         <TextArea labelText="Content:" placeholder="Enter content..." />
       </Form>
     </Modal>
