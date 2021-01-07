@@ -1,30 +1,28 @@
-# KOA2 TypeScript Starter
+# Proxima Server
 
-[![Build Status](https://travis-ci.org/ddimaria/koa-typescript-starter.svg?branch=develop)](https://travis-ci.org/ddimaria/koa-typescript-starter)
-[![Coverage Status](https://coveralls.io/repos/github/ddimaria/koa-typescript-starter/badge.svg?branch=develop)](https://coveralls.io/github/ddimaria/koa-typescript-starter?branch=develop)
-
-A NodeJS server built with the KOA2 framework using TypeScript.
+A NodeJS server built with the KOA2 framework using TypeScript. The re-make of an original Deno server in Node for stability.
 
 Technologies Used:
 
-* [KOA2](http://koajs.com/)
-* [TypeScript](https://www.typescriptlang.org/)
-* [Travis CLI](https://travis-ci.org/)
-* [Coveralls](https://coveralls.io/)
-* [Jasmine](https://jasmine.github.io/)
-* [Chai](http://www.chaijs.com/)
-* [Istanbul/NYC](https://github.com/istanbuljs/nyc)
-* [Lodash](https://lodash.com/)
-* [Nodemon](https://nodemon.io/)
-* [Docker](https://www.docker.com/)
-* [Swagger](https://swagger.io/)
-* [Bunyahn](https://github.com/trentm/node-bunyan)
-* [Koa Bunyan Logger](https://github.com/koajs/bunyan-logger/)
+- [KOA2](http://koajs.com/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Travis CLI](https://travis-ci.org/)
+- [Coveralls](https://coveralls.io/)
+- [Jasmine](https://jasmine.github.io/)
+- [Chai](http://www.chaijs.com/)
+- [Istanbul/NYC](https://github.com/istanbuljs/nyc)
+- [Lodash](https://lodash.com/)
+- [Nodemon](https://nodemon.io/)
+- [Docker](https://www.docker.com/)
+- [Swagger](https://swagger.io/)
+- [Bunyahn](https://github.com/trentm/node-bunyan)
+- [Koa Bunyan Logger](https://github.com/koajs/bunyan-logger/)
+- [TypeORM](https://github.com/typeorm)
 
 ## Prerequisites
 
-* Node.js (8+): recommend using [nvm](https://github.com/creationix/nvm)
-* Docker (if building a docker image) https://www.docker.com/docker-mac
+- Node.js (8+): recommend using [nvm](https://github.com/creationix/nvm)
+- Docker (if building a docker image)
 
 ## Installation
 

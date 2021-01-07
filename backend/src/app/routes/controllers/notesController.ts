@@ -111,9 +111,7 @@ const addNotes = async ({ params, request, response }: RouterContext) => {
   } = await request.body().value;
   const applicationId = (params.applicationId as unknown) as number;
 
-  let application: Model = await Application.select("id", "status").find(
-    applicationId
-  );
+  let application: Model = await Application.select("id", "status");
   if (application.status != "rejected" && application.status != "accepted") {
     application.status = "in_review";
   }

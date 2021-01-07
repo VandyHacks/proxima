@@ -1,19 +1,22 @@
 import * as Koa from 'koa';
-import * as koaBody from 'koa-body';
+import * as bodyparser from 'koa-bodyparser';
 import * as cors from '@koa/cors';
+import * as serve from 'koa-static';
+import * as koaBunyanLogger from 'koa-bunyan-logger';
 
-const serve = require('koa-static');
-const koaValidator = require('koa-async-validator');
 const koaSwagger = require('koa2-swagger-ui');
-const koaBunyanLogger = require('koa-bunyan-logger');
+const koaValidator = require('koa-async-validator');
 
-import { config } from './config';
-import { routes } from './routes';
+import { routes } from './routes/routes';
 import { logger } from './logger';
+import * as dotenv from 'dotenv';
+dotenv.config();
+
+// Database connection, using TypeOrm
 
 const app = new Koa();
 
-app.use(koaBody());
+app.use(bodyparser());
 app.use(koaValidator());
 app.use(cors());
 app.use(koaBunyanLogger(logger));
@@ -30,6 +33,7 @@ app.use(
   })
 );
 
-export const server = app.listen(config.port);
+const port = parseInt(process.env.NODE_PORT, 10) || 3000;
 
-console.log(`Server running on port ${config.port}`);
+export const server = app.listen(port);
+console.log(`Server running on port ${port}`);

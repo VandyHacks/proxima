@@ -18,7 +18,7 @@ class Application extends Model {
       "to_interview",
       "accepted",
       "rejected",
-      "unsure",
+      "in_review",
     ]),
     essay1: DataTypes.TEXT,
     essay2: DataTypes.TEXT,
