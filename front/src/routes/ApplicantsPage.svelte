@@ -17,6 +17,7 @@
 
   import { API_URL } from '../config/api';
   import type { Application } from '../interfaces';
+  import { ApplicationStatus } from '../interfaces';
   import { capitalizeFirstLetter } from '../utils/filters';
 
   let searchTerm = '';
@@ -58,7 +59,8 @@
       resume: application.resume_link,
       email: application.email,
       committees: application.committees,
-      status: application.status
+      status: application.status,
+      committee_accepted: application.committee_accepted
     }));
     loading = false;
   });
@@ -84,15 +86,23 @@
         <Link inline href="/applicants/{row.id}">{cell.value}</Link>
       {:else if cell.key === 'overflow'}
         <OverflowMenu flipped>
-          <OverflowMenuItem text="Take notes" />
+          <OverflowMenuItem
+            href="/applicants/{row.id}/notes"
+            text="Take notes" />
           <OverflowMenuItem href="/applicants/{row.id}" text="Application" />
         </OverflowMenu>
       {:else if cell.key === 'status'}
         {capitalizeFirstLetter(cell.value)}
       {:else if cell.key === 'committees'}
-        {#each cell.value as committee}
-          <Tag type="green">{capitalizeFirstLetter(committee)}</Tag>
-        {/each}
+        {#if row.status === ApplicationStatus.ACCEPTED}
+          <Tag type="green">
+            {capitalizeFirstLetter(row.committee_accepted)}
+          </Tag>
+        {:else}
+          {#each cell.value as committee}
+            <Tag type="green">{capitalizeFirstLetter(committee)}</Tag>
+          {/each}
+        {/if}
       {:else}{cell.value}{/if}
     </span>
   </DataTable>
