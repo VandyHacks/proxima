@@ -236,7 +236,7 @@ const updateStatus = async({params, request, response}: RouterContext) => {
     const application: Model = await Application.select('id', 'status', 'email').find(applicationId);
 
     // Logic for emails
-    sendEmail(application.email as string, newStatus);
+    // sendEmail(application.email as string, newStatus);
 
     // Update status
     application.status = newStatus;

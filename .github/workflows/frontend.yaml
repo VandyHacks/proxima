@@ -1,0 +1,35 @@
+name: Frontend
+
+on:
+  pull_request:
+    branches: [master]
+    paths:
+      - 'front/**'
+
+jobs:
+  lint:
+    name: Lint
+
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: front
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+      - name: Install Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2-beta
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        uses: bahmutov/npm-install@v1
+      - name: Run lint
+        run: npm run lint:check
+      - name: Run ts validation
+        run: npm run validate
