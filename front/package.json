@@ -6,7 +6,8 @@
     "build": "rollup -c",
     "start": "sirv public --single",
     "validate": "svelte-check",
-    "lint": "prettier --write src/*.svelte src/**/*.svelte"
+    "lint": "prettier --write src/*.svelte src/**/*.svelte",
+    "lint:check": "prettier --check src/*.svelte src/**/*.svelte"
   },
   "dependencies": {
     "sirv-cli": "^1.0.0",
