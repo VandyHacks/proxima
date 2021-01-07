@@ -2,7 +2,8 @@ export enum ApplicationStatus {
   APPLIED = 'applied',
   TOINTERVIEW = 'to_interview',
   REJECTED = 'rejected',
-  ACCEPTED = 'accepted'
+  ACCEPTED = 'accepted',
+  UNSURE = 'unsure',
 }
 
 export enum CommitteeType {
