@@ -17,7 +17,7 @@ export enum CommitteeType {
 }
 
 export enum ClassStanding {
-  FRESHMAN ="freshman",
+  FRESHMAN = "freshman",
   SOPHOMORE = "sophomore", 
   JUNIOR = "junior"
 }

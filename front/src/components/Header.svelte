@@ -1,24 +1,37 @@
 <script lang="ts">
-  import { SkipToContent, Header } from 'carbon-components-svelte';
-  import { getContext } from 'svelte';
+  import {
+    SkipToContent,
+    Header,
+    HeaderGlobalAction,
+    HeaderNav,
+    HeaderNavItem,
+    HeaderUtilities
+  } from 'carbon-components-svelte';
 
-  const ctx: { dark: any; light: any; updateVar: any } = getContext('Theme');
+  import { theme } from '../stores/themes.js';
+  import Moon24 from 'carbon-icons-svelte/lib/Moon24';
+  import Sun24 from 'carbon-icons-svelte/lib/Sun24';
 
-  $: if (ctx) {
-    ctx.dark.subscribe(value => {
-      console.log('dark mode?', value);
-    });
-    ctx.light.subscribe(value => {
-      console.log('light mode?', value);
-    });
-    ctx.updateVar('--cds-productive-heading-06-font-size', '4rem');
-  }
+  const changeTheme = () => {
+    theme.set($theme === 'g90' ? 'g10' : 'g90');
+  };
 </script>
 
 <Header
   company="Proxima"
-  platformName="Recruitment Application for VandyHacks"
+  platformName="VandyHacks"
+  uiShellAriaLabel="Proxima | Recruitment Application for VandyHacks"
   href="/">
+  <HeaderNav>
+    <HeaderNavItem href="/" text="Applications" />
+    <HeaderNavItem href="/questions" text="Questions" />
+  </HeaderNav>
+  <HeaderUtilities>
+    <HeaderGlobalAction
+      aria-label="Dark Mode"
+      icon={$theme === 'g90' ? Sun24 : Moon24}
+      on:click={changeTheme} />
+  </HeaderUtilities>
   <div slot="skip-to-content">
     <SkipToContent />
   </div>
