@@ -1,12 +1,12 @@
-import * as Koa from "koa";
-import * as HttpStatus from "http-status-codes";
-import * as bodyParser from "koa-bodyparser";
-import * as cors from "@koa/cors";
-import * as logger from "koa-logger";
+import * as Koa from 'koa';
+import * as HttpStatus from 'http-status-codes';
+import * as bodyParser from 'koa-bodyparser';
+import * as cors from '@koa/cors';
+import * as logger from 'koa-logger';
 
-import applicationRoutes from "./routes/application.routes";
-import hookRoutes from "./routes/hook.routes";
-import questionRoutes from "./routes/question.routes";
+import applicationRoutes from './routes/application.routes';
+import hookRoutes from './routes/hook.routes';
+import questionRoutes from './routes/question.routes';
 
 const app: Koa = new Koa();
 
@@ -19,7 +19,7 @@ app.use(async (ctx: Koa.Context, next: () => Promise<any>) => {
       error.statusCode || error.status || HttpStatus.INTERNAL_SERVER_ERROR;
     error.status = ctx.status;
     ctx.body = { error };
-    ctx.app.emit("error", error, ctx);
+    ctx.app.emit('error', error, ctx);
   }
 });
 
@@ -41,7 +41,7 @@ app.on('error', (err, ctx) => {
    *   write error to log file
    *   save error and request information to database if ctx.request match condition
    *   ...
-  */
+   */
 });
 
 export default app;

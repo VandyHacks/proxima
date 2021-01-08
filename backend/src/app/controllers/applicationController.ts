@@ -1,17 +1,17 @@
-import * as Koa from "koa";
-import { getRepository, Repository } from "typeorm";
+import * as Koa from 'koa';
+import { getRepository, Repository } from 'typeorm';
 import {
   AcceptedCommitteeType,
   Application,
-  ApplicationStatus,
-} from "../../database/entities/Application";
+  ApplicationStatus
+} from '../../database/entities/Application';
 import {
   CommitteeChoice,
-  CommitteeType,
-} from "../../database/entities/CommitteeChoice";
+  CommitteeType
+} from '../../database/entities/CommitteeChoice';
 
 // import { send } from "../utils/smtpClient";
-import { getNotes, getComments } from "./notesController";
+import { getNotes, getComments } from './notesController';
 
 /**
  * Parsing is very specific to the kind of form we have right now.
@@ -27,14 +27,14 @@ const parseTypeForm = async ({ request, response }: Koa.Context) => {
         form_response: { definition: { fields: any[] }; answers: any };
       }
     | any = request.body;
-  let responses: any = {};
-  let committees: CommitteeType[];
+  const responses: any = {};
+  let committees: CommitteeType[] = [];
 
   application.form_response.answers.forEach((answer: any) => {
     // Map field reference name (set in TypeForm) to the response
-    if (answer.field.ref === "year") {
-      responses["year"] = answer.choice.label.split(" ")[0].toLowerCase();
-    } else if (answer.field.ref === "committees") {
+    if (answer.field.ref === 'year') {
+      responses['year'] = answer.choice.label.split(' ')[0].toLowerCase();
+    } else if (answer.field.ref === 'committees') {
       committees = answer.choices.labels.map((c: string) => c.toLowerCase());
     } else {
       responses[answer.field.ref] = answer[answer.type];
@@ -62,7 +62,7 @@ const parseTypeForm = async ({ request, response }: Koa.Context) => {
     social_link: responses.social_link,
     design_link: responses.design_link,
     source: responses.source,
-    committee_accepted: AcceptedCommitteeType.UNDECIDED,
+    committee_accepted: AcceptedCommitteeType.UNDECIDED
   });
 
   await applicationRepo.save(newApplication);
@@ -73,16 +73,16 @@ const parseTypeForm = async ({ request, response }: Koa.Context) => {
   );
 
   // Create committee relations for an applicant
-  committees.forEach((committee) => {
+  committees.forEach(committee => {
     const committeeChoice: CommitteeChoice = committeeChoiceRepo.create({
       committee: committee,
-      application: newApplication,
+      application: newApplication
     });
 
     committeeChoiceRepo.save(committeeChoice);
   });
 
-  response.body = "Submission received!";
+  response.body = 'Submission received!';
 };
 
 /**
@@ -107,19 +107,19 @@ const displayApplications = async ({ response }: Koa.Context) => {
   // Load applications with committees specified
   const applications: Application[] = await applicationRepo.find({
     select: [
-      "id",
-      "name",
-      "email",
-      "year",
-      "director",
-      "status",
-      "resume_link",
-      "committee_accepted",
+      'id',
+      'name',
+      'email',
+      'year',
+      'director',
+      'status',
+      'resume_link',
+      'committee_accepted'
     ],
-    relations: ["committees"],
+    relations: ['committees'],
     order: {
-      id: "ASC",
-    },
+      id: 'ASC'
+    }
   });
 
   response.body = applications;
@@ -151,14 +151,15 @@ const displayApplications = async ({ response }: Koa.Context) => {
  *   }
  * @param applicationId
  */
-const getApplicationResponse = async (applicationId: number) => {
-  // Application repository
+const getApplicationResponse = async (
+  applicationId: number
+): Promise<Application | undefined> => {
   const applicationRepo: Repository<Application> = getRepository(Application);
 
-  const application: Application = await applicationRepo.findOne(
+  const application: Application | undefined = await applicationRepo.findOne(
     applicationId,
     {
-      relations: ["committees"],
+      relations: ['committees']
     }
   );
 
@@ -209,7 +210,7 @@ const getApplicantData = async ({ params, response }: Koa.Context) => {
   response.body = {
     application: await getApplicationResponse(applicationId),
     notes: await getNotes(applicationId),
-    comments: await getComments(applicationId),
+    comments: await getComments(applicationId)
   };
 };
 
@@ -231,7 +232,6 @@ const sendEmail = async (email: string, status: string, committee?: string) => {
   //   );
   //   return;
   // }
-
   // send(email, "VandyHacks Board Decision", emailMessage);
 };
 
@@ -250,27 +250,34 @@ const updateStatus = async ({ params, request, response }: Koa.Context) => {
   const applicationRepo: Repository<Application> = getRepository(Application);
 
   // Get application to update
-  const application: Application = await applicationRepo.findOne(
+  const application: Application | undefined = await applicationRepo.findOne(
     applicationId,
     {
-      select: ["id", "status", "email"],
+      select: ['id', 'status', 'email']
     }
   );
 
-  // Logic for emails
-  sendEmail(application.email as string, newStatus);
+  if (application) {
+    // Logic for emails
+    sendEmail(application.email as string, newStatus);
 
-  // Update status
-  application.status = newStatus;
+    // Update status
+    application.status = newStatus;
 
-  // Update committees if accepted
-  if (newStatus === ApplicationStatus.ACCEPTED) {
-    application.committee_accepted = committee;
+    // Update committees if accepted
+    if (newStatus === ApplicationStatus.ACCEPTED && committee) {
+      application.committee_accepted = committee;
+    }
+
+    await applicationRepo.save(application);
+
+    response.body = `Successfully updated ${application.email} with new status: ${newStatus}`;
+  } else {
+    response.status = 404;
+    response.body = {
+      message: 'Application is not found'
+    };
   }
-
-  await applicationRepo.save(application);
-
-  response.body = `Successfully updated ${application.email} with new status: ${newStatus}`;
 };
 
 export { parseTypeForm, displayApplications, updateStatus, getApplicantData };

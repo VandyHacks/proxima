@@ -4,10 +4,10 @@ import {
   Column,
   ManyToOne,
   OneToMany,
-  JoinTable,
-} from "typeorm";
-import { Application } from "./Application";
-import { QuestionNote } from "./QuestionNote";
+  JoinTable
+} from 'typeorm';
+import { Application } from './Application';
+import { QuestionNote } from './QuestionNote';
 
 export enum Scores {
   ONE = 1,
@@ -16,10 +16,10 @@ export enum Scores {
   FOUR = 4,
   FIVE = 5,
   SIX = 6,
-  SEVEN = 7,
+  SEVEN = 7
 }
 
-@Entity({name: "notes"})
+@Entity({ name: 'notes' })
 export class Note {
   @PrimaryGeneratedColumn()
   id: number;
@@ -28,34 +28,34 @@ export class Note {
   interviewer_name: string;
 
   @Column({
-    type: "enum",
-    enum: Scores,
+    type: 'enum',
+    enum: Scores
   })
   reliability: Scores;
 
   @Column({
-    type: "enum",
-    enum: Scores,
+    type: 'enum',
+    enum: Scores
   })
   interest: Scores;
 
   @Column({
-    type: "enum",
-    enum: Scores,
+    type: 'enum',
+    enum: Scores
   })
   teamwork: Scores;
 
   @Column({
-    type: "enum",
-    enum: Scores,
+    type: 'enum',
+    enum: Scores
   })
   overall: Scores;
 
-  @Column("text")
+  @Column('text')
   thoughts: string;
 
   @Column({
-    nullable: true,
+    nullable: true
   })
   applicationId: number;
 
@@ -63,7 +63,7 @@ export class Note {
     () => Application,
     (application: Application) => application.notes,
     {
-      eager: true,
+      eager: true
     }
   )
   @JoinTable()
@@ -73,7 +73,7 @@ export class Note {
     () => QuestionNote,
     (questionNote: QuestionNote) => questionNote.note,
     {
-      eager: true,
+      eager: true
     }
   )
   @JoinTable()

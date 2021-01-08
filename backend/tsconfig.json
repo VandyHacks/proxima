@@ -1,12 +1,16 @@
 {
   "compilerOptions": {
-    "target": "ES2017",
-    "module": "commonjs",
-    "lib": ["es2017"],
+    "resolveJsonModule": true,
     "outDir": "dist",
-    "rootDir": "src",
-    "noImplicitAny": true,
+    "module": "commonjs",
+    "target": "es6",
+    "noImplicitAny": false,
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "strictNullChecks": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-  }
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["./node_modules", "src/**/*.test.ts"]
 }

@@ -1,24 +1,24 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
-import { Application } from "./Application";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Application } from './Application';
 
 export enum CommitteeType {
-  OPERATIONS = "operations",
-  DEVELOPMENT = "development",
-  HACKEREXPERIENCE = "hacker experience",
-  DESIGN = "design",
-  SPONSORSHIP = "sponsorship",
-  CONTENT = "content",
-  MARKETING = "marketing",
+  OPERATIONS = 'operations',
+  DEVELOPMENT = 'development',
+  HACKEREXPERIENCE = 'hacker experience',
+  DESIGN = 'design',
+  SPONSORSHIP = 'sponsorship',
+  CONTENT = 'content',
+  MARKETING = 'marketing'
 }
 
-@Entity({name: "committee_choices"})
+@Entity({ name: 'committee_choices' })
 export class CommitteeChoice {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column({
-    type: "enum",
-    enum: CommitteeType,
+    type: 'enum',
+    enum: CommitteeType
   })
   committee: CommitteeType;
 

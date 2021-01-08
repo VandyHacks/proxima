@@ -39,7 +39,7 @@ export interface Application {
   linkedin_link: string;
   social_link: string | null;
   design_link: string | null;
-  committees: CommitteeType[];
+  committees: { id: number, committee: CommitteeType }[];
   committee_accepted: CommitteeType;
 }
 

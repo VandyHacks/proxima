@@ -1,7 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
-import { Application } from "./Application";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Application } from './Application';
 
-@Entity({name: "comments"})
+@Entity({ name: 'comments' })
 export class Comment {
   @PrimaryGeneratedColumn()
   id: number;
@@ -9,11 +9,11 @@ export class Comment {
   @Column()
   commenter_name: string;
 
-  @Column("text")
+  @Column('text')
   content: string;
 
   @Column({
-    nullable: true,
+    nullable: true
   })
   applicationId: number;
 

@@ -3,12 +3,12 @@ import {
   Column,
   ManyToOne,
   PrimaryGeneratedColumn,
-  JoinTable,
-} from "typeorm";
-import { Question } from "./Question";
-import { Note } from "./Note";
+  JoinTable
+} from 'typeorm';
+import { Question } from './Question';
+import { Note } from './Note';
 
-@Entity({name: "question_notes"})
+@Entity({ name: 'question_notes' })
 export class QuestionNote {
   @PrimaryGeneratedColumn()
   public questionNoteId!: number;
@@ -19,15 +19,15 @@ export class QuestionNote {
   @Column()
   public questionId!: number;
 
-  @Column("text")
+  @Column('text')
   public response: string;
 
-  @ManyToOne(() => Question, (question) => question.questionsToNotes, {
-    eager: true,
+  @ManyToOne(() => Question, question => question.questionsToNotes, {
+    eager: true
   })
   @JoinTable()
   public question!: Question;
 
-  @ManyToOne(() => Note, (note) => note.notesToQuestions)
+  @ManyToOne(() => Note, note => note.notesToQuestions)
   public note!: Note;
 }
