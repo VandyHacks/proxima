@@ -4,17 +4,14 @@ import * as applicationController from "../controllers/applicationController";
 import * as notesController from "../controllers/notesController";
 
 const router = new Router({
-  prefix: '/api/v1/applications'
+  prefix: "/api/v1/applications",
 });
 
 // Fetch all applications for the grid
 router.get("/", applicationController.displayApplications);
 
 // Fetch application responses and notes for a specific applicant
-router.get(
-  "/:applicationId",
-  applicationController.getApplicantData
-);
+router.get("/:applicationId", applicationController.getApplicantData);
 
 // Update status (PUT request)
 router.put("/:applicationId", applicationController.updateStatus);
@@ -23,10 +20,7 @@ router.put("/:applicationId", applicationController.updateStatus);
 router.post("/:applicationId/notes", notesController.addNotes);
 
 // Add comments to the applicaiton
-router.post(
-  "/:applicationId/comments",
-  notesController.addComments
-);
+router.post("/:applicationId/comments", notesController.addComments);
 
 // Fetch questions for a specific applicant
 router.get(
