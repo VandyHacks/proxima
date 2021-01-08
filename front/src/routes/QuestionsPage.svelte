@@ -29,12 +29,16 @@
 
   let headers = [
     {
+      key: 'specificity',
+      value: 'Committee'
+    },
+    {
       key: 'content',
       value: 'Question'
     },
     {
-      key: 'specificity',
-      value: 'Committee'
+      key: 'description',
+      value: 'Description'
     }
   ];
 
@@ -108,19 +112,24 @@
       on:submit={addQuestion}>
       <Form on:submit>
         <Dropdown
+          style="padding-bottom: var(--cds-spacing-07);"
           titleText="Choose a committee:"
           itemToString={item => capitalizeFirstLetter(item.text)}
           bind:selectedIndex={committeeIndex}
           items={committees} />
-        <Tile />
+
+        <div style="padding-bottom: var(--cds-spacing-07);">
+          <TextArea
+            bind:value={contentValue}
+            style="padding-bottom: var(--cds-spacing-07);"
+            labelText="Question:"
+            placeholder="Enter question..." />
+        </div>
         <TextArea
           bind:value={descriptionValue}
+          style="padding-bottom: var(--cds-spacing-07);"
           labelText="Description:"
           placeholder="Enter a description..." />
-        <TextArea
-          bind:value={contentValue}
-          labelText="Content:"
-          placeholder="Enter content..." />
       </Form>
     </Modal>
   </DataTable>
