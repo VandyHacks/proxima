@@ -147,7 +147,7 @@ const displayApplications = async ({ response }: Koa.Context) => {
  *    social_link: string | null,
  *    design_link: string | null,
  *    committee_accepted: string | null,
- *    committees: string[],
+ *    committees: {id: number, text: {committee: string}}[],
  *   }
  * @param applicationId
  */

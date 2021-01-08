@@ -14,8 +14,7 @@
     AccordionItem,
     ButtonSet,
     Button,
-    Slider,
-    Dropdown
+    Slider
   } from 'carbon-components-svelte';
   import CheckmarkFilled32 from 'carbon-icons-svelte/lib/CheckmarkFilled32';
   import Document32 from 'carbon-icons-svelte/lib/Document32';
@@ -225,7 +224,7 @@
             {capitalizeFirstLetter(application.committee_accepted)}
           </Tag>
         {:else}
-          {#each cell.value as committee}
+          {#each cell.value as { committee }}
             <Tag type="green">{capitalizeFirstLetter(committee)}</Tag>
           {/each}
         {/if}

@@ -96,7 +96,7 @@
     <Column>
       <Tile style="text-align: center; margin: var(--cds-spacing-07) 0;">
         <h4>{`This is interview form for ${application.name}`}</h4>
-        {#each application.committees as committee}
+        {#each application.committees as { committee }}
           <Tag type="green">{capitalizeFirstLetter(committee)}</Tag>
         {/each}
       </Tile>

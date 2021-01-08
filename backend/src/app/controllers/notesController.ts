@@ -61,7 +61,7 @@ const getQuestionsForApplicant = async ({ params, response }: Koa.Context) => {
   // Get general questions first
   let questions: Question[] = await questionRepo.find({
     select: ["id", "content", "specificity", "description"],
-    where: { slecificity: QuestionSpecificity.GENERAL },
+    where: { specificity: QuestionSpecificity.GENERAL },
     order: {
       id: "ASC",
     },
@@ -168,7 +168,7 @@ const addNotes = async ({ params, request, response }: Koa.Context) => {
       noteId: note.id as number,
       questionId: questionNote.questionId,
     });
-    await questionNote.save(questionResponse);
+    await questionNoteRepo.save(questionResponse);
   }
 
   response.body = `Notes and responses successfully added from ${noteData.interviewer_name}`;
@@ -202,7 +202,7 @@ const getNotes = async (applicationId: number) => {
       "thoughts",
     ],
     where: { applicationId: applicationId },
-    relations: [],
+    relations: ["notesToQuestions"],
   });
 
   // For every Notes row, add respective QuestionNote rows
@@ -210,7 +210,6 @@ const getNotes = async (applicationId: number) => {
     note.responses = [];
 
     const questionNotes: QuestionNote[] = note.notesToQuestions;
-
     for (let questionNote of questionNotes) {
       const question: Question = questionNote.question;
 

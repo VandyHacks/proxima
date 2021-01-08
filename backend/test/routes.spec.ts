@@ -1,16 +1,15 @@
 import * as chai from 'chai';
 import { expect } from 'chai';
-import { server } from '../../back/app/app';
+import app from '../src/app/app';
 
-chai.use(require('chai-http'));
+import chaiHttp = require('chai-http')
 
 describe('routes', () => {
-  after(() => Promise.resolve(server.close()));
 
   describe(`GET /`, () => {
     it('should error on the default route with a 401', done => {
       chai
-        .request(server)
+        .request(app)
         .get(`/`)
         .end((err, res) => {
           expect(res.status).to.eql(401);
@@ -22,7 +21,7 @@ describe('routes', () => {
   describe(`GET /healthcheck`, () => {
     it('should healthcheck', done => {
       chai
-        .request(server)
+        .request(app)
         .get(`/healthcheck`)
         .end((err, res) => {
           isOk(err, res, 200, 'text/plain');

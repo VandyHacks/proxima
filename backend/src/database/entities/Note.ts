@@ -71,7 +71,11 @@ export class Note {
 
   @OneToMany(
     () => QuestionNote,
-    (questionNote: QuestionNote) => questionNote.note
+    (questionNote: QuestionNote) => questionNote.note,
+    {
+      eager: true,
+    }
   )
+  @JoinTable()
   public notesToQuestions!: QuestionNote[];
 }

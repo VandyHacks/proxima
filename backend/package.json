@@ -41,6 +41,7 @@
     "typeorm": "^0.2.29"
   },
   "devDependencies": {
+    "@types/chai-http": "^4.2.0",
     "@types/http-status-codes": "^1.2.0",
     "@types/jest": "^26.0.20",
     "@types/koa": "^2.0.46",
