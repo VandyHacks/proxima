@@ -1,4 +1,10 @@
-import { Entity, Column, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Entity,
+  Column,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  JoinTable,
+} from "typeorm";
 import { Question } from "./Question";
 import { Note } from "./Note";
 
@@ -16,7 +22,10 @@ export class QuestionNote {
   @Column("text")
   public response: string;
 
-  @ManyToOne(() => Question, (question) => question.questionsToNotes)
+  @ManyToOne(() => Question, (question) => question.questionsToNotes, {
+    eager: true,
+  })
+  @JoinTable()
   public question!: Question;
 
   @ManyToOne(() => Note, (note) => note.notesToQuestions)

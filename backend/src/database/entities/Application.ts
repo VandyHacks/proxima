@@ -121,7 +121,7 @@ export class Application {
     () => CommitteeChoice,
     (committeeChoice: CommitteeChoice) => committeeChoice.application
   )
-  committeeChoices: CommitteeChoice[];
+  committees: CommitteeChoice[];
 
   @OneToMany(() => Note, (note: Note) => note.application)
   notes: Note[];

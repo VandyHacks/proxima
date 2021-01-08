@@ -12,6 +12,11 @@ export class Comment {
   @Column("text")
   content: string;
 
+  @Column({
+    nullable: true,
+  })
+  applicationId: number;
+
   // Application foreign key
   @ManyToOne(
     () => Application,

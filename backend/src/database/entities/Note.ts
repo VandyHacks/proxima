@@ -53,7 +53,11 @@ export class Note {
   @Column("text")
   thoughts: string;
 
-  // Application foreign key
+  @Column({
+    nullable: true,
+  })
+  applicationId: number;
+
   @ManyToOne(() => Application, (application: Application) => application.notes)
   application: Application;
 

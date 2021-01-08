@@ -1,5 +1,4 @@
 import * as Koa from "koa";
-
 import { getRepository, Repository } from "typeorm";
 import {
   AcceptedCommitteeType,
@@ -106,8 +105,21 @@ const displayApplications = async ({ response }: Koa.Context) => {
   const applicationRepo: Repository<Application> = getRepository(Application);
 
   // Load applications with committees specified
-  const applications: any[] = await applicationRepo.find({
+  const applications: Application[] = await applicationRepo.find({
+    select: [
+      "id",
+      "name",
+      "email",
+      "year",
+      "director",
+      "status",
+      "resume_link",
+      "committee_accepted",
+    ],
     relations: ["committees"],
+    order: {
+      id: "ASC",
+    },
   });
 
   response.body = applications;
@@ -143,34 +155,12 @@ const getApplicationResponse = async (applicationId: number) => {
   // Application repository
   const applicationRepo: Repository<Application> = getRepository(Application);
 
-  let application: any = await Application.select(
-    "name",
-    "email",
-    "year",
-    "director",
-    "status",
-    "essay1",
-    "essay2",
-    "essay3",
-    "commitments",
-    "attendedVH",
-    "feedback",
-    "source",
-    "resume_link",
-    "github_link",
-    "linkedin_link",
-    "social_link",
-    "design_link",
-    "committee_accepted"
-  ).find(applicationId);
-
-  application.committees = [];
-  let committees = (await CommitteeChoice.select("committee")
-    .where("applicationId", applicationId as number)
-    .get()) as Model[];
-  for (let committeeObj of committees) {
-    application.committees.push(committeeObj.committee);
-  }
+  const application: Application = await applicationRepo.findOne(
+    applicationId,
+    {
+      relations: ["committees"],
+    }
+  );
 
   return application;
 };
@@ -250,18 +240,22 @@ const sendEmail = async (email: string, status: string, committee?: string) => {
  * body: {status: string, committee?: string}
  */
 const updateStatus = async ({ params, request, response }: Koa.Context) => {
-  const body: { status: string; committee?: string } = await request.body()
-    .value;
+  const body: { status: string; committee?: string } | any = request.body;
+
   const applicationId = (params.applicationId as unknown) as number;
-  const newStatus: string = body.status;
-  const committee: string | undefined = body.committee;
+  const newStatus: ApplicationStatus = body.status;
+  const committee: AcceptedCommitteeType | undefined = body.committee;
+
+  // Application repo
+  const applicationRepo: Repository<Application> = getRepository(Application);
 
   // Get application to update
-  const application: Model = await Application.select(
-    "id",
-    "status",
-    "email"
-  ).find(applicationId);
+  const application: Application = await applicationRepo.findOne(
+    applicationId,
+    {
+      select: ["id", "status", "email"],
+    }
+  );
 
   // Logic for emails
   sendEmail(application.email as string, newStatus);
@@ -270,11 +264,11 @@ const updateStatus = async ({ params, request, response }: Koa.Context) => {
   application.status = newStatus;
 
   // Update committees if accepted
-  if (newStatus === "accepted") {
-    application.committee_accepted = committee as string;
+  if (newStatus === ApplicationStatus.ACCEPTED) {
+    application.committee_accepted = committee;
   }
 
-  await application.update();
+  await applicationRepo.save(application);
 
   response.body = `Successfully updated ${application.email} with new status: ${newStatus}`;
 };

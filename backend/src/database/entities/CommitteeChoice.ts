@@ -22,6 +22,9 @@ export class CommitteeChoice {
   })
   committee: CommitteeType;
 
+  @Column({ nullable: true })
+  applicationId: number;
+
   @ManyToOne(
     () => Application,
     (application: Application) => application.committees
