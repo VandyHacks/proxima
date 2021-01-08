@@ -17,7 +17,10 @@ import { Comment } from '../../database/entities/Comments';
  * Adds the question to the database
  * Body: {content: string, specificity: string, description: string}
  */
-const questionCreate = async ({ request, response }: Koa.Context): Promise<void> => {
+const questionCreate = async ({
+  request,
+  response
+}: Koa.Context): Promise<void> => {
   const questionRepo: Repository<Question> = getRepository(Question);
 
   // populate committee
