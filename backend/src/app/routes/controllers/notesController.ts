@@ -5,7 +5,7 @@ import {
   Question,
   QuestionSpecificity,
 } from "../../../database/entities/Question";
-import { Note } from "../../../database/entities/Note";
+import { Note, Scores } from "../../../database/entities/Note";
 import {
   Application,
   ApplicationStatus,
@@ -128,10 +128,10 @@ const addNotes = async ({ params, request, response }: Koa.Context) => {
   const noteData:
     | {
         interviewer_name: string;
-        reliability: number;
-        interest: number;
-        teamwork: number;
-        overall: number;
+        reliability: Scores;
+        interest: Scores;
+        teamwork: Scores;
+        overall: Scores;
         thoughts: string;
         questionAnswers: { questionId: number; response: string }[];
       }
