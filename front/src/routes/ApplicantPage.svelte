@@ -14,7 +14,8 @@
     AccordionItem,
     ButtonSet,
     Button,
-    Slider
+    Slider,
+    Dropdown
   } from 'carbon-components-svelte';
   import CheckmarkFilled32 from 'carbon-icons-svelte/lib/CheckmarkFilled32';
   import Document32 from 'carbon-icons-svelte/lib/Document32';
@@ -22,19 +23,42 @@
   import LogoLinkedin32 from 'carbon-icons-svelte/lib/LogoLinkedin32';
   import Portfolio32 from 'carbon-icons-svelte/lib/Portfolio32';
   import LogoInstagram32 from 'carbon-icons-svelte/lib/LogoInstagram32';
+  import { showErrorModal, errorMessage } from '../stores/errors.js';
   import WatsonHealthTextAnnotationToggle32 from 'carbon-icons-svelte/lib/WatsonHealthTextAnnotationToggle32';
   import { onMount } from 'svelte';
   import wretch from 'wretch';
 
   import { API_URL } from '../config/api';
-  import { ApplicationStatus } from '../interfaces';
+  import ConfirmationModal from '../components/ConfirmationModal.svelte';
+  import { ApplicationStatus, CommitteeType } from '../interfaces';
   import { capitalizeFirstLetter } from '../utils/filters';
   import { path } from 'svelte-pathfinder';
   import type { Application, Note } from '../interfaces';
 
-  let application;
+  let application: Application;
   let applicationResponses: { question: string; response: string }[] = [];
   let notes: Note[];
+
+  let changeStatus = () => {};
+  let openModal = false;
+  let modalText = '';
+  let committeeToAcceptTo = CommitteeType.OPERATIONS;
+
+  function toggleModal() {
+    openModal = !openModal;
+  }
+
+  function showError(error) {
+    if (error.message) {
+      let parsedError = JSON.parse(error.message);
+      errorMessage.set(parsedError.error);
+    } else {
+      errorMessage.set('An error has occured');
+    }
+    showErrorModal.set(true);
+  }
+
+  let rows = [];
 
   let headers = [
     {
@@ -79,8 +103,6 @@
     }
   ];
 
-  let rows = [];
-
   let loading = true;
 
   onMount(async () => {
@@ -91,18 +113,6 @@
       .json();
     application = data.application;
     notes = data.notes;
-    rows = [
-      {
-        name: application.name,
-        resume: application.resume_link,
-        year: application.year,
-        email: application.email,
-        committees: application.committees,
-        status: application.status,
-        attended: application.attendedVH,
-        director: application.director
-      }
-    ];
     applicationResponses = [
       {
         question:
@@ -125,6 +135,45 @@
     ];
     loading = false;
   });
+
+  $: if (application) {
+    rows = [
+      {
+        name: application.name,
+        resume: application.resume_link,
+        year: application.year,
+        email: application.email,
+        committees: application.committees,
+        status: application.status,
+        attended: application.attendedVH,
+        director: application.director
+      }
+    ];
+  }
+
+  async function changeApplicationStatus(newStatus: ApplicationStatus) {
+    loading = true;
+    openModal = false;
+    wretch(`${API_URL}/applications/${$path.applicantid}`)
+      .put({
+        status: newStatus,
+        committee: committeeToAcceptTo
+      })
+      .res(() => {
+        application.status = newStatus;
+        if (newStatus === ApplicationStatus.ACCEPTED) {
+          application.committee_accepted = committeeToAcceptTo;
+        }
+        loading = false;
+      })
+      .catch(showError);
+  }
+
+  function openConfirmationModal(newStatus: ApplicationStatus) {
+    modalText = `Are you sure you want change this applicants status to ${newStatus}? This will automatically send the email to the applicant.`;
+    changeStatus = () => changeApplicationStatus(newStatus);
+    openModal = true;
+  }
 </script>
 
 {#if loading}
@@ -171,9 +220,15 @@
           <CheckmarkFilled32 />
         {:else}No{/if}
       {:else if cell.key === 'committees'}
-        {#each cell.value as committee}
-          <Tag type="green">{capitalizeFirstLetter(committee)}</Tag>
-        {/each}
+        {#if application.status === ApplicationStatus.ACCEPTED}
+          <Tag type="green">
+            {capitalizeFirstLetter(application.committee_accepted)}
+          </Tag>
+        {:else}
+          {#each cell.value as committee}
+            <Tag type="green">{capitalizeFirstLetter(committee)}</Tag>
+          {/each}
+        {/if}
       {:else}{cell.value}{/if}
     </span>
   </DataTable>
@@ -235,11 +290,34 @@
   {#if application.status != ApplicationStatus.ACCEPTED}
     <ButtonSet style="display: flex; justify-content: flex-end;">
       {#if application.status == ApplicationStatus.APPLIED}
-        <Button>Interview</Button>
+        <Button
+          on:click={() => openConfirmationModal(ApplicationStatus.TOINTERVIEW)}>
+          Interview
+        </Button>
       {:else if application.status == ApplicationStatus.TOINTERVIEW}
-        <Button>Accept</Button>
+        <Button
+          on:click={() => openConfirmationModal(ApplicationStatus.ACCEPTED)}>
+          Accept
+        </Button>
       {/if}
-      <Button kind="danger">Reject</Button>
+      {#if application.status === ApplicationStatus.APPLIED || application.status === ApplicationStatus.TOINTERVIEW}
+        <Button
+          kind="danger"
+          on:click={() => openConfirmationModal(ApplicationStatus.REJECTED)}>
+          Reject
+        </Button>
+      {/if}
     </ButtonSet>
   {/if}
+  <ConfirmationModal
+    open={openModal}
+    bind:committee={committeeToAcceptTo}
+    committees={application.committees.map((committee, id) => ({
+      id,
+      text: committee
+    }))}
+    showCommittees={application.status === ApplicationStatus.TOINTERVIEW}
+    {changeStatus}
+    {toggleModal}
+    {modalText} />
 {/if}

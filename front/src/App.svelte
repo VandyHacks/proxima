@@ -7,11 +7,9 @@
   import { Content, Grid, Loading, Modal } from 'carbon-components-svelte';
   import Header from './components/Header.svelte';
   import Theme from './components/Theme.svelte';
-
-  let theme: 'g10' = 'g10';
 </script>
 
-<Theme persist bind:theme>
+<Theme>
   <Header />
   <Content style="background: none; padding: 1rem">
     <Grid>
@@ -23,7 +21,7 @@
       <Modal
         passiveModal
         bind:open={$showErrorModal}
-        modalHeading="The error has occured">
+        modalHeading="An error has occurred">
         <p>{$errorMessage}</p>
       </Modal>
     </Grid>
