@@ -20,7 +20,6 @@
 
   import Add32 from 'carbon-icons-svelte/lib/Add32';
 
-
   let loading = true;
   let open = false;
 
@@ -43,7 +42,7 @@
   let committees = [{ id: '8', text: 'general' }];
   const toggleModal = () => {
     open = !open;
-  }
+  };
 
   onMount(async () => {
     rows = await wretch(`${API_URL}/questions`).get().json();
@@ -85,11 +84,7 @@
   <DataTable sortable title="All Questions" {headers} {rows}>
     <Toolbar>
       <ToolbarContent>
-        <Button
-          size="default"
-          icon={Add32}
-          kind="ghost"
-          on:click={toggleModal}>
+        <Button size="default" icon={Add32} kind="ghost" on:click={toggleModal}>
           Add Question
         </Button>
       </ToolbarContent>
