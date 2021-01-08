@@ -4,6 +4,7 @@ import {
   Column,
   ManyToOne,
   OneToMany,
+  JoinTable,
 } from "typeorm";
 import { Application } from "./Application";
 import { QuestionNote } from "./QuestionNote";
@@ -58,7 +59,14 @@ export class Note {
   })
   applicationId: number;
 
-  @ManyToOne(() => Application, (application: Application) => application.notes)
+  @ManyToOne(
+    () => Application,
+    (application: Application) => application.notes,
+    {
+      eager: true,
+    }
+  )
+  @JoinTable()
   application: Application;
 
   @OneToMany(
