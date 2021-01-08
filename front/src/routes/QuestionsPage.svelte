@@ -16,10 +16,10 @@
   import { API_URL } from '../config/api';
   import { capitalizeFirstLetter } from '../utils/filters';
   import { CommitteeType } from '../interfaces';
+  import { showError } from '../stores/errors';
 
   import Add32 from 'carbon-icons-svelte/lib/Add32';
 
-  import { showError } from '../stores/errors';
 
   let loading = true;
   let open = false;
@@ -41,6 +41,9 @@
 
   let rows = [];
   let committees = [{ id: '8', text: 'general' }];
+  const toggleModal = () => {
+    open = !open;
+  }
 
   onMount(async () => {
     rows = await wretch(`${API_URL}/questions`).get().json();
@@ -86,7 +89,7 @@
           size="default"
           icon={Add32}
           kind="ghost"
-          on:click={() => (open = true)}>
+          on:click={toggleModal}>
           Add Question
         </Button>
       </ToolbarContent>
@@ -104,7 +107,7 @@
       modalHeading="Add Question"
       primaryButtonText="Confirm"
       secondaryButtonText="Cancel"
-      on:click:button--secondary={() => (open = false)}
+      on:click:button--secondary={toggleModal}
       on:open
       on:close
       on:submit={addQuestion}>
