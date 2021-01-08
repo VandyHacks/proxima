@@ -208,15 +208,12 @@ const getNotes = async (applicationId: number) => {
   // For every Notes row, add respective QuestionNote rows
   for (let note of notes) {
     note.responses = [];
-    const questionNotes = (await QuestionNote.select("questionId", "response")
-      .where("noteId", note.id)
-      .get()) as Model[];
+
+    const questionNotes: QuestionNote[] = note.notesToQuestions;
+
     for (let questionNote of questionNotes) {
-      const question = (await Question.select(
-        "content",
-        "description",
-        "specificity"
-      ).find(questionNote.questionId as number)) as Model;
+      const question: Question = questionNote.question;
+
       note.responses.push({
         question: question.content as string,
         description: question.description as string,
