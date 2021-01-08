@@ -27,6 +27,7 @@
   import WatsonHealthTextAnnotationToggle32 from 'carbon-icons-svelte/lib/WatsonHealthTextAnnotationToggle32';
   import { onMount } from 'svelte';
   import wretch from 'wretch';
+  import { RadarChart } from "@carbon/charts-svelte";
 
   import { API_URL } from '../config/api';
   import ConfirmationModal from '../components/ConfirmationModal.svelte';
@@ -174,7 +175,13 @@
     changeStatus = () => changeApplicationStatus(newStatus);
     openModal = true;
   }
+  const stl = "background-color: inherit;"
 </script>
+
+
+<svelte:head>
+  <link rel="stylesheet" href="https://unpkg.com/@carbon/charts/styles.min.css" />
+</svelte:head>
 
 {#if loading}
   <DataTableSkeleton showHeader={false} showToolbar={false} />
@@ -252,7 +259,7 @@
         </StructuredListBody>
       </StructuredList>
     </AccordionItem>
-    {#each notes as { interviewer_name, responses, reliability }}
+    {#each notes as { interviewer_name, responses, reliability, interest, teamwork }}
       <AccordionItem open title="Interview notes from {interviewer_name}">
         <StructuredList>
           <StructuredListHead>
@@ -276,13 +283,39 @@
             {/each}
           </StructuredListBody>
         </StructuredList>
-        <Slider
-          labelText="Reliability"
-          min={1}
-          max={7}
-          disabled
-          maxLabel="7"
-          value={parseInt(reliability, 10)} />
+        <RadarChart
+          data={[
+            {
+              "product": "Sayd",
+              "feature": "Reliability",
+              "score": reliability
+            },
+            {
+              "product": "Sayd",
+              "feature": "Interest",
+              "score": interest
+            },
+            {
+              "product": "Sayd",
+              "feature": "Teamwork",
+              "score": teamwork
+            },
+          ]}
+          options={{
+            "title": "Radar",
+            "radar": {
+              "axes": {
+                "angle": "feature",
+                "value": "score"
+              }
+            },
+            "data": {
+              "groupMapsTo": "product"
+            },
+            "height": "500px",
+          }}
+          style={stl}
+        />
       </AccordionItem>
     {/each}
   </Accordion>
