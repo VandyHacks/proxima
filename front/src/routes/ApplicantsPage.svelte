@@ -99,7 +99,7 @@
             {capitalizeFirstLetter(row.committee_accepted)}
           </Tag>
         {:else}
-          {#each cell.value as committee}
+          {#each cell.value as { committee }}
             <Tag type="green">{capitalizeFirstLetter(committee)}</Tag>
           {/each}
         {/if}
