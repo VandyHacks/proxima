@@ -27,7 +27,7 @@
   import WatsonHealthTextAnnotationToggle32 from 'carbon-icons-svelte/lib/WatsonHealthTextAnnotationToggle32';
   import { onMount } from 'svelte';
   import wretch from 'wretch';
-  import { RadarChart } from "@carbon/charts-svelte";
+  import { RadarChart } from '@carbon/charts-svelte';
 
   import { API_URL } from '../config/api';
   import ConfirmationModal from '../components/ConfirmationModal.svelte';
@@ -175,12 +175,13 @@
     changeStatus = () => changeApplicationStatus(newStatus);
     openModal = true;
   }
-  const stl = "background-color: inherit;"
+  const stl = 'background-color: inherit;';
 </script>
 
-
 <svelte:head>
-  <link rel="stylesheet" href="https://unpkg.com/@carbon/charts/styles.min.css" />
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/@carbon/charts/styles.min.css" />
 </svelte:head>
 
 {#if loading}
@@ -284,38 +285,9 @@
           </StructuredListBody>
         </StructuredList>
         <RadarChart
-          data={[
-            {
-              "product": "Sayd",
-              "feature": "Reliability",
-              "score": reliability
-            },
-            {
-              "product": "Sayd",
-              "feature": "Interest",
-              "score": interest
-            },
-            {
-              "product": "Sayd",
-              "feature": "Teamwork",
-              "score": teamwork
-            },
-          ]}
-          options={{
-            "title": "Radar",
-            "radar": {
-              "axes": {
-                "angle": "feature",
-                "value": "score"
-              }
-            },
-            "data": {
-              "groupMapsTo": "product"
-            },
-            "height": "500px",
-          }}
-          style={stl}
-        />
+          data={[{ product: 'Sayd', feature: 'Reliability', score: reliability }, { product: 'Sayd', feature: 'Interest', score: interest }, { product: 'Sayd', feature: 'Teamwork', score: teamwork }]}
+          options={{ title: 'Radar', radar: { axes: { angle: 'feature', value: 'score' } }, data: { groupMapsTo: 'product' }, height: '500px' }}
+          style={stl} />
       </AccordionItem>
     {/each}
   </Accordion>
