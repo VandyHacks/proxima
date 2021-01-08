@@ -313,7 +313,9 @@
     bind:committee={committeeToAcceptTo}
     committees={application.committees.map((committee, id) => ({
       id,
-      text: committee
+      text: {
+        committee
+      }
     }))}
     showCommittees={application.status === ApplicationStatus.TOINTERVIEW}
     {changeStatus}
