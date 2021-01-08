@@ -28,7 +28,7 @@ export enum ApplicationStatus {
   INREVIEW = "in_review",
 }
 
-@Entity()
+@Entity({name: "applications"})
 export class Application {
   @PrimaryGeneratedColumn()
   id: number;

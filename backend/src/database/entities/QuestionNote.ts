@@ -8,7 +8,7 @@ import {
 import { Question } from "./Question";
 import { Note } from "./Note";
 
-@Entity()
+@Entity({name: "question_notes"})
 export class QuestionNote {
   @PrimaryGeneratedColumn()
   public questionNoteId!: number;

@@ -12,7 +12,7 @@ export enum QuestionSpecificity {
   GENERAL = "general",
 }
 
-@Entity()
+@Entity({name: "questions"})
 export class Question {
   @PrimaryGeneratedColumn()
   id: number;

@@ -1,22 +1,35 @@
-version: '3'
+version: '3.7'
 
 services:
-
-  database:
-    image: postgres:11-alpine
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
     restart: always
-    expose:
-      - "5432"
+    command: 'npm run start'
+    volumes:
+      - ./src:/usr/app/src
     ports:
-      - "5432:5432"
+      - 3000:3000
+    depends_on:
+     - postgres
     environment:
-      POSTGRES_DB: typescript-koa
-
-  adminer:
-    image: adminer:latest
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=proxima
+      - POSTGRES_PASSWORD=proxima
+      - POSTGRES_DB=proxima
+  postgres:
+    image: postgres:13.1-alpine
     restart: always
     ports:
-      - "8080:8080"
+      - 5432:5432
     environment:
-      ADMINER_DEFAULT_SERVER: database
-      ADMINER_DESIGN: lucas-sandery
+      - POSTGRES_USER=proxima
+      - POSTGRES_PASSWORD=proxima
+      - POSTGRES_DB=proxima
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U proxima -d proxima"]
+      interval: 10s
+      timeout: 5s
+      retries: 5

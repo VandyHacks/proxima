@@ -4,13 +4,13 @@ import {
   AcceptedCommitteeType,
   Application,
   ApplicationStatus,
-} from "../../../database/entities/Application";
+} from "../../database/entities/Application";
 import {
   CommitteeChoice,
   CommitteeType,
-} from "../../../database/entities/CommitteeChoice";
+} from "../../database/entities/CommitteeChoice";
 
-import { send } from "../../utils/smtpClient";
+// import { send } from "../utils/smtpClient";
 import { getNotes, getComments } from "./notesController";
 
 /**
@@ -217,22 +217,22 @@ const getApplicantData = async ({ params, response }: Koa.Context) => {
  * Send email based on status update.
  */
 const sendEmail = async (email: string, status: string, committee?: string) => {
-  let emailMessage: string;
-  if (status === "accepted") {
-    emailMessage = `Congratualations! You are accepted to ${committee} committee!`;
-  } else if (status === "rejected") {
-    emailMessage =
-      "Unfortunately, we were not able to extend the position on VH boar to you.";
-  } else if (status === "to_interview") {
-    emailMessage = "Hey! Let's talk tomorrow 2pm CST.";
-  } else {
-    console.log(
-      "Wrong status passed to sending emails. We have no emails for this case."
-    );
-    return;
-  }
+  // let emailMessage: string;
+  // if (status === "accepted") {
+  //   emailMessage = `Congratualations! You are accepted to ${committee} committee!`;
+  // } else if (status === "rejected") {
+  //   emailMessage =
+  //     "Unfortunately, we were not able to extend the position on VH boar to you.";
+  // } else if (status === "to_interview") {
+  //   emailMessage = "Hey! Let's talk tomorrow 2pm CST.";
+  // } else {
+  //   console.log(
+  //     "Wrong status passed to sending emails. We have no emails for this case."
+  //   );
+  //   return;
+  // }
 
-  send(email, "VandyHacks Board Decision", emailMessage);
+  // send(email, "VandyHacks Board Decision", emailMessage);
 };
 
 /**

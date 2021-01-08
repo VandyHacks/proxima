@@ -1,17 +1,17 @@
 import * as Koa from "koa";
 import { getRepository, Repository } from "typeorm";
-import { CommitteeChoice } from "../../../database/entities/CommitteeChoice";
+import { CommitteeChoice } from "../../database/entities/CommitteeChoice";
 import {
   Question,
   QuestionSpecificity,
-} from "../../../database/entities/Question";
-import { Note, Scores } from "../../../database/entities/Note";
+} from "../../database/entities/Question";
+import { Note, Scores } from "../../database/entities/Note";
 import {
   Application,
   ApplicationStatus,
-} from "../../../database/entities/Application";
-import { QuestionNote } from "../../../database/entities/QuestionNote";
-import { Comment } from "../../../database/entities/Comments";
+} from "../../database/entities/Application";
+import { QuestionNote } from "../../database/entities/QuestionNote";
+import { Comment } from "../../database/entities/Comments";
 
 /**
  * Adds the question to the database

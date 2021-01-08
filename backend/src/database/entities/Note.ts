@@ -19,7 +19,7 @@ export enum Scores {
   SEVEN = 7,
 }
 
-@Entity()
+@Entity({name: "notes"})
 export class Note {
   @PrimaryGeneratedColumn()
   id: number;

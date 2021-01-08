@@ -11,7 +11,7 @@ export enum CommitteeType {
   MARKETING = "marketing",
 }
 
-@Entity()
+@Entity({name: "committee_choices"})
 export class CommitteeChoice {
   @PrimaryGeneratedColumn()
   id: number;

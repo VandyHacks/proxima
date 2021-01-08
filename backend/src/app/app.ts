@@ -3,7 +3,9 @@ import * as HttpStatus from "http-status-codes";
 import * as bodyParser from "koa-bodyparser";
 import * as cors from "@koa/cors";
 
-import { routes } from "./routes/routes";
+import applicationRoutes  from "./routes/application.routes";
+import hookRoutes from "./routes/hook.routes";
+import questionRoutes from './routes/question.routes'
 
 const app: Koa = new Koa();
 
@@ -23,7 +25,10 @@ app.use(async (ctx: Koa.Context, next: () => Promise<any>) => {
 // Middleware
 app.use(bodyParser());
 app.use(cors());
-app.use(routes);
+
+app.use(applicationRoutes);
+app.use(questionRoutes);
+app.use(hookRoutes);
 
 // Application error logging.
 app.on("error", console.error);
