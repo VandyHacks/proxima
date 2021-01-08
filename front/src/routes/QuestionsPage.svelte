@@ -15,20 +15,23 @@
   import { onMount } from 'svelte';
   import { API_URL } from '../config/api';
   import { capitalizeFirstLetter } from '../utils/filters';
+  import { CommitteeType } from '../interfaces';
 
   import Add32 from 'carbon-icons-svelte/lib/Add32';
+
+  import { showError } from '../stores/errors';
 
   let loading = true;
   let open = false;
 
+  let contentValue = '';
+  let descriptionValue = '';
+  let committeeIndex = 0;
+
   let headers = [
     {
-      key: 'id',
-      value: 'ID'
-    },
-    {
       key: 'content',
-      value: 'Content'
+      value: 'Question'
     },
     {
       key: 'specificity',
@@ -37,11 +40,40 @@
   ];
 
   let rows = [];
+  let committees = [{ id: '8', text: 'general' }];
 
   onMount(async () => {
     rows = await wretch(`${API_URL}/questions`).get().json();
     loading = false;
+
+    for (const [key, value] of Object.entries(CommitteeType)) {
+      committees.push({ id: key, text: value });
+    }
   });
+
+  async function addQuestion() {
+    const newQuestion = {
+      id: Math.random().toString(3),
+      content: contentValue,
+      specificity: committees[committeeIndex].text,
+      description: descriptionValue
+    };
+    loading = true;
+    open = false;
+    wretch(`${API_URL}/questions`)
+      .post(newQuestion)
+      .res(() => {
+        rows.push(newQuestion);
+        contentValue = '';
+        committees[committeeIndex].text = '';
+        descriptionValue = '';
+        loading = false;
+      })
+      .catch(() => {
+        loading = false;
+        showError();
+      });
+  }
 </script>
 
 {#if loading}
@@ -75,18 +107,22 @@
       on:click:button--secondary={() => (open = false)}
       on:open
       on:close
-      on:submit>
+      on:submit={addQuestion}>
       <Form on:submit>
         <Dropdown
           titleText="Choose a committee:"
-          selectedIndex={0}
-          items={[{ id: '0', text: 'General' }, { id: '1', text: 'Operations' }, { id: '2', text: 'Fax' }]} />
+          itemToString={item => capitalizeFirstLetter(item.text)}
+          bind:selectedIndex={committeeIndex}
+          items={committees} />
         <Tile />
         <TextArea
-          helperText="_"
+          bind:value={descriptionValue}
           labelText="Description:"
           placeholder="Enter a description..." />
-        <TextArea labelText="Content:" placeholder="Enter content..." />
+        <TextArea
+          bind:value={contentValue}
+          labelText="Content:"
+          placeholder="Enter content..." />
       </Form>
     </Modal>
   </DataTable>
