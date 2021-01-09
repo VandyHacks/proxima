@@ -309,13 +309,11 @@
     </ButtonSet>
   {/if}
   <ConfirmationModal
-    open={openModal}
+    bind:open={openModal}
     bind:committee={committeeToAcceptTo}
     committees={application.committees.map((committee, id) => ({
       id,
-      text: {
-        committee
-      }
+      committee: committee.committee
     }))}
     showCommittees={application.status === ApplicationStatus.TOINTERVIEW}
     {changeStatus}

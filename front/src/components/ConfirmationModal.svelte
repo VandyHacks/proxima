@@ -18,13 +18,13 @@
   export let modalText: string = '';
 
   export let committees = [
-    { id: 0, text: { committee: CommitteeType.OPERATIONS } },
-    { id: 1, text: { committee: CommitteeType.DEVELOPMENT } },
-    { id: 2, text: { committee: CommitteeType.HACKEREXPERIENCE } },
-    { id: 3, text: { committee: CommitteeType.DESIGN } },
-    { id: 4, text: { committee: CommitteeType.SPONSORSHIP } },
-    { id: 5, text: { committee: CommitteeType.CONTENT } },
-    { id: 6, text: { committee: CommitteeType.MARKETING } }
+    { id: 0, committee: CommitteeType.OPERATIONS },
+    { id: 1, committee: CommitteeType.DEVELOPMENT },
+    { id: 2, committee: CommitteeType.HACKEREXPERIENCE },
+    { id: 3, committee: CommitteeType.DESIGN },
+    { id: 4, committee: CommitteeType.SPONSORSHIP },
+    { id: 5, committee: CommitteeType.CONTENT },
+    { id: 6, committee: CommitteeType.MARKETING }
   ];
 </script>
 
@@ -43,10 +43,10 @@
   {#if showCommittees}
     <FormGroup legendText="Choose a committee">
       <RadioButtonGroup orientation="vertical" bind:selected={committee}>
-        {#each committees as { id, text } (id)}
+        {#each committees as { id, committee } (id)}
           <RadioButton
-            labelText={capitalizeFirstLetter(text.committee)}
-            value={text.committee} />
+            labelText={capitalizeFirstLetter(committee)}
+            value={committee} />
         {/each}
       </RadioButtonGroup>
     </FormGroup>

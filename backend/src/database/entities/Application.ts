@@ -1,34 +1,34 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
-import { CommitteeChoice } from "./CommitteeChoice";
-import { Note } from "./Note";
-import { Comment } from "./Comments";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { CommitteeChoice } from './CommitteeChoice';
+import { Note } from './Note';
+import { Comment } from './Comments';
 
 export enum ClassStanding {
-  FRESHMAN = "freshman",
-  SOPHOMORE = "sophomore",
-  JUNIOR = "junior",
+  FRESHMAN = 'freshman',
+  SOPHOMORE = 'sophomore',
+  JUNIOR = 'junior'
 }
 
 export enum AcceptedCommitteeType {
-  OPERATIONS = "operations",
-  DEVELOPMENT = "development",
-  HACKEREXPERIENCE = "hacker experience",
-  DESIGN = "design",
-  SPONSORSHIP = "sponsorship",
-  CONTENT = "content",
-  MARKETING = "marketing",
-  UNDECIDED = "undecided",
+  OPERATIONS = 'operations',
+  DEVELOPMENT = 'development',
+  HACKEREXPERIENCE = 'hacker experience',
+  DESIGN = 'design',
+  SPONSORSHIP = 'sponsorship',
+  CONTENT = 'content',
+  MARKETING = 'marketing',
+  UNDECIDED = 'undecided'
 }
 
 export enum ApplicationStatus {
-  APPLIED = "applied",
-  TOINTERVIEW = "to_interview",
-  REJECTED = "rejected",
-  ACCEPTED = "accepted",
-  INREVIEW = "in_review",
+  APPLIED = 'applied',
+  TOINTERVIEW = 'to_interview',
+  REJECTED = 'rejected',
+  ACCEPTED = 'accepted',
+  INREVIEW = 'in_review'
 }
 
-@Entity({name: "applications"})
+@Entity({ name: 'applications' })
 export class Application {
   @PrimaryGeneratedColumn()
   id: number;
@@ -40,8 +40,8 @@ export class Application {
   email: string;
 
   @Column({
-    type: "enum",
-    enum: ClassStanding,
+    type: 'enum',
+    enum: ClassStanding
   })
   year: ClassStanding;
 
@@ -49,29 +49,29 @@ export class Application {
   director: boolean;
 
   @Column({
-    type: "enum",
+    type: 'enum',
     enum: ApplicationStatus,
-    default: ApplicationStatus.APPLIED,
+    default: ApplicationStatus.APPLIED
   })
   status: ApplicationStatus;
 
-  @Column("text")
+  @Column('text')
   essay1: string;
 
-  @Column("text")
+  @Column('text')
   essay2: string;
 
-  @Column("text")
+  @Column('text')
   essay3: string;
 
   @Column({
-    nullable: true,
+    nullable: true
   })
   resume_link: string;
 
   @Column({
-    type: "text",
-    nullable: true,
+    type: 'text',
+    nullable: true
   })
   commitments: string;
 
@@ -79,41 +79,41 @@ export class Application {
   attendedVH: boolean;
 
   @Column({
-    type: "text",
-    nullable: true,
+    type: 'text',
+    nullable: true
   })
   feedback: string;
 
   @Column({
-    nullable: true,
+    nullable: true
   })
   github_link: string;
 
   @Column({
-    nullable: true,
+    nullable: true
   })
   linkedin_link: string;
 
   @Column({
-    nullable: true,
+    nullable: true
   })
   social_link: string;
 
   @Column({
-    nullable: true,
+    nullable: true
   })
   design_link: string;
 
   @Column({
-    type: "text",
-    nullable: true,
+    type: 'text',
+    nullable: true
   })
   source: string;
 
   @Column({
-    type: "enum",
+    type: 'enum',
     enum: AcceptedCommitteeType,
-    default: AcceptedCommitteeType.UNDECIDED,
+    default: AcceptedCommitteeType.UNDECIDED
   })
   committee_accepted: AcceptedCommitteeType;
 

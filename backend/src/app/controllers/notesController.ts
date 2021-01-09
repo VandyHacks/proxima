@@ -1,23 +1,26 @@
-import * as Koa from "koa";
-import { getRepository, Repository } from "typeorm";
-import { CommitteeChoice } from "../../database/entities/CommitteeChoice";
+import * as Koa from 'koa';
+import { getRepository, Repository } from 'typeorm';
+import { CommitteeChoice } from '../../database/entities/CommitteeChoice';
 import {
   Question,
-  QuestionSpecificity,
-} from "../../database/entities/Question";
-import { Note, Scores } from "../../database/entities/Note";
+  QuestionSpecificity
+} from '../../database/entities/Question';
+import { Note, Scores } from '../../database/entities/Note';
 import {
   Application,
-  ApplicationStatus,
-} from "../../database/entities/Application";
-import { QuestionNote } from "../../database/entities/QuestionNote";
-import { Comment } from "../../database/entities/Comments";
+  ApplicationStatus
+} from '../../database/entities/Application';
+import { QuestionNote } from '../../database/entities/QuestionNote';
+import { Comment } from '../../database/entities/Comments';
 
 /**
  * Adds the question to the database
  * Body: {content: string, specificity: string, description: string}
  */
-const questionCreate = async ({ request, response }: Koa.Context) => {
+const questionCreate = async ({
+  request,
+  response
+}: Koa.Context): Promise<void> => {
   const questionRepo: Repository<Question> = getRepository(Question);
 
   // populate committee
@@ -32,12 +35,12 @@ const questionCreate = async ({ request, response }: Koa.Context) => {
   const question: Question = questionRepo.create({
     content: questionData.content,
     specificity: questionData.specificity,
-    description: questionData.description,
+    description: questionData.description
   });
 
   await questionRepo.save(question);
 
-  response.body = "Questions Added";
+  response.body = question;
 };
 
 /**
@@ -59,28 +62,28 @@ const getQuestionsForApplicant = async ({ params, response }: Koa.Context) => {
   const applicationId: number = (params.applicationId as unknown) as number;
 
   // Get general questions first
-  let questions: Question[] = await questionRepo.find({
-    select: ["id", "content", "specificity", "description"],
+  const questions: Question[] = await questionRepo.find({
+    select: ['id', 'content', 'specificity', 'description'],
     where: { specificity: QuestionSpecificity.GENERAL },
     order: {
-      id: "ASC",
-    },
+      id: 'ASC'
+    }
   });
 
   // Get committees of this application
   const committeeChoices: CommitteeChoice[] = await committeeChoiceRepo.find({
-    select: ["committee"],
-    where: { applicationId: applicationId },
+    select: ['committee'],
+    where: { applicationId: applicationId }
   });
 
   // Get questions for all committees of this applicaiton
   for (const committeeChoice of committeeChoices) {
-    let comQuestion: Question[] = await questionRepo.find({
-      select: ["id", "content", "specificity", "description"],
+    const comQuestion: Question[] = await questionRepo.find({
+      select: ['id', 'content', 'specificity', 'description'],
       where: { specificity: committeeChoice.committee },
       order: {
-        id: "ASC",
-      },
+        id: 'ASC'
+      }
     });
 
     questions.push(...comQuestion);
@@ -96,10 +99,10 @@ const getQuestionsForApplicant = async ({ params, response }: Koa.Context) => {
 const getAllQuestions = async ({ response }: Koa.Context) => {
   const questionRepo: Repository<Question> = getRepository(Question);
   response.body = await questionRepo.find({
-    select: ["id", "content", "specificity", "description"],
+    select: ['id', 'content', 'specificity', 'description'],
     order: {
-      id: "ASC",
-    },
+      id: 'ASC'
+    }
   });
 };
 
@@ -137,13 +140,17 @@ const addNotes = async ({ params, request, response }: Koa.Context) => {
       }
     | any = request.body;
 
-  let application: Application = await applicationRepo.findOne(applicationId, {
-    select: ["id", "status"],
-  });
+  const application: Application | undefined = await applicationRepo.findOne(
+    applicationId,
+    {
+      select: ['id', 'status']
+    }
+  );
 
   if (
-    application.status != ApplicationStatus.REJECTED &&
-    application.status != ApplicationStatus.ACCEPTED
+    application &&
+    application.status !== ApplicationStatus.REJECTED &&
+    application.status !== ApplicationStatus.ACCEPTED
   ) {
     application.status = ApplicationStatus.INREVIEW;
   }
@@ -156,17 +163,17 @@ const addNotes = async ({ params, request, response }: Koa.Context) => {
     teamwork: noteData.teamwork,
     overall: noteData.overall,
     thoughts: noteData.thoughts,
-    application: application,
+    application: application
   });
 
   await noteRepo.save(note);
 
   // Create QuestionNote row
-  for (let questionNote of noteData.questionAnswers) {
+  for (const questionNote of noteData.questionAnswers) {
     const questionResponse = questionNoteRepo.create({
       response: questionNote.response,
       noteId: note.id as number,
-      questionId: questionNote.questionId,
+      questionId: questionNote.questionId
     });
     await questionNoteRepo.save(questionResponse);
   }
@@ -191,33 +198,33 @@ const getNotes = async (applicationId: number) => {
   // Note repository
   const noteRepository: Repository<Note> = getRepository(Note);
 
-  let notes: any[] = await noteRepository.find({
+  const notes: any[] = await noteRepository.find({
     select: [
-      "id",
-      "interviewer_name",
-      "reliability",
-      "interest",
-      "teamwork",
-      "overall",
-      "thoughts",
+      'id',
+      'interviewer_name',
+      'reliability',
+      'interest',
+      'teamwork',
+      'overall',
+      'thoughts'
     ],
     where: { applicationId: applicationId },
-    relations: ["notesToQuestions"],
+    relations: ['notesToQuestions']
   });
 
   // For every Notes row, add respective QuestionNote rows
-  for (let note of notes) {
+  for (const note of notes) {
     note.responses = [];
 
     const questionNotes: QuestionNote[] = note.notesToQuestions;
-    for (let questionNote of questionNotes) {
+    for (const questionNote of questionNotes) {
       const question: Question = questionNote.question;
 
       note.responses.push({
         question: question.content as string,
         description: question.description as string,
         specificity: question.specificity as string,
-        note: questionNote.response as string,
+        note: questionNote.response as string
       });
     }
   }
@@ -237,11 +244,11 @@ const addComments = async ({ params, request, response }: Koa.Context) => {
   const newComment = commentRepo.create({
     applicationId: applicationId,
     commenter_name: body.commenter_name,
-    content: body.content,
+    content: body.content
   });
 
   await commentRepo.save(newComment);
-  response.body = "Successfully added comments";
+  response.body = 'Successfully added comments';
 };
 
 /**
@@ -252,8 +259,8 @@ const addComments = async ({ params, request, response }: Koa.Context) => {
 const getComments = async (applicationId: number): Promise<Comment[]> => {
   const commentRepo: Repository<Comment> = getRepository(Comment);
   return await commentRepo.find({
-    select: ["id", "commenter_name", "content"],
-    where: { applicationId: applicationId },
+    select: ['id', 'commenter_name', 'content'],
+    where: { applicationId: applicationId }
   });
 };
 
@@ -264,5 +271,5 @@ export {
   addNotes,
   getNotes,
   addComments,
-  getComments,
+  getComments
 };

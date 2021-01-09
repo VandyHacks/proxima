@@ -1,32 +1,32 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
-import { QuestionNote } from "./QuestionNote";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { QuestionNote } from './QuestionNote';
 
 export enum QuestionSpecificity {
-  OPERATIONS = "operations",
-  DEVELOPMENT = "development",
-  HACKEREXPERIENCE = "hacker experience",
-  DESIGN = "design",
-  SPONSORSHIP = "sponsorship",
-  CONTENT = "content",
-  MARKETING = "marketing",
-  GENERAL = "general",
+  OPERATIONS = 'operations',
+  DEVELOPMENT = 'development',
+  HACKEREXPERIENCE = 'hacker experience',
+  DESIGN = 'design',
+  SPONSORSHIP = 'sponsorship',
+  CONTENT = 'content',
+  MARKETING = 'marketing',
+  GENERAL = 'general'
 }
 
-@Entity({name: "questions"})
+@Entity({ name: 'questions' })
 export class Question {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column("text")
+  @Column('text')
   content: string;
 
-  @Column("text")
+  @Column('text')
   description: string;
 
   @Column({
-    type: "enum",
+    type: 'enum',
     enum: QuestionSpecificity,
-    default: QuestionSpecificity.GENERAL,
+    default: QuestionSpecificity.GENERAL
   })
   specificity: QuestionSpecificity;
 
