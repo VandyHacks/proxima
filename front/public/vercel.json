@@ -4,11 +4,15 @@
       "dest": "index.html"
     },
     {
-      "src": "/notes",
+      "src": "/questions",
       "dest": "index.html"
     },
     {
-      "src": "/interview",
+      "src": "/applicants/(?<id>[^/]+)",
+      "dest": "index.html"
+    },
+    {
+      "src": "/applicants/(?<id>[^/]+)/notes",
       "dest": "index.html"
     }
   ]

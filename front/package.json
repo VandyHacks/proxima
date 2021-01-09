@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "rollup -cw",
-    "build": "rollup -c",
+    "build": "rollup -c ",
     "start": "sirv public --single",
     "validate": "svelte-check",
     "lint": "prettier --write src/*.svelte src/**/*.svelte",
