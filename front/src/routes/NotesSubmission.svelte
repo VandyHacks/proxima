@@ -81,7 +81,7 @@
       .res(() => {
         notesStatus = 'submitted';
         submissionResponse = `Notes and responses successfully added from ${interviewerName}`;
-        setTimeout(() => goto('/', {}), 2000);
+        setTimeout(() => goto(`/applicants/${$path.applicantid}`, {}), 2000);
       });
   }
 </script>
