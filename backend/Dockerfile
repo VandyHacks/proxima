@@ -1,3 +1,4 @@
+# https://github.com/typeorm/typeorm/issues/5949
 FROM node:12-alpine
 
 WORKDIR /usr/app
