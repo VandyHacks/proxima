@@ -317,10 +317,7 @@
   <ConfirmationModal
     open={openModal}
     bind:committee={committeeToAcceptTo}
-    committees={application.committees.map((committee, id) => ({
-      id,
-      text: committee
-    }))}
+    committees={application.committees}
     showCommittees={application.status === ApplicationStatus.TOINTERVIEW}
     {changeStatus}
     {toggleModal}
