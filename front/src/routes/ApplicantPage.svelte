@@ -14,7 +14,8 @@
     AccordionItem,
     ButtonSet,
     Button,
-    Slider
+    Slider,
+    Dropdown
   } from 'carbon-components-svelte';
   import CheckmarkFilled32 from 'carbon-icons-svelte/lib/CheckmarkFilled32';
   import Document32 from 'carbon-icons-svelte/lib/Document32';
@@ -26,6 +27,7 @@
   import WatsonHealthTextAnnotationToggle32 from 'carbon-icons-svelte/lib/WatsonHealthTextAnnotationToggle32';
   import { onMount } from 'svelte';
   import wretch from 'wretch';
+  import { LollipopChart } from '@carbon/charts-svelte';
 
   import { API_URL } from '../config/api';
   import ConfirmationModal from '../components/ConfirmationModal.svelte';
@@ -132,6 +134,7 @@
         response: application.source
       }
     ];
+
     loading = false;
   });
 
@@ -173,7 +176,14 @@
     changeStatus = () => changeApplicationStatus(newStatus);
     openModal = true;
   }
+  const radarStyle = 'background-color: inherit; color: inherit, fill: inherit';
 </script>
+
+<svelte:head>
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/@carbon/charts/styles.min.css" />
+</svelte:head>
 
 {#if loading}
   <DataTableSkeleton showHeader={false} showToolbar={false} />
@@ -251,7 +261,7 @@
         </StructuredListBody>
       </StructuredList>
     </AccordionItem>
-    {#each notes as { interviewer_name, responses, reliability }}
+    {#each notes as { interviewer_name, responses, reliability, interest, teamwork, overall }}
       <AccordionItem open title="Interview notes from {interviewer_name}">
         <StructuredList>
           <StructuredListHead>
@@ -275,13 +285,11 @@
             {/each}
           </StructuredListBody>
         </StructuredList>
-        <Slider
-          labelText="Reliability"
-          min={1}
-          max={7}
-          disabled
-          maxLabel="7"
-          value={parseInt(reliability, 10)} />
+
+        <LollipopChart
+          data={[{ group: 'Reliability', key: 'Reliability', value: reliability }, { group: 'Interest', key: 'Interest', value: interest }, { group: 'Teamwork', key: 'Teamwork', value: teamwork }, { group: 'Overall', key: 'Overall', value: overall }]}
+          options={{ title: 'Scores', axes: { bottom: { title: application.name, scaleType: 'labels', mapsTo: 'key' }, left: { mapsTo: 'value' } }, height: '400px' }}
+          style={radarStyle} />
       </AccordionItem>
     {/each}
   </Accordion>
@@ -309,11 +317,11 @@
     </ButtonSet>
   {/if}
   <ConfirmationModal
-    bind:open={openModal}
+    open={openModal}
     bind:committee={committeeToAcceptTo}
     committees={application.committees.map((committee, id) => ({
       id,
-      committee: committee.committee
+      text: committee
     }))}
     showCommittees={application.status === ApplicationStatus.TOINTERVIEW}
     {changeStatus}

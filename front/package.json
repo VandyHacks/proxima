@@ -10,11 +10,14 @@
     "lint:check": "prettier --check src/*.svelte src/**/*.svelte"
   },
   "dependencies": {
+    "carbon-components": "^10.26.0",
+    "d3": "^5.16.0",
     "rollup": "^2.36.1",
     "sirv-cli": "^1.0.0",
     "wretch": "^1.7.4"
   },
   "devDependencies": {
+    "@carbon/charts-svelte": "^0.41.15",
     "@rollup/plugin-commonjs": "^14.0.0",
     "@rollup/plugin-node-resolve": "^11.0.1",
     "@rollup/plugin-replace": "^2.3.4",
