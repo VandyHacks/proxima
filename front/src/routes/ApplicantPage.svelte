@@ -13,9 +13,7 @@
     Accordion,
     AccordionItem,
     ButtonSet,
-    Button,
-    Slider,
-    Dropdown
+    Button
   } from 'carbon-components-svelte';
   import CheckmarkFilled32 from 'carbon-icons-svelte/lib/CheckmarkFilled32';
   import Document32 from 'carbon-icons-svelte/lib/Document32';
@@ -176,7 +174,7 @@
     changeStatus = () => changeApplicationStatus(newStatus);
     openModal = true;
   }
-  const radarStyle = 'background-color: inherit; color: inherit, fill: inherit';
+  const chartStyle = 'background-color: inherit;';
 </script>
 
 <svelte:head>
@@ -289,7 +287,7 @@
         <LollipopChart
           data={[{ group: 'Reliability', key: 'Reliability', value: reliability }, { group: 'Interest', key: 'Interest', value: interest }, { group: 'Teamwork', key: 'Teamwork', value: teamwork }, { group: 'Overall', key: 'Overall', value: overall }]}
           options={{ title: 'Scores', axes: { bottom: { title: application.name, scaleType: 'labels', mapsTo: 'key' }, left: { mapsTo: 'value' } }, height: '400px' }}
-          style={radarStyle} />
+          style={chartStyle} />
       </AccordionItem>
     {/each}
   </Accordion>
