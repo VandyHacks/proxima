@@ -12,4 +12,4 @@ router.post('/', notesController.questionCreate);
 // Fetch all questions
 router.get('/', notesController.getAllQuestions);
 
-export default router.routes();
+export default router;

@@ -9,4 +9,4 @@ const router = new Router({
 // Application submission
 router.post('/typeform/submit', applicationController.parseTypeForm);
 
-export default router.routes();
+export default router;

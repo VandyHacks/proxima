@@ -3,12 +3,18 @@ import * as HttpStatus from 'http-status-codes';
 import * as bodyParser from 'koa-bodyparser';
 import * as cors from '@koa/cors';
 import * as logger from 'koa-logger';
+import * as passport from 'passport';
 
 import applicationRoutes from './routes/application.routes';
 import hookRoutes from './routes/hook.routes';
 import questionRoutes from './routes/question.routes';
+import authRoutes from './routes/auth.routes';
+import './auth';
 
 const app: Koa = new Koa();
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Generic error handling middleware.
 app.use(async (ctx: Koa.Context, next: () => Promise<any>) => {
@@ -29,9 +35,10 @@ app.use(cors());
 
 app.use(logger());
 
-app.use(applicationRoutes);
-app.use(questionRoutes);
-app.use(hookRoutes);
+app.use(authRoutes.routes());
+app.use(applicationRoutes.routes());
+app.use(questionRoutes.routes());
+app.use(hookRoutes.routes());
 
 // Application error logging.
 app.on('error', (err, ctx) => {

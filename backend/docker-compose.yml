@@ -19,6 +19,8 @@ services:
       - POSTGRES_USER=proxima
       - POSTGRES_PASSWORD=proxima
       - POSTGRES_DB=proxima
+      - SLACK_CLIENT_ID
+      - SLACK_CLIENT_SECRET
   postgres:
     image: postgres:13.1-alpine
     restart: always
