@@ -30,7 +30,7 @@
   import { API_URL } from '../config/api';
   import ConfirmationModal from '../components/ConfirmationModal.svelte';
   import { ApplicationStatus, CommitteeType } from '../interfaces';
-  import { capitalizeFirstLetter } from '../utils/filters';
+  import { capitalizeFirstLetter, replaceUnderscores } from '../utils/filters';
   import { path } from 'svelte-pathfinder';
   import type { Application, Note } from '../interfaces';
 
@@ -221,7 +221,7 @@
           {/if}
         </Row>
       {:else if cell.key === 'status' || cell.key === 'year'}
-        {capitalizeFirstLetter(cell.value)}
+        {replaceUnderscores(cell.value)}
       {:else if cell.key === 'attended' || cell.key === 'director'}
         {#if cell.value}
           <CheckmarkFilled32 />

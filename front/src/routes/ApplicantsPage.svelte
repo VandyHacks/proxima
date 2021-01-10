@@ -18,7 +18,7 @@
   import { API_URL } from '../config/api';
   import type { Application } from '../interfaces';
   import { ApplicationStatus } from '../interfaces';
-  import { capitalizeFirstLetter } from '../utils/filters';
+  import { capitalizeFirstLetter, replaceUnderscores } from '../utils/filters';
 
   let searchTerm = '';
 
@@ -92,7 +92,7 @@
           <OverflowMenuItem href="/applicants/{row.id}" text="Application" />
         </OverflowMenu>
       {:else if cell.key === 'status'}
-        {capitalizeFirstLetter(cell.value)}
+        {replaceUnderscores(cell.value)}
       {:else if cell.key === 'committees'}
         {#if row.status === ApplicationStatus.ACCEPTED}
           <Tag type="green">
