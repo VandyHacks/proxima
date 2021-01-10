@@ -259,7 +259,7 @@
         </StructuredListBody>
       </StructuredList>
     </AccordionItem>
-    {#each notes as { interviewer_name, responses, reliability, interest, teamwork, overall }}
+    {#each notes as { interviewer_name, responses, reliability, interest, teamwork, overall, thoughts }}
       <AccordionItem open title="Interview notes from {interviewer_name}">
         <StructuredList>
           <StructuredListHead>
@@ -281,6 +281,19 @@
                 <StructuredListCell>{note}</StructuredListCell>
               </StructuredListRow>
             {/each}
+          </StructuredListBody>
+        </StructuredList>
+
+        <StructuredList>
+          <StructuredListHead>
+            <StructuredListRow head>
+              <StructuredListCell head>Thoughts</StructuredListCell>
+            </StructuredListRow>
+          </StructuredListHead>
+          <StructuredListBody>
+            <StructuredListRow>
+              <StructuredListCell>{thoughts}</StructuredListCell>
+            </StructuredListRow>
           </StructuredListBody>
         </StructuredList>
 
