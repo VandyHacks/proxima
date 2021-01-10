@@ -71,7 +71,6 @@
       .res(() => {
         rows.push(newQuestion);
         contentValue = '';
-        committees[committeeIndex].text = '';
         descriptionValue = '';
         loading = false;
       })
