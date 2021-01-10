@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     restart: always
-    command: 'npm run start'
+    command: 'npm run dev'
     volumes:
       - ./src:/usr/app/src
     ports:
