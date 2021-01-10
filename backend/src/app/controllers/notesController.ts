@@ -153,6 +153,8 @@ const addNotes = async ({ params, request, response }: Koa.Context) => {
     application.status !== ApplicationStatus.ACCEPTED
   ) {
     application.status = ApplicationStatus.INREVIEW;
+
+    await applicationRepo.save(application);
   }
 
   // Create Notes row
