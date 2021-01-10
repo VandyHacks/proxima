@@ -16,7 +16,7 @@
 
   import { API_URL } from '../config/api';
   import { capitalizeFirstLetter } from '../utils/filters';
-  import { path } from 'svelte-pathfinder';
+  import { goto, path } from 'svelte-pathfinder';
   import type { Application, Note, ApplicantResponse } from '../interfaces';
 
   const intro =
@@ -81,6 +81,7 @@
       .res(() => {
         notesStatus = 'submitted';
         submissionResponse = `Notes and responses successfully added from ${interviewerName}`;
+        setTimeout(() => goto(`/applicants/${$path.applicantid}`, {}), 2000);
       });
   }
 </script>
