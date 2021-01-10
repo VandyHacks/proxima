@@ -1,4 +1,5 @@
-FROM node:14-alpine
+# https://github.com/typeorm/typeorm/issues/5949
+FROM node:12-alpine
 
 WORKDIR /usr/app
 COPY package.json .
