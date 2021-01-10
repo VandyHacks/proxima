@@ -236,13 +236,13 @@ const getNotes = async (applicationId: number) => {
  * body:
  * {commenter_name: string, content: string}
  */
-const addComments = async ({ params, request, response }: Koa.Context) => {
+const addComments = async ({ params, request, response }: Koa.Context): Promise<void> => {
   const commentRepo: Repository<Comment> = getRepository(Comment);
   const applicationId = (params.applicationId as unknown) as number;
   const body: { commenter_name: string; content: string } | any = request.body;
 
   const newComment = commentRepo.create({
-    applicationId: applicationId,
+    applicationId,
     commenter_name: body.commenter_name,
     content: body.content
   });

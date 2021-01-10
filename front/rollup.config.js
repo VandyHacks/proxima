@@ -1,5 +1,6 @@
 import svelte from 'rollup-plugin-svelte';
 import resolve from '@rollup/plugin-node-resolve';
+import replace from '@rollup/plugin-replace';
 import commonjs from '@rollup/plugin-commonjs';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
@@ -9,7 +10,7 @@ import typescript from '@rollup/plugin-typescript';
 const production = !process.env.ROLLUP_WATCH;
 const BACKEND_URL = production
   ? 'https://proxima-backend.herokuapp.com/api/v1'
-  : 'localhost:3000/api/v1';
+  : 'http://localhost:3000/api/v1';
 
 function serve() {
   let server;
@@ -53,10 +54,12 @@ export default {
         css.write('bundle.css');
       }
     }),
+    replace({
+      'process.BACKEND_URL': `${BACKEND_URL}`
+    }),
     resolve({
       browser: true,
-      dedupe: ['svelte'],
-      'process.BACKEND_URL': BACKEND_URL
+      dedupe: ['svelte']
     }),
     commonjs(),
     typescript({ sourceMap: !production, inlineSources: !production }),
