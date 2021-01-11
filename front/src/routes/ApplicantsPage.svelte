@@ -22,7 +22,7 @@
 
   let searchTerm = '';
 
-  let headers = [
+  const headers = [
     {
       key: 'name',
       value: 'Name'
@@ -46,6 +46,16 @@
     { key: 'overflow', empty: true }
   ];
   let rows = [];
+
+  const colors = {
+    operations: 'magenta',
+    development: 'teal',
+    'hacker experience': 'blue',
+    design: 'cyan',
+    sponsorship: 'green',
+    content: 'purple',
+    marketing: 'gray'
+  };
 
   let loading = true;
 
@@ -100,7 +110,9 @@
           </Tag>
         {:else}
           {#each cell.value as { committee }}
-            <Tag type="green">{capitalizeFirstLetter(committee)}</Tag>
+            <Tag type={colors[committee]}>
+              {capitalizeFirstLetter(committee)}
+            </Tag>
           {/each}
         {/if}
       {:else}{cell.value}{/if}
