@@ -29,7 +29,7 @@
     },
     {
       key: 'resume',
-      value: 'Resume'
+      value: 'Résumé'
     },
     {
       key: 'email',
