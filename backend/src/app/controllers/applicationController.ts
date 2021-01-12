@@ -52,7 +52,7 @@ const parseTypeFormResponses = async ({ response }: Koa.Context) => {
     applicants = res.data.items;
   });
 
-  for (let applicantObject of applicants) {
+  for (const applicantObject of applicants) {
     await parseApplicant(applicantObject);
   }
 

@@ -37,7 +37,7 @@ app.use(questionRoutes);
 app.use(hookRoutes);
 
 // Application error logging.
-app.on('error', (err, ctx) => {
+app.on('error', err => {
   console.log(err);
   /* centralized error handling:
    *   console.log error
