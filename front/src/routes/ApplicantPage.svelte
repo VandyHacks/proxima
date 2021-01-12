@@ -399,7 +399,7 @@
               bind:value={commenterValue}
               style="padding-bottom: var(--cds-spacing-07);"
               labelText="Comment Type"
-              placeholder="Comment Type (Takehome Assessment, General Thoughts, Etc.)" />
+              placeholder="Comment Type (Takehome Assessment, General Thoughts, Name, Etc.)" />
           </div>
           <TextArea
             bind:value={contentValue}
