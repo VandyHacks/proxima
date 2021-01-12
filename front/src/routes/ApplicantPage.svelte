@@ -141,6 +141,11 @@
       {
         question: 'How did you learn about VandyHacks?',
         response: application.source
+      },
+      {
+        question:
+          'Tell us about the VH event(s) you attended and what you liked/disliked about your experience.',
+        response: application.feedback
       }
     ];
 
@@ -266,7 +271,9 @@
           {#each applicationResponses as { question, response }}
             <StructuredListRow>
               <StructuredListCell>{question}</StructuredListCell>
-              <StructuredListCell>{response}</StructuredListCell>
+              <StructuredListCell>
+                {response || 'No response'}
+              </StructuredListCell>
             </StructuredListRow>
           {/each}
         </StructuredListBody>
