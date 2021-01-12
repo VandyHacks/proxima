@@ -102,7 +102,7 @@
           <OverflowMenuItem href="/applicants/{row.id}" text="Application" />
         </OverflowMenu>
       {:else if cell.key === 'status'}
-        {replaceUnderscores(cell.value)}
+        {capitalizeFirstLetter(replaceUnderscores(cell.value))}
       {:else if cell.key === 'committees'}
         {#if row.status === ApplicationStatus.ACCEPTED}
           <Tag type="green">
