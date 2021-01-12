@@ -14,8 +14,8 @@
     AccordionItem,
     ButtonSet,
     Button,
-    Tabs, 
-    Tab, 
+    Tabs,
+    Tab,
     TabContent
   } from 'carbon-components-svelte';
   import CheckmarkFilled32 from 'carbon-icons-svelte/lib/CheckmarkFilled32';
@@ -119,9 +119,11 @@
   let loading = true;
 
   onMount(async () => {
-    const data: { application: Application; notes: Note[]; comments: Comments[] } = await wretch(
-      `${API_URL}/applications/${$path.applicantid}`
-    )
+    const data: {
+      application: Application;
+      notes: Note[];
+      comments: Comments[];
+    } = await wretch(`${API_URL}/applications/${$path.applicantid}`)
       .get()
       .json();
     application = data.application;
@@ -330,7 +332,7 @@
         {/each}
         <div slot="content">
           {#each comments as { content }}
-          <TabContent>{content}</TabContent>
+            <TabContent>{content}</TabContent>
           {/each}
         </div>
       </Tabs>
