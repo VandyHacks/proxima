@@ -278,16 +278,14 @@
           <StructuredListHead>
             <StructuredListRow head>
               <StructuredListCell head>Question</StructuredListCell>
-              <StructuredListCell head>Description</StructuredListCell>
               <StructuredListCell head>Specificity</StructuredListCell>
               <StructuredListCell head>Response</StructuredListCell>
             </StructuredListRow>
           </StructuredListHead>
           <StructuredListBody>
-            {#each responses as { question, description, specificity, note }}
+            {#each responses as { question, specificity, note }}
               <StructuredListRow>
                 <StructuredListCell>{question}</StructuredListCell>
-                <StructuredListCell>{description}</StructuredListCell>
                 <StructuredListCell>
                   {capitalizeFirstLetter(specificity)}
                 </StructuredListCell>
