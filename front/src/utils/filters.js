@@ -3,5 +3,5 @@ export function capitalizeFirstLetter(word) {
 }
 
 export function replaceUnderscores(word) {
-  return capitalizeFirstLetter(word.replace(/_/g, " "));
+  return word.replace(/_/g, " ");
 }

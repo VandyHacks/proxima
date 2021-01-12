@@ -1,19 +1,26 @@
 <script lang="ts">
   import {
+    Accordion,
+    AccordionItem,
+    ButtonSet,
+    Button,
+    ClickableTile,
     DataTable,
-    Tag,
     DataTableSkeleton,
+    Form,
     Link,
+    Modal,
     Row,
     StructuredList,
     StructuredListHead,
     StructuredListRow,
     StructuredListCell,
     StructuredListBody,
-    Accordion,
-    AccordionItem,
-    ButtonSet,
-    Button
+    Tabs,
+    Tab,
+    TabContent,
+    Tag,
+    TextArea
   } from 'carbon-components-svelte';
   import CheckmarkFilled32 from 'carbon-icons-svelte/lib/CheckmarkFilled32';
   import Document32 from 'carbon-icons-svelte/lib/Document32';
@@ -32,20 +39,28 @@
   import { ApplicationStatus, CommitteeType } from '../interfaces';
   import { capitalizeFirstLetter, replaceUnderscores } from '../utils/filters';
   import { path } from 'svelte-pathfinder';
-  import type { Application, Note } from '../interfaces';
+  import type { Application, Comment, Note } from '../interfaces';
 
   let application: Application;
   let applicationResponses: { question: string; response: string }[] = [];
   let notes: Note[];
+  let comments: Comment[];
+
+  let commenterValue = '';
+  let contentValue = '';
 
   let changeStatus = () => {};
-  let openModal = false;
+  let open = false;
+  let confirmationModal = false;
   let modalText = '';
   let committeeToAcceptTo = CommitteeType.OPERATIONS;
 
   function toggleModal() {
-    openModal = !openModal;
+    confirmationModal = !confirmationModal;
   }
+  const toggleQuestionModal = () => {
+    open = !open;
+  };
 
   function showError(error) {
     if (error.message) {
@@ -115,13 +130,16 @@
   let loading = true;
 
   onMount(async () => {
-    const data: { application: Application; notes: Note[] } = await wretch(
-      `${API_URL}/applications/${$path.applicantid}`
-    )
+    const data: {
+      application: Application;
+      notes: Note[];
+      comments: Comment[];
+    } = await wretch(`${API_URL}/applications/${$path.applicantid}`)
       .get()
       .json();
     application = data.application;
     notes = data.notes;
+    comments = data.comments;
     applicationResponses = [
       {
         question: `Can you tell us why you would be a good fit for the ${application.committees.map(
@@ -152,6 +170,24 @@
     loading = false;
   });
 
+  async function addComment() {
+    const newComment = {
+      commenter_name: commenterValue,
+      content: contentValue
+    };
+    loading = true;
+    open = false;
+    wretch(`${API_URL}/applications/${$path.applicantid}/comments`)
+      .post(newComment)
+      .res(() => {
+        comments.push(newComment);
+        commenterValue = '';
+        contentValue = '';
+        loading = false;
+      })
+      .catch(showError);
+  }
+
   $: if (application) {
     rows = [
       {
@@ -169,7 +205,7 @@
 
   async function changeApplicationStatus(newStatus: ApplicationStatus) {
     loading = true;
-    openModal = false;
+    confirmationModal = false;
     wretch(`${API_URL}/applications/${$path.applicantid}`)
       .put({
         status: newStatus,
@@ -186,9 +222,11 @@
   }
 
   function openConfirmationModal(newStatus: ApplicationStatus) {
-    modalText = `Are you sure you want change this applicants status to ${newStatus}? This will automatically send the email to the applicant.`;
+    modalText = `Are you sure you want change this applicants status to ${replaceUnderscores(
+      newStatus
+    )}? This will automatically send the email to the applicant.`;
     changeStatus = () => changeApplicationStatus(newStatus);
-    openModal = true;
+    confirmationModal = true;
   }
   const chartStyle = 'background-color: inherit;';
 </script>
@@ -321,6 +359,54 @@
           style={chartStyle} />
       </AccordionItem>
     {/each}
+
+    <AccordionItem open title="Comments">
+      {#if !comments.length}
+        <p style="padding-bottom: var(--cds-spacing-04);">
+          No comments have been written for this applicant. Would you like to
+          add one?
+        </p>
+      {:else}
+        <Tabs>
+          {#each comments as { commenter_name }}
+            <Tab label={commenter_name} />
+          {/each}
+          <div slot="content">
+            {#each comments as { content }}
+              <TabContent>{content}</TabContent>
+            {/each}
+          </div>
+        </Tabs>
+      {/if}
+      <Button size="field" kind="ghost" on:click={toggleQuestionModal}>
+        Add comment
+      </Button>
+
+      <Modal
+        hasForm
+        hasScrollingContent
+        bind:open
+        modalHeading="Add Comment"
+        primaryButtonText="Send Comment"
+        secondaryButtonText="Cancel"
+        on:click:button--secondary={toggleQuestionModal}
+        on:submit={addComment}>
+        <Form>
+          <div style="padding-bottom: var(--cds-spacing-07);">
+            <TextArea
+              bind:value={commenterValue}
+              style="padding-bottom: var(--cds-spacing-07);"
+              labelText="Commenter:"
+              placeholder="Enter name..." />
+          </div>
+          <TextArea
+            bind:value={contentValue}
+            style="padding-bottom: var(--cds-spacing-07);"
+            labelText="Comment:"
+            placeholder="Enter a comment..." />
+        </Form>
+      </Modal>
+    </AccordionItem>
   </Accordion>
 
   {#if application.status != ApplicationStatus.ACCEPTED}
@@ -351,7 +437,7 @@
     </ButtonSet>
   {/if}
   <ConfirmationModal
-    bind:open={openModal}
+    bind:open={confirmationModal}
     bind:committee={committeeToAcceptTo}
     committees={application.committees}
     showCommittees={application.status === ApplicationStatus.TOINTERVIEW}

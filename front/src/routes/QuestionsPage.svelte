@@ -7,7 +7,6 @@
     Modal,
     TextAreaSkeleton,
     TextArea,
-    Tile,
     Toolbar,
     ToolbarContent
   } from 'carbon-components-svelte';
