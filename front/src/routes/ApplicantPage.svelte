@@ -185,10 +185,7 @@
         contentValue = '';
         loading = false;
       })
-      .catch(() => {
-        loading = false;
-        // showError();
-      });
+      .catch(showError);
   }
 
   $: if (application) {
@@ -393,10 +390,8 @@
         primaryButtonText="Send Comment"
         secondaryButtonText="Cancel"
         on:click:button--secondary={toggleQuestionModal}
-        on:open
-        on:close
         on:submit={addComment}>
-        <Form on:submit>
+        <Form>
           <div style="padding-bottom: var(--cds-spacing-07);">
             <TextArea
               bind:value={commenterValue}
