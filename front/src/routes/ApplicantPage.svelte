@@ -20,7 +20,8 @@
     Tab,
     TabContent,
     Tag,
-    TextArea
+    TextArea,
+    TextInput
   } from 'carbon-components-svelte';
   import CheckmarkFilled32 from 'carbon-icons-svelte/lib/CheckmarkFilled32';
   import Document32 from 'carbon-icons-svelte/lib/Document32';
@@ -378,7 +379,7 @@
           </div>
         </Tabs>
       {/if}
-      <Button size="field" kind="ghost" on:click={toggleQuestionModal}>
+      <Button size="field" kind="secondary" on:click={toggleQuestionModal}>
         Add comment
       </Button>
 
@@ -393,11 +394,11 @@
         on:submit={addComment}>
         <Form>
           <div style="padding-bottom: var(--cds-spacing-07);">
-            <TextArea
+            <TextInput
               bind:value={commenterValue}
               style="padding-bottom: var(--cds-spacing-07);"
-              labelText="Commenter:"
-              placeholder="Enter name..." />
+              labelText="Your Name"
+              placeholder="Enter your name..." />
           </div>
           <TextArea
             bind:value={contentValue}
@@ -421,13 +422,13 @@
           on:click={() => openConfirmationModal(ApplicationStatus.TOINTERVIEW)}>
           Schedule Interview
         </Button>
-      {:else if application.status == ApplicationStatus.TOINTERVIEW}
+      {:else if application.status == ApplicationStatus.TOINTERVIEW || application.status === ApplicationStatus.INREVIEW}
         <Button
           on:click={() => openConfirmationModal(ApplicationStatus.ACCEPTED)}>
           Accept
         </Button>
       {/if}
-      {#if application.status === ApplicationStatus.APPLIED || application.status === ApplicationStatus.TOINTERVIEW}
+      {#if application.status === ApplicationStatus.APPLIED || application.status === ApplicationStatus.TOINTERVIEW || application.status === ApplicationStatus.INREVIEW}
         <Button
           kind="danger"
           on:click={() => openConfirmationModal(ApplicationStatus.REJECTED)}>
