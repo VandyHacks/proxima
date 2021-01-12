@@ -13,7 +13,10 @@
     Accordion,
     AccordionItem,
     ButtonSet,
-    Button
+    Button,
+    Tabs, 
+    Tab, 
+    TabContent
   } from 'carbon-components-svelte';
   import CheckmarkFilled32 from 'carbon-icons-svelte/lib/CheckmarkFilled32';
   import Document32 from 'carbon-icons-svelte/lib/Document32';
@@ -32,11 +35,12 @@
   import { ApplicationStatus, CommitteeType } from '../interfaces';
   import { capitalizeFirstLetter, replaceUnderscores } from '../utils/filters';
   import { path } from 'svelte-pathfinder';
-  import type { Application, Note } from '../interfaces';
+  import type { Application, Comments, Note } from '../interfaces';
 
   let application: Application;
   let applicationResponses: { question: string; response: string }[] = [];
   let notes: Note[];
+  let comments: Comments[];
 
   let changeStatus = () => {};
   let openModal = false;
@@ -115,13 +119,15 @@
   let loading = true;
 
   onMount(async () => {
-    const data: { application: Application; notes: Note[] } = await wretch(
+    const data: { application: Application; notes: Note[]; comments: Comments[] } = await wretch(
       `${API_URL}/applications/${$path.applicantid}`
     )
       .get()
       .json();
     application = data.application;
     notes = data.notes;
+    comments = data.comments;
+    console.log(comments);
     applicationResponses = [
       {
         question: `Can you tell us why you would be a good fit for the ${application.committees.map(
@@ -316,6 +322,19 @@
           style={chartStyle} />
       </AccordionItem>
     {/each}
+
+    <AccordionItem open title="Comments">
+      <Tabs>
+        {#each comments as { commenter_name }}
+          <Tab label={commenter_name} />
+        {/each}
+        <div slot="content">
+          {#each comments as { content }}
+          <TabContent>{content}</TabContent>
+          {/each}
+        </div>
+      </Tabs>
+    </AccordionItem>
   </Accordion>
 
   {#if application.status != ApplicationStatus.ACCEPTED}

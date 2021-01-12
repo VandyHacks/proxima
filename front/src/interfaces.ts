@@ -68,3 +68,8 @@ export interface ApplicantResponse {
   specificity: string;
   description: string;
 }
+
+export interface Comments {
+  commenter_name: string;
+  content: string;
+}
