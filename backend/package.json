@@ -24,6 +24,7 @@
   "dependencies": {
     "@koa/cors": "^3.1.0",
     "@types/koa__cors": "^3.0.2",
+    "axios": "^0.21.1",
     "http-status-codes": "^1.3.0",
     "koa": "^2.6.1",
     "koa-body": "^4.2.0",
@@ -37,7 +38,8 @@
     "smtp-client": "^0.3.3",
     "ts-node": "^9.1.1",
     "typeorm": "^0.2.29",
-    "typescript": "^4.1.3"
+    "typescript": "^4.1.3",
+    "wretch": "^1.7.4"
   },
   "devDependencies": {
     "@types/chai-http": "^4.2.0",
@@ -50,6 +52,7 @@
     "@types/koa-router": "^7.4.1",
     "@types/mocha": "^8.2.0",
     "@types/node": "^10.12.0",
+    "@types/node-fetch": "^2.5.7",
     "@typescript-eslint/eslint-plugin": "^4.12.0",
     "@typescript-eslint/parser": "^4.12.0",
     "chai": "^4.1.2",

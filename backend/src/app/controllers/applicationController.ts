@@ -12,6 +12,7 @@ import {
 
 // import { send } from "../utils/smtpClient";
 import { getNotes, getComments } from './notesController';
+import axios from 'axios';
 
 /**
  * Parsing is very specific to the kind of form we have right now.
@@ -20,69 +21,108 @@ import { getNotes, getComments } from './notesController';
  * and generalize the parsing.
  * @param {request, response}
  */
-const parseTypeForm = async ({ request, response }: Koa.Context) => {
+const parseTypeFormWebHook = async ({ request, response }: Koa.Context) => {
   // populate application
   const application:
     | {
         form_response: { definition: { fields: any[] }; answers: any };
       }
     | any = request.body;
-  const responses: any = {};
-  let committees: CommitteeType[] = [];
 
-  application.form_response.answers.forEach((answer: any) => {
+  await parseApplicant(application.form_response);
+
+  response.body = 'Submission received!';
+};
+
+/**
+ * Parse existing applicants from TypeForm
+ * @param appicantObject
+ */
+const parseTypeFormResponses = async ({ response }: Koa.Context) => {
+  const formId = process.env.TYPEFORM_ID;
+  // get JSON from typeform
+  const url = `https://api.typeform.com/forms/${formId}/responses`;
+
+  const config = {
+    headers: { Authorization: `Bearer ${process.env.TYPEFORM_TOKEN}` }
+  };
+
+  let applicants: any[] = [];
+  await axios.get(url, config).then((res: { data: { items: any[] } }) => {
+    applicants = res.data.items;
+  });
+
+  for (let applicantObject of applicants) {
+    await parseApplicant(applicantObject);
+  }
+
+  response.body = 'Submission received!';
+};
+
+/**
+ * Parses an applicant submission's object from TypeForm API. TypeForm JSON format is generic
+ * for both WebHook and Reponses API - this function is used in both cases. Responses API is used to load
+ * responses before the start-up of the application.
+ * @param appicantObject
+ */
+const parseApplicant = async (applicantObject: { answers: any }) => {
+  // Repositories
+  const applicationRepo: Repository<Application> = getRepository(Application);
+  const committeeChoiceRepo: Repository<CommitteeChoice> = getRepository(
+    CommitteeChoice
+  );
+
+  const responses: any = {};
+  applicantObject.answers.forEach((answer: any) => {
     // Map field reference name (set in TypeForm) to the response
-    if (answer.field.ref === 'year') {
-      responses['year'] = answer.choice.label.split(' ')[0].toLowerCase();
-    } else if (answer.field.ref === 'committees') {
-      committees = answer.choices.labels.map((c: string) => c.toLowerCase());
+    if (answer.type === 'choice') {
+      responses[answer.field.ref] = answer.choice.label;
+    } else if (answer.type === 'choices') {
+      responses[answer.field.ref] = answer.choices.labels.map((c: string) =>
+        c.toLowerCase()
+      );
     } else {
       responses[answer.field.ref] = answer[answer.type];
     }
   });
 
-  // Application repository
-  const applicationRepo: Repository<Application> = getRepository(Application);
-
-  const newApplication: Application = applicationRepo.create({
-    name: `${responses.firstName} ${responses.lastName}`,
-    email: responses.email,
-    year: responses.year,
-    director: responses.director,
-    status: ApplicationStatus.APPLIED,
-    essay1: responses.essay1,
-    essay2: responses.essay2,
-    essay3: responses.essay3,
-    resume_link: responses.resume_link,
-    commitments: responses.commitments,
-    attendedVH: responses.attendedVH,
-    feedback: responses.feedback,
-    github_link: responses.github_link,
-    linkedin_link: responses.linkedin_link,
-    social_link: responses.social_link,
-    design_link: responses.design_link,
-    source: responses.source,
-    committee_accepted: AcceptedCommitteeType.UNDECIDED
+  const existsingNum = await applicationRepo.count({
+    email: responses.email
   });
 
-  await applicationRepo.save(newApplication);
-
-  // Committee choice repository
-  const committeeChoiceRepo: Repository<CommitteeChoice> = getRepository(
-    CommitteeChoice
-  );
-
-  // Create committee relations for an applicant
-  committees.forEach(committee => {
-    const committeeChoice: CommitteeChoice = committeeChoiceRepo.create({
-      committee: committee,
-      application: newApplication
+  if (existsingNum === 0) {
+    const newApplication: Application = applicationRepo.create({
+      name: `${responses.firstName} ${responses.lastName}`,
+      email: responses.email,
+      year: responses.year.split(' ')[0].toLowerCase(),
+      director: responses.director,
+      status: ApplicationStatus.APPLIED,
+      essay1: responses.essay1,
+      essay2: responses.essay2,
+      essay3: responses.essay3,
+      resume_link: responses.resume_link,
+      commitments: responses.commitments,
+      attendedVH: responses.attendedVH,
+      feedback: responses.feedback,
+      github_link: responses.github_link,
+      linkedin_link: responses.linkedin_link,
+      social_link: responses.social_link,
+      design_link: responses.design_link,
+      source: responses.source,
+      committee_accepted: AcceptedCommitteeType.UNDECIDED
     });
 
-    committeeChoiceRepo.save(committeeChoice);
-  });
+    await applicationRepo.save(newApplication);
 
-  response.body = 'Submission received!';
+    // Create committee relations for an applicant
+    responses.committees.forEach((committee: CommitteeType) => {
+      const committeeChoice: CommitteeChoice = committeeChoiceRepo.create({
+        committee: committee,
+        application: newApplication
+      });
+      committeeChoiceRepo.save(committeeChoice);
+    });
+  }
 };
 
 /**
@@ -280,4 +320,10 @@ const updateStatus = async ({ params, request, response }: Koa.Context) => {
   }
 };
 
-export { parseTypeForm, displayApplications, updateStatus, getApplicantData };
+export {
+  parseTypeFormWebHook,
+  parseTypeFormResponses,
+  displayApplications,
+  updateStatus,
+  getApplicantData
+};
