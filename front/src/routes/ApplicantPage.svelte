@@ -328,7 +328,7 @@
       {#if application.status == ApplicationStatus.APPLIED}
         <Button
           on:click={() => openConfirmationModal(ApplicationStatus.TOINTERVIEW)}>
-          Interview
+          Schedule Interview
         </Button>
       {:else if application.status == ApplicationStatus.TOINTERVIEW}
         <Button
