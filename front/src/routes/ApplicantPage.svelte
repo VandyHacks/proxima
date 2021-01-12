@@ -320,6 +320,11 @@
 
   {#if application.status != ApplicationStatus.ACCEPTED}
     <ButtonSet style="display: flex; justify-content: flex-end;">
+      <Button
+        style="margin-right: 1px;"
+        href="/applicants/{$path.applicantid}/notes">
+        Start Interview
+      </Button>
       {#if application.status == ApplicationStatus.APPLIED}
         <Button
           on:click={() => openConfirmationModal(ApplicationStatus.TOINTERVIEW)}>
