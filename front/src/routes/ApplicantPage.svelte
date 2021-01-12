@@ -326,16 +326,20 @@
     {/each}
 
     <AccordionItem open title="Comments">
-      <Tabs>
-        {#each comments as { commenter_name }}
-          <Tab label={commenter_name} />
-        {/each}
-        <div slot="content">
-          {#each comments as { content }}
-            <TabContent>{content}</TabContent>
+      {#if !comments.length}
+        <p>No comments have been written for this applicant</p>
+      {:else}
+        <Tabs>
+          {#each comments as { commenter_name }}
+            <Tab label={commenter_name} />
           {/each}
-        </div>
-      </Tabs>
+          <div slot="content">
+            {#each comments as { content }}
+              <TabContent>{content}</TabContent>
+            {/each}
+          </div>
+        </Tabs>
+      {/if}
     </AccordionItem>
   </Accordion>
 
