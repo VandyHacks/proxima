@@ -18,6 +18,7 @@
   import { capitalizeFirstLetter } from '../utils/filters';
   import { goto, path } from 'svelte-pathfinder';
   import type { Application, Note, ApplicantResponse } from '../interfaces';
+  import App from '../App.svelte';
 
   const intro =
     "Thank you for applying to VandyHacks! As a quick overview for how this interview will go, we'll ask you a a couple of questions just to get to know your work habits, then we'll go into a couple questions specific to the committees you indicated you were interested in on your application. If you have any questions, we'll leave a couple of minutes at the end and we can try to answer them as best as possible. Of course, if you don't have any questions, don't feel pressured. We won't count them as part of your application. We will be taking notes on our laptops to refer back to while you answer.";
@@ -125,8 +126,7 @@
           <TextArea
             bind:value={response}
             labelText={content}
-            placeholder="Enter a response..."
-            helperText={description} />
+            placeholder={description || 'Enter a response.'} />
         </div>
       {/each}
       <Row style="margin: 0; padding: var(--cds-spacing-07) 0;" padding>
