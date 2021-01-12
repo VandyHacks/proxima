@@ -30,6 +30,7 @@
 
 <Modal
   size="sm"
+  preventCloseOnClickOutside={true}
   hasScrollingContent={false}
   bind:open
   modalHeading="Change applicant status"
