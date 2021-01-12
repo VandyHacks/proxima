@@ -42,7 +42,10 @@
   ];
 
   let rows = [];
-  let committees = [{ id: '8', text: 'general' }];
+  let committees = [
+    { id: '8', text: 'general' },
+    { id: '9', text: 'wrap up' }
+  ];
   const toggleModal = () => {
     open = !open;
   };
