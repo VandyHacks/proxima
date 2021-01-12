@@ -39,12 +39,12 @@
   import { ApplicationStatus, CommitteeType } from '../interfaces';
   import { capitalizeFirstLetter, replaceUnderscores } from '../utils/filters';
   import { path } from 'svelte-pathfinder';
-  import type { Application, Comments, Note } from '../interfaces';
+  import type { Application, Comment, Note } from '../interfaces';
 
   let application: Application;
   let applicationResponses: { question: string; response: string }[] = [];
   let notes: Note[];
-  let comments: Comments[];
+  let comments: Comment[];
 
   let commenterValue = '';
   let contentValue = '';
@@ -133,7 +133,7 @@
     const data: {
       application: Application;
       notes: Note[];
-      comments: Comments[];
+      comments: Comment[];
     } = await wretch(`${API_URL}/applications/${$path.applicantid}`)
       .get()
       .json();

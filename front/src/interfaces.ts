@@ -69,7 +69,7 @@ export interface ApplicantResponse {
   description: string;
 }
 
-export interface Comments {
+export interface Comment {
   commenter_name: string;
   content: string;
 }
