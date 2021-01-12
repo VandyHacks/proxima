@@ -422,13 +422,13 @@
           on:click={() => openConfirmationModal(ApplicationStatus.TOINTERVIEW)}>
           Schedule Interview
         </Button>
-      {:else if application.status == ApplicationStatus.TOINTERVIEW}
+      {:else if application.status == ApplicationStatus.TOINTERVIEW || application.status === ApplicationStatus.INREVIEW}
         <Button
           on:click={() => openConfirmationModal(ApplicationStatus.ACCEPTED)}>
           Accept
         </Button>
       {/if}
-      {#if application.status === ApplicationStatus.APPLIED || application.status === ApplicationStatus.TOINTERVIEW}
+      {#if application.status === ApplicationStatus.APPLIED || application.status === ApplicationStatus.TOINTERVIEW || application.status === ApplicationStatus.INREVIEW}
         <Button
           kind="danger"
           on:click={() => openConfirmationModal(ApplicationStatus.REJECTED)}>
