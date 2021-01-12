@@ -281,6 +281,14 @@ const getComments = async (applicationId: number): Promise<Comment[]> => {
   });
 };
 
+const deleteQuestion = async ({ params, response }: Koa.Context) => {
+  const questionRepo: Repository<Question> = getRepository(Question);
+  const questionId: number = (params.questionId as unknown) as number;
+
+  await questionRepo.delete(questionId);
+  response.body = `Successfully deleted ${questionId}`;
+};
+
 export {
   questionCreate,
   getQuestionsForApplicant,
@@ -288,5 +296,6 @@ export {
   addNotes,
   getNotes,
   addComments,
-  getComments
+  getComments,
+  deleteQuestion
 };
