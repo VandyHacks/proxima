@@ -84,6 +84,17 @@
         setTimeout(() => goto(`/applicants/${$path.applicantid}`, {}), 2000);
       });
   }
+
+  const colors = {
+    operations: 'magenta',
+    development: 'teal',
+    'hacker experience': 'blue',
+    design: 'cyan',
+    sponsorship: 'green',
+    content: 'purple',
+    marketing: 'gray'
+  };
+
 </script>
 
 {#if loading}
@@ -98,7 +109,10 @@
       <Tile style="text-align: center; margin: var(--cds-spacing-07) 0;">
         <h4>{`This is the interview form for ${application.name}`}</h4>
         {#each application.committees as { committee }}
-          <Tag type="green">{capitalizeFirstLetter(committee)}</Tag>
+        <Tag type={colors[committee]}>
+          {capitalizeFirstLetter(committee)}
+        </Tag>
+          <!-- <Tag type="green">{capitalizeFirstLetter(committee)}</Tag> -->
         {/each}
       </Tile>
       <Tile style="text-align: left; margin: var(--cds-spacing-07) 0;">
