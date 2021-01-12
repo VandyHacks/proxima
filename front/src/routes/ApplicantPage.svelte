@@ -344,7 +344,7 @@
     </ButtonSet>
   {/if}
   <ConfirmationModal
-    open={openModal}
+    bind:open={openModal}
     bind:committee={committeeToAcceptTo}
     committees={application.committees}
     showCommittees={application.status === ApplicationStatus.TOINTERVIEW}
