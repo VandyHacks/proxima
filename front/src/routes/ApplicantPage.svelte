@@ -194,10 +194,10 @@
       {
         name: application.name,
         resume: application.resume_link,
-        year: application.year,
+        year: capitalizeFirstLetter(application.year),
         email: application.email,
         committees: application.committees,
-        status: application.status,
+        status: capitalizeFirstLetter(application.status),
         attended: application.attendedVH,
         director: application.director
       }
