@@ -89,6 +89,17 @@ const getQuestionsForApplicant = async ({ params, response }: Koa.Context) => {
     questions.push(...comQuestion);
   }
 
+  // Add wrap-up questions to the list
+  const wrapUpQuestions: Question[] = await questionRepo.find({
+    select: ['id', 'content', 'specificity', 'description'],
+    where: { specificity: QuestionSpecificity.WRAPUP },
+    order: {
+      id: 'ASC'
+    }
+  });
+
+  questions.push(...wrapUpQuestions);
+
   response.body = questions;
 };
 

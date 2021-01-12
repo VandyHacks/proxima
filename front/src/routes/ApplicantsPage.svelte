@@ -82,11 +82,11 @@
   <DataTableSkeleton />
 {:else}
   <DataTable sortable title="Active Applications" {headers} {rows}>
-    <Toolbar>
+    <!-- <Toolbar>
       <ToolbarContent>
         <ToolbarSearch bind:value={searchTerm} />
       </ToolbarContent>
-    </Toolbar>
+    </Toolbar> -->
     <span slot="cell" let:row let:cell>
       {#if cell.key === 'resume'}
         <a target="_blank" href={cell.value}>

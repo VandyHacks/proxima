@@ -29,6 +29,7 @@ export interface Application {
   year: ClassStanding;
   director: boolean;
   attendedVH: boolean;
+  feedback: string;
   status: ApplicationStatus;
   source: string;
   essay1: string;

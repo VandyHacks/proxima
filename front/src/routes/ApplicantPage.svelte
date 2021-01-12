@@ -159,6 +159,11 @@
       {
         question: 'How did you learn about VandyHacks?',
         response: application.source
+      },
+      {
+        question:
+          'Tell us about the VH event(s) you attended and what you liked/disliked about your experience.',
+        response: application.feedback
       }
     ];
 
@@ -307,7 +312,9 @@
           {#each applicationResponses as { question, response }}
             <StructuredListRow>
               <StructuredListCell>{question}</StructuredListCell>
-              <StructuredListCell>{response}</StructuredListCell>
+              <StructuredListCell>
+                {response || 'No response'}
+              </StructuredListCell>
             </StructuredListRow>
           {/each}
         </StructuredListBody>
@@ -319,16 +326,14 @@
           <StructuredListHead>
             <StructuredListRow head>
               <StructuredListCell head>Question</StructuredListCell>
-              <StructuredListCell head>Description</StructuredListCell>
               <StructuredListCell head>Specificity</StructuredListCell>
               <StructuredListCell head>Response</StructuredListCell>
             </StructuredListRow>
           </StructuredListHead>
           <StructuredListBody>
-            {#each responses as { question, description, specificity, note }}
+            {#each responses as { question, specificity, note }}
               <StructuredListRow>
                 <StructuredListCell>{question}</StructuredListCell>
-                <StructuredListCell>{description}</StructuredListCell>
                 <StructuredListCell>
                   {capitalizeFirstLetter(specificity)}
                 </StructuredListCell>
@@ -411,10 +416,15 @@
 
   {#if application.status != ApplicationStatus.ACCEPTED}
     <ButtonSet style="display: flex; justify-content: flex-end;">
+      <Button
+        style="margin-right: 1px;"
+        href="/applicants/{$path.applicantid}/notes">
+        Start Interview
+      </Button>
       {#if application.status == ApplicationStatus.APPLIED}
         <Button
           on:click={() => openConfirmationModal(ApplicationStatus.TOINTERVIEW)}>
-          Interview
+          Schedule Interview
         </Button>
       {:else if application.status == ApplicationStatus.TOINTERVIEW}
         <Button
@@ -432,7 +442,7 @@
     </ButtonSet>
   {/if}
   <ConfirmationModal
-    open={confirmationModal}
+    bind:open={confirmationModal}
     bind:committee={committeeToAcceptTo}
     committees={application.committees}
     showCommittees={application.status === ApplicationStatus.TOINTERVIEW}
