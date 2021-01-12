@@ -3,10 +3,13 @@ import * as HttpStatus from 'http-status-codes';
 import * as bodyParser from 'koa-bodyparser';
 import * as cors from '@koa/cors';
 import * as logger from 'koa-logger';
+import * as dotenv from 'dotenv';
 
 import applicationRoutes from './routes/application.routes';
 import hookRoutes from './routes/hook.routes';
 import questionRoutes from './routes/question.routes';
+
+dotenv.config();
 
 const app: Koa = new Koa();
 
@@ -34,7 +37,7 @@ app.use(questionRoutes);
 app.use(hookRoutes);
 
 // Application error logging.
-app.on('error', (err, ctx) => {
+app.on('error', err => {
   console.log(err);
   /* centralized error handling:
    *   console.log error

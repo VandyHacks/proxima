@@ -1,8 +1,5 @@
 import 'reflect-metadata';
 import { createConnection, Connection, ConnectionOptions } from 'typeorm';
-import * as dotenv from 'dotenv';
-
-dotenv.config();
 
 const database =
   process.env.NODE_ENV === 'test'

@@ -114,8 +114,9 @@
     notes = data.notes;
     applicationResponses = [
       {
-        question:
-          'Can you tell us why you would be a good fit for the Content committee roles through your past experiences, skills, and ideas?',
+        question: `Can you tell us why you would be a good fit for the ${application.committees.map(
+          committeeObj => ' ' + committeeObj.committee
+        )} committee roles through your past experiences, skills, and ideas?`,
         response: application.essay1
       },
       {
@@ -128,7 +129,7 @@
         response: application.essay3
       },
       {
-        question: 'How did you learn about VandyHacks',
+        question: 'How did you learn about VandyHacks?',
         response: application.source
       }
     ];

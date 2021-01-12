@@ -10,3 +10,10 @@ Start:
 
 To clear up the database:
 `docker-compose down`
+
+Define .env file with:
+
+```
+TYPEFORM_ID =
+TYPEFORM_TOKEN =
+```

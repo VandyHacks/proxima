@@ -12,13 +12,15 @@ services:
     ports:
       - 3000:3000
     depends_on:
-     - postgres
+      - postgres
     environment:
       - POSTGRES_HOST=postgres
       - POSTGRES_PORT=5432
       - POSTGRES_USER=proxima
       - POSTGRES_PASSWORD=proxima
       - POSTGRES_DB=proxima
+      - TYPEFORM_ID
+      - TYPEFORM_TOKEN
   postgres:
     image: postgres:13.1-alpine
     restart: always
@@ -29,7 +31,7 @@ services:
       - POSTGRES_PASSWORD=proxima
       - POSTGRES_DB=proxima
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U proxima -d proxima"]
+      test: ['CMD-SHELL', 'pg_isready -U proxima -d proxima']
       interval: 10s
       timeout: 5s
       retries: 5
