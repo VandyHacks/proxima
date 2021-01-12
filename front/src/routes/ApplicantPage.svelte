@@ -56,7 +56,6 @@
   let modalText = '';
   let committeeToAcceptTo = CommitteeType.OPERATIONS;
 
-
   function toggleModal() {
     confirmationModal = !confirmationModal;
   }
@@ -171,8 +170,6 @@
 
     loading = false;
   });
-
-
 
   async function addComment() {
     const newComment = {
