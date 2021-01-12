@@ -56,6 +56,7 @@
   let modalText = '';
   let committeeToAcceptTo = CommitteeType.OPERATIONS;
 
+
   function toggleModal() {
     confirmationModal = !confirmationModal;
   }
@@ -170,6 +171,8 @@
 
     loading = false;
   });
+
+
 
   async function addComment() {
     const newComment = {
@@ -390,6 +393,7 @@
         modalHeading="Add Comment"
         primaryButtonText="Send Comment"
         secondaryButtonText="Cancel"
+        style="width: 100%;"
         on:click:button--secondary={toggleQuestionModal}
         on:submit={addComment}>
         <Form>
@@ -397,8 +401,8 @@
             <TextInput
               bind:value={commenterValue}
               style="padding-bottom: var(--cds-spacing-07);"
-              labelText="Your Name"
-              placeholder="Enter your name..." />
+              labelText="Comment Type"
+              placeholder="Comment Type (Takehome Assessment, General Thoughts, Etc.)" />
           </div>
           <TextArea
             bind:value={contentValue}
