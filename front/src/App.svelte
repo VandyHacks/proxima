@@ -48,6 +48,10 @@
       </Grid>
     </Content>
   {:else}
-    <Button on:click={signin}>Login</Button>
+    <div
+      style="position: relative; top: 100px; margin: auto; width: 50%; text-align: center;">
+      <h4>Welcome To Proxima</h4>
+      <Button on:click={signin} style="margin-top: 10px;">Login</Button>
+    </div>
   {/if}
 </Theme>

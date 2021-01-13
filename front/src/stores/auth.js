@@ -4,8 +4,8 @@ import createAuth0Client from "@auth0/auth0-spa-js";
 const AUTH_CONFIG = {
     domain: "dev-56ziprzw.us.auth0.com",
     client_id: "JYZCMRms5MEugNZgsh5Aw89bYSgPolcE",
-    redirect_uri: 'http://localhost:5000',
-    cacheLocation: 'localstorage'
+    cacheLocation: 'localstorage',
+    audience: 'https://dev-56ziprzw.us.auth0.com/api/v2/'
 };
 
 export const authStore = createAuthStore();
@@ -21,8 +21,7 @@ function createAuthStore() {
     async function init(){
         auth0 = await createAuth0Client(AUTH_CONFIG);
         // update store
-        user.set(await auth0.getUser());    
-        console.log(await auth0.getUser());    
+        user.set(await auth0.getUser());       
         loading.set(false);
         authenticated.set(true);
     }
@@ -30,7 +29,7 @@ function createAuthStore() {
     async function signin() {
         //display popup
         await auth0.loginWithPopup({
-          display: 'touch'
+          display: 'page'
         });
 
         //update store
