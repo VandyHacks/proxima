@@ -113,23 +113,34 @@
           <!-- <Tag type="green">{capitalizeFirstLetter(committee)}</Tag> -->
         {/each}
       </Tile>
-      <Tile style="text-align: left; margin: var(--cds-spacing-07) 0;">
+      <Tile style="text-align: left; margin: 10px auto; width: 700px;">
+        <h4>Introduction Blurb:</h4>
         <p>{intro}</p>
       </Tile>
       <TextInput
         style="padding-bottom: var(--cds-spacing-07);"
         bind:value={interviewerName}
         labelText="Interviewer name"
-        placeholder="Enter your name..." />
+        placeholder="Enter your own name..." />
+
       {#each applicantResponses as { response, content, description, specificity }}
         <div style="padding-bottom: var(--cds-spacing-07);">
           <TextArea
             bind:value={response}
-            labelText={content}
-            placeholder={description || 'Enter a response.'}
-            helperText={specificity} />
+            labelText={`${capitalizeFirstLetter(specificity)}: ${content}`}
+            placeholder="Enter a response..."
+            helperText={description} />
         </div>
       {/each}
+
+      <Tile>
+        <p>
+          Please rank the applicant from 1-7 in the following categories. For
+          the overall ranking, close your eyes and try to imagine the candidate
+          as a member of VH board. Now score them based on your intuition:
+        </p>
+      </Tile>
+
       <Row style="margin: 0; padding: var(--cds-spacing-07) 0;" padding>
         <Slider
           labelText="Reliability"
@@ -173,6 +184,7 @@
 
 <style>
   :root {
-    --cds-label-01-font-size: 0.9rem;
+    --cds-label-01-font-size: 1.1rem;
+    --cds-helper-text-01-font-size: 1rem;
   }
 </style>
