@@ -28,6 +28,10 @@
       value: 'Name'
     },
     {
+      key: 'year',
+      value: 'Year'
+    },
+    {
       key: 'resume',
       value: 'Résumé'
     },
@@ -65,6 +69,7 @@
       .json();
     rows = applications.map(application => ({
       id: application.id,
+      year: capitalizeFirstLetter(application.year),
       name: application.name,
       resume: application.resume_link,
       email: application.email,
