@@ -121,12 +121,13 @@
         bind:value={interviewerName}
         labelText="Interviewer name"
         placeholder="Enter your name..." />
-      {#each applicantResponses as { response, content, description }}
+      {#each applicantResponses as { response, content, description, specificity }}
         <div style="padding-bottom: var(--cds-spacing-07);">
           <TextArea
             bind:value={response}
             labelText={content}
-            placeholder={description || 'Enter a response.'} />
+            placeholder={description || 'Enter a response.'}
+            helperText={specificity} />
         </div>
       {/each}
       <Row style="margin: 0; padding: var(--cds-spacing-07) 0;" padding>
