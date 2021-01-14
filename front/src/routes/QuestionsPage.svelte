@@ -18,6 +18,7 @@
   import { showError } from '../stores/errors';
 
   import Add32 from 'carbon-icons-svelte/lib/Add32';
+  import Delete16 from 'carbon-icons-svelte/lib/Delete16';
 
   let loading = true;
   let open = false;
