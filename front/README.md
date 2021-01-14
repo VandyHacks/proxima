@@ -1,4 +1,4 @@
 Deployment:
 
-`npm run build`, `cd public`, `vercel --prod`.
+`npm run build --prod`, `cd public`, `vercel --prod`.
 
