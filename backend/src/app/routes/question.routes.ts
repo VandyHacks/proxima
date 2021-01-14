@@ -13,6 +13,6 @@ router.post('/', notesController.questionCreate);
 router.get('/', notesController.getAllQuestions);
 
 // Delete question
-router.post('/:questionId/delete', notesController.deleteQuestion);
+router.delete('/:questionId', notesController.deleteQuestion);
 
 export default router.routes();
