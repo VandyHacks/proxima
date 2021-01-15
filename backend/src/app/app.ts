@@ -28,7 +28,11 @@ app.use(async (ctx: Koa.Context, next: () => Promise<any>) => {
 
 // Middleware
 app.use(bodyParser());
-app.use(cors());
+app.use(
+  cors({
+    credentials: true
+  })
+);
 
 app.use(logger());
 
