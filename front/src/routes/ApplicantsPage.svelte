@@ -86,7 +86,11 @@
 {#if loading}
   <DataTableSkeleton />
 {:else}
-  <DataTable sortable title="Active Applications" {headers} {rows}>
+  <DataTable
+    sortable
+    title="Active Applications: {rows.length}"
+    {headers}
+    {rows}>
     <!-- <Toolbar>
       <ToolbarContent>
         <ToolbarSearch bind:value={searchTerm} />
