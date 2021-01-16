@@ -6,7 +6,7 @@
     Tile,
     TextInput,
     Button,
-    Slider,
+    NumberInput,
     TextArea,
     TextAreaSkeleton,
     Loading
@@ -129,7 +129,8 @@
             bind:value={response}
             labelText={`${capitalizeFirstLetter(specificity)}: ${content}`}
             placeholder="Enter a response..."
-            helperText={description} />
+            helperText={description}
+            style="white-space: pre-wrap;" />
         </div>
       {/each}
 
@@ -142,35 +143,23 @@
       </Tile>
 
       <Row style="margin: 0; padding: var(--cds-spacing-07) 0;" padding>
-        <Slider
-          labelText="Reliability"
+        <NumberInput
+          label="Reliability"
           min={1}
           max={7}
-          maxLabel="7"
           bind:value={reliability} />
-        <Slider
-          labelText="Interest"
-          min={1}
-          max={7}
-          maxLabel="7"
-          bind:value={interest} />
-        <Slider
-          labelText="Teamwork"
-          min={1}
-          max={7}
-          maxLabel="7"
-          bind:value={teamwork} />
-        <Slider
-          labelText="Overall"
-          min={1}
-          max={7}
-          maxLabel="7"
-          bind:value={overall} />
+
+        <NumberInput label="Interest" min={1} max={7} bind:value={interest} />
+
+        <NumberInput label="Teamwork" min={1} max={7} bind:value={teamwork} />
+
+        <NumberInput label="Overall" min={1} max={7} bind:value={overall} />
       </Row>
       <TextArea
         bind:value={thoughts}
         labelText="Additional thoughts on {application.name}"
-        placeholder="Enter your thoughts..." />
+        placeholder="Enter your thoughts..."
+        style="white-space: pre-wrap;" />
       <div style="display: flex; justify-content:flex-end;">
         {#if notesStatus === 'submitting'}
           <Loading />
@@ -181,10 +170,3 @@
     </Column>
   {/if}
 {/if}
-
-<style>
-  :root {
-    --cds-label-01-font-size: 1.1rem;
-    --cds-helper-text-01-font-size: 1rem;
-  }
-</style>
