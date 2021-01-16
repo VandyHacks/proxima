@@ -6,7 +6,7 @@
     Tile,
     TextInput,
     Button,
-    Slider,
+    NumberInput,
     TextArea,
     TextAreaSkeleton,
     Loading
@@ -143,30 +143,17 @@
       </Tile>
 
       <Row style="margin: 0; padding: var(--cds-spacing-07) 0;" padding>
-        <Slider
-          labelText="Reliability"
+        <NumberInput
+          label="Reliability"
           min={1}
           max={7}
-          maxLabel="7"
           bind:value={reliability} />
-        <Slider
-          labelText="Interest"
-          min={1}
-          max={7}
-          maxLabel="7"
-          bind:value={interest} />
-        <Slider
-          labelText="Teamwork"
-          min={1}
-          max={7}
-          maxLabel="7"
-          bind:value={teamwork} />
-        <Slider
-          labelText="Overall"
-          min={1}
-          max={7}
-          maxLabel="7"
-          bind:value={overall} />
+
+        <NumberInput label="Interest" min={1} max={7} bind:value={interest} />
+
+        <NumberInput label="Teamwork" min={1} max={7} bind:value={teamwork} />
+
+        <NumberInput label="Overall" min={1} max={7} bind:value={overall} />
       </Row>
       <TextArea
         bind:value={thoughts}
@@ -186,7 +173,7 @@
 
 <style>
   :root {
-    --cds-label-01-font-size: 1.1rem;
-    --cds-helper-text-01-font-size: 1rem;
+    --cds-label-01-font-size: 1.1rem !important;
+    --cds-helper-text-01-font-size: 1rem !important;
   }
 </style>

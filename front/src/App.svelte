@@ -55,3 +55,10 @@
     </div>
   {/if}
 </Theme>
+
+<style>
+  :root {
+    --cds-label-01-font-size: 1.1rem !important;
+    --cds-helper-text-01-font-size: 1rem !important;
+  }
+</style>
