@@ -129,7 +129,8 @@
             bind:value={response}
             labelText={`${capitalizeFirstLetter(specificity)}: ${content}`}
             placeholder="Enter a response..."
-            helperText={description} />
+            helperText={description}
+            style="white-space: pre-wrap;" />
         </div>
       {/each}
 
@@ -170,7 +171,8 @@
       <TextArea
         bind:value={thoughts}
         labelText="Additional thoughts on {application.name}"
-        placeholder="Enter your thoughts..." />
+        placeholder="Enter your thoughts..."
+        style="white-space: pre-wrap;" />
       <div style="display: flex; justify-content:flex-end;">
         {#if notesStatus === 'submitting'}
           <Loading />

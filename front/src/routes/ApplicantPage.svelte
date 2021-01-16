@@ -310,7 +310,7 @@
           {#each applicationResponses as { question, response }}
             <StructuredListRow>
               <StructuredListCell>{question}</StructuredListCell>
-              <StructuredListCell>
+              <StructuredListCell style="white-space: pre-wrap;">
                 {response || 'No response'}
               </StructuredListCell>
             </StructuredListRow>
@@ -335,7 +335,9 @@
                 <StructuredListCell>
                   {capitalizeFirstLetter(specificity)}
                 </StructuredListCell>
-                <StructuredListCell>{note}</StructuredListCell>
+                <StructuredListCell style="white-space: pre-wrap;">
+                  {note}
+                </StructuredListCell>
               </StructuredListRow>
             {/each}
           </StructuredListBody>
@@ -349,7 +351,9 @@
           </StructuredListHead>
           <StructuredListBody>
             <StructuredListRow>
-              <StructuredListCell>{thoughts}</StructuredListCell>
+              <StructuredListCell style="white-space: pre-wrap;">
+                {thoughts}
+              </StructuredListCell>
             </StructuredListRow>
           </StructuredListBody>
         </StructuredList>
