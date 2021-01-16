@@ -172,7 +172,7 @@ const addNotes = async ({ params, request, response }: Koa.Context) => {
   const note: Note = noteRepo.create({
     interviewer_name: noteData.interviewer_name,
     reliability: noteData.reliability,
-    interest: noteData.reliability,
+    interest: noteData.interest,
     teamwork: noteData.teamwork,
     overall: noteData.overall,
     thoughts: noteData.thoughts,
@@ -289,6 +289,19 @@ const deleteQuestion = async ({ params, response }: Koa.Context) => {
   response.body = `Successfully deleted ${questionId}`;
 };
 
+const getSpecificQuestions = async ({ params, response }: Koa.Context) => {
+  const questionRepo: Repository<Question> = getRepository(Question);
+  const specificity: QuestionSpecificity = params.specificity;
+
+  response.body = await questionRepo.find({
+    select: ['id', 'content', 'specificity', 'description'],
+    where: { specificity: specificity },
+    order: {
+      id: 'ASC'
+    }
+  });
+};
+
 export {
   questionCreate,
   getQuestionsForApplicant,
@@ -297,5 +310,6 @@ export {
   getNotes,
   addComments,
   getComments,
-  deleteQuestion
+  deleteQuestion,
+  getSpecificQuestions
 };
