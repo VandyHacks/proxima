@@ -5,7 +5,7 @@
     Row,
     Tile,
     TextInput,
-    Slider
+    Slider,
     Button,
     TextArea,
     TextAreaSkeleton,
