@@ -1,4 +1,7 @@
+## Front-end of Proxima
+Running in the development environment:
+```npm run dev```
+--
 Deployment:
 
-`npm run build --prod`, `cd public`, `vercel --prod`.
-
+`vercel login`, `npm run build --prod`, `cd public`, `vercel --prod`.
