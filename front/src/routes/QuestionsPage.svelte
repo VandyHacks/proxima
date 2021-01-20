@@ -20,6 +20,9 @@
   import Add32 from 'carbon-icons-svelte/lib/Add32';
   import Delete16 from 'carbon-icons-svelte/lib/Delete16';
 
+  import { authStore } from '../stores/auth.js';
+  const { token } = authStore;
+
   let loading = true;
   let open = false;
 
@@ -52,7 +55,11 @@
   };
 
   onMount(async () => {
-    rows = await wretch(`${API_URL}/questions`).get().json();
+    rows = await wretch(`${API_URL}/questions`)
+      .auth(`Bearer ${$token}`)
+      .options({ credentials: 'include', mode: 'cors' })
+      .get()
+      .json();
     loading = false;
 
     for (const [key, value] of Object.entries(CommitteeType)) {
@@ -70,6 +77,8 @@
     loading = true;
     open = false;
     wretch(`${API_URL}/questions`)
+      .auth(`Bearer ${$token}`)
+      .options({ credentials: 'include', mode: 'cors' })
       .post(newQuestion)
       .res(() => {
         rows.push(newQuestion);

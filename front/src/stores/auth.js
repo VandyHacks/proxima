@@ -24,6 +24,10 @@ function createAuthStore() {
         user.set(await auth0.getUser());       
         loading.set(false);
         authenticated.set(true);
+
+        // put token
+        const jwt = await auth0.getTokenSilently();
+        token.set(jwt);
     }
 
     async function signin() {

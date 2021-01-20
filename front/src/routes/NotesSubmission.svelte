@@ -20,6 +20,9 @@
   import type { Application, Note, ApplicantResponse } from '../interfaces';
   import App from '../App.svelte';
 
+  import { authStore } from '../stores/auth.js';
+  const { token } = authStore;
+
   const intro =
     "Thank you for applying to VandyHacks! As a quick overview for how this interview will go, we'll ask you a couple of questions just to get to know your work habits, then we'll go into questions specific to the committees you indicated you were interested in on your application. If you have any questions, we'll leave a couple of minutes at the end, and we can try to answer them as best as possible. Of course, if you don't have any questions, don't feel pressured: we won't count them as part of your application. We will be taking notes on our laptops to refer back to while you answer.";
 
@@ -42,6 +45,8 @@
     const data: { application: Application; notes: Note[] } = await wretch(
       `${API_URL}/applications/${$path.applicantid}`
     )
+      .auth(`Bearer ${$token}`)
+      .options({ credentials: 'include', mode: 'cors' })
       .get()
       .json();
     application = data.application;
@@ -52,6 +57,8 @@
       specificity: string;
       description: string;
     }[] = await wretch(`${API_URL}/applications/${$path.applicantid}/questions`)
+      .auth(`Bearer ${$token}`)
+      .options({ credentials: 'include', mode: 'cors' })
       .get()
       .json();
 
@@ -78,6 +85,8 @@
       questionAnswers: applicantResponses
     };
     wretch(`${API_URL}/applications/${$path.applicantid}/notes`)
+      .auth(`Bearer ${$token}`)
+      .options({ credentials: 'include', mode: 'cors' })
       .post(data)
       .res(() => {
         notesStatus = 'submitted';
