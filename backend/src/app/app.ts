@@ -16,14 +16,22 @@ const app: Koa = new Koa();
 
 app.use(errorHandlers.genericError);
 app.use(bodyParser());
-app.use(cors());
+app.use(
+  cors({
+    credentials: true
+  })
+);
 
 app.use(logger());
+
+// Exposed for a TypeForm webhook
+app.use(hookRoutes);
+
+// Authenticate all non-webhook routes
 app.use(checkJwt);
 
 app.use(applicationRoutes);
 app.use(questionRoutes);
-app.use(hookRoutes);
 
 // Error logging.
 app.on('error', err => {

@@ -42,6 +42,9 @@
   import { path } from 'svelte-pathfinder';
   import type { Application, Comment, Note } from '../interfaces';
 
+  import { authStore } from '../stores/auth.js';
+  const { token } = authStore;
+
   let application: Application;
   let applicationResponses: { question: string; response: string }[] = [];
   let notes: Note[];
@@ -136,6 +139,8 @@
       notes: Note[];
       comments: Comment[];
     } = await wretch(`${API_URL}/applications/${$path.applicantid}`)
+      .auth(`Bearer ${$token}`)
+      .options({ credentials: 'include', mode: 'cors' })
       .get()
       .json();
     application = data.application;
@@ -179,6 +184,8 @@
     loading = true;
     open = false;
     wretch(`${API_URL}/applications/${$path.applicantid}/comments`)
+      .auth(`Bearer ${$token}`)
+      .options({ credentials: 'include', mode: 'cors' })
       .post(newComment)
       .res(() => {
         comments.push(newComment);
@@ -208,6 +215,8 @@
     loading = true;
     confirmationModal = false;
     wretch(`${API_URL}/applications/${$path.applicantid}`)
+      .auth(`Bearer ${$token}`)
+      .options({ credentials: 'include', mode: 'cors' })
       .put({
         status: newStatus,
         committee: committeeToAcceptTo

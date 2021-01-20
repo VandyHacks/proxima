@@ -13,7 +13,7 @@ const checkJwt = jwt({
   }),
 
   // Validate the audience and the issuer.
-  audience: 'https://proxima-auth/api',
+  audience: 'https://dev-56ziprzw.us.auth0.com/api/v2/',
   issuer: `https://dev-56ziprzw.us.auth0.com/`,
   algorithms: ['RS256']
 });

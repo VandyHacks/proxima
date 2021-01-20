@@ -1,9 +1,6 @@
 <script lang="ts">
   import {
     DataTable,
-    Toolbar,
-    ToolbarContent,
-    ToolbarSearch,
     Tag,
     OverflowMenu,
     OverflowMenuItem,
@@ -19,6 +16,8 @@
   import type { Application } from '../interfaces';
   import { ApplicationStatus } from '../interfaces';
   import { capitalizeFirstLetter, replaceUnderscores } from '../utils/filters';
+  import { authStore } from '../stores/auth.js';
+  const { token } = authStore;
 
   let searchTerm = '';
 
@@ -61,6 +60,8 @@
 
   onMount(async () => {
     const applications: Application[] = await wretch(`${API_URL}/applications`)
+      .auth(`Bearer ${$token}`)
+      .options({ credentials: 'include', mode: 'cors' })
       .get()
       .json();
     rows = applications.map(application => ({
