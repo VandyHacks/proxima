@@ -369,7 +369,7 @@
 
         <LollipopChart
           data={[{ group: 'Reliability', key: 'Reliability', value: reliability }, { group: 'Interest', key: 'Interest', value: interest }, { group: 'Teamwork', key: 'Teamwork', value: teamwork }, { group: 'Overall', key: 'Overall', value: overall }]}
-          options={{ title: 'Scores', axes: { bottom: { title: application.name, scaleType: 'labels', mapsTo: 'key' }, left: { mapsTo: 'value' } }, height: '400px' }}
+          options={{ title: 'Scores', axes: { bottom: { title: application.name, scaleType: 'labels', mapsTo: 'key' }, left: { mapsTo: 'value', domain: [0, 7] } }, height: '400px' }}
           style={chartStyle} />
       </AccordionItem>
     {/each}
