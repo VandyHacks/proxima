@@ -24,10 +24,6 @@ function createAuthStore() {
         user.set(await auth0.getUser());       
         loading.set(false);
         authenticated.set(true);
-
-        // put token
-        const jwt = await auth0.getTokenSilently();
-        token.set(jwt);
     }
 
     async function signin() {
@@ -51,6 +47,14 @@ function createAuthStore() {
         user.set(await auth0.getUser());
         authenticated.set(false);
     }
+
+    user.subscribe(async value => {
+		if (value) {
+            // put token
+            const jwt = await auth0.getTokenSilently();
+            token.set(jwt);
+        }
+	});
 
     return { loading, authenticated, user, auth0, signin, signout, init, token };
 }
