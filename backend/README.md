@@ -12,7 +12,7 @@ This is the second version of back-end, written in Node. The first version was i
 
 ### Running:
 
-Install and run (Docker)[https://docs.docker.com/get-docker/].
+Install and run [Docker](https://docs.docker.com/get-docker/).
 
 Start:
 `docker-compose build` and `docker-compose up`
