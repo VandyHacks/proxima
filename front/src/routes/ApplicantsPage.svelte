@@ -156,7 +156,9 @@
         {capitalizeFirstLetter(replaceUnderscores(cell.value))}
       {:else if cell.key === 'committees'}
         {#if row.status === ApplicationStatus.ACCEPTED}
-          <Tag type="green">
+          <Tag 
+            type="green"
+            on:click={() => updateCommitteeSelection(row.committee_accepted)}>
             {capitalizeFirstLetter(row.committee_accepted)}
           </Tag>
         {:else}
