@@ -32,7 +32,6 @@
   let descriptionValue = '';
   let committeeIndex = 0;
 
-  let onSubmit = () => {};
   let confirmationModal = false;
   const modalText = `Are you sure you want delete these questions?`;
   const modalHeading = 'Delete selected questions';
