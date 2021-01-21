@@ -96,6 +96,11 @@
     selectedCommittee = committee;
     return true;
   }
+
+  const getCommitteeSelectionText = (selectedCommittee: CommitteeType) => {
+    let text = (selectedCommittee!=null) ? selectedCommittee.toString() : "all";
+    return " (" + text + ")";
+  }
 </script>
 
 <svelte:window on:click={click} />
@@ -113,6 +118,11 @@
         <ToolbarSearch bind:value={searchTerm} />
       </ToolbarContent>
     </Toolbar> -->
+    <span slot="cell-header" let:header>
+      {#if header.key === 'committees'}
+        {header.value + getCommitteeSelectionText(selectedCommittee)}
+      {:else}{header.value}{/if}
+    </span>
     <span slot="cell" let:row let:cell>
       {#if cell.key === 'resume'}
         <a target="_blank" href={cell.value}>
