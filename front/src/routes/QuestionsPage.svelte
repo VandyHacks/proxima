@@ -35,7 +35,7 @@
   let onSubmit = () => {};
   let confirmationModal = false;
   let modalText = '';
-  let modalHeadingText = '';
+  let modalHeading = 'Delete selected questions';
 
   let headers = [
     {
@@ -107,7 +107,6 @@
 
   const openConfirmationModal = () => {
     modalText = `Are you sure you want delete these questions?`;
-    modalHeadingText = 'Delete selected questions';
     onSubmit = () => {
       deleteQuestions();
     };
@@ -117,28 +116,16 @@
   const deleteQuestions = async () => {
     loading = true;
     confirmationModal = false;
-    selectedRowIds.forEach(async id => {
-      wretch(`${API_URL}/questions/${id}`)
+    selectedRowIds.forEach(selectedRowId => {
+      wretch(`${API_URL}/questions/${selectedRowId}`)
         .auth(`Bearer ${$token}`)
         .options({ credentials: 'include', mode: 'cors' })
         .delete()
-        .res(() => {
-          loading = false;
-        })
-        .catch(() => {
-          loading = false;
-          showError();
-        });
-
-      rows.splice(
-        rows.findIndex(row => {
-          return row.id === id;
-        }),
-        1
-      );
     });
 
+    rows = rows.filter(({ id }) => !selectedRowIds.includes(id))
     selectedRowIds = [];
+    loading = false;
   };
 </script>
 
@@ -154,7 +141,7 @@
     {rows}>
     <Toolbar>
       <ToolbarBatchActions>
-        <Button icon={Delete16} on:click={() => openConfirmationModal()}>
+        <Button icon={Delete16} on:click={openConfirmationModal}>
           Delete
         </Button>
       </ToolbarBatchActions>
@@ -206,10 +193,8 @@
   </DataTable>
   <ConfirmationModal
     bind:open={confirmationModal}
-    committees={null}
-    showCommittees={false}
     {onSubmit}
     {toggleConfirmationModal}
     {modalText}
-    {modalHeadingText} />
+    {modalHeading} />
 {/if}

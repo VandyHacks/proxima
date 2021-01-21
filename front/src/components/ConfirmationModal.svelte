@@ -16,7 +16,7 @@
   export let toggleConfirmationModal = () => {};
 
   export let modalText: string = '';
-  export let modalHeadingText: string = '';
+  export let modalHeading: string = '';
 
   export let committees = [];
 </script>
@@ -25,7 +25,7 @@
   size="sm"
   hasScrollingContent={false}
   bind:open
-  modalHeading={modalHeadingText}
+  {modalHeading}
   primaryButtonText="Yes"
   secondaryButtonText="No"
   on:click:button--secondary={toggleConfirmationModal}

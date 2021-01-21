@@ -52,12 +52,13 @@
   let commenterValue = '';
   let contentValue = '';
 
-  let onSubmit = () => {};
   let open = false;
   let confirmationModal = false;
   let modalText = '';
-  let modalHeadingText = '';
+  let modalHeading = 'Change applicant status';
   let committeeToAcceptTo = CommitteeType.OPERATIONS;
+
+  let onSubmit = () => {};
 
   const toggleConfirmationModal = () => {
     confirmationModal = !confirmationModal;
@@ -235,7 +236,6 @@
     modalText = `Are you sure you want change this applicants status to ${replaceUnderscores(
       newStatus
     )}? This will automatically send the email to the applicant.`;
-    modalHeadingText = 'Change applicant status';
     onSubmit = () => changeApplicationStatus(newStatus);
     confirmationModal = true;
   };
@@ -460,5 +460,5 @@
     {onSubmit}
     {toggleConfirmationModal}
     {modalText}
-    {modalHeadingText} />
+    {modalHeading} />
 {/if}
