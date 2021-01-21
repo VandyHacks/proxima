@@ -55,9 +55,9 @@
     development: 'teal',
     'hacker experience': 'blue',
     design: 'cyan',
-    sponsorship: 'green',
+    sponsorship: 'cool-gray',
     content: 'purple',
-    marketing: 'gray'
+    marketing: 'high-contrast'
   };
 
   let loading = true;
