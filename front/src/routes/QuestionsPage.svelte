@@ -8,19 +8,21 @@
     TextAreaSkeleton,
     TextArea,
     Toolbar,
+    ToolbarBatchActions,
     ToolbarContent
   } from 'carbon-components-svelte';
   import wretch from 'wretch';
   import { onMount } from 'svelte';
-  import { API_URL } from '../config/api';
-  import { capitalizeFirstLetter } from '../utils/filters';
-  import { CommitteeType } from '../interfaces';
-  import { showError } from '../stores/errors';
-
   import Add32 from 'carbon-icons-svelte/lib/Add32';
   import Delete16 from 'carbon-icons-svelte/lib/Delete16';
 
+  import { API_URL } from '../config/api';
+  import ConfirmationModal from '../components/ConfirmationModal.svelte';
+  import { capitalizeFirstLetter } from '../utils/filters';
+  import { CommitteeType } from '../interfaces';
+  import { showError } from '../stores/errors';
   import { authStore } from '../stores/auth.js';
+
   const { token } = authStore;
 
   let loading = true;
@@ -30,7 +32,11 @@
   let descriptionValue = '';
   let committeeIndex = 0;
 
-  let headers = [
+  let confirmationModal = false;
+  const modalText = `Are you sure you want delete these questions?`;
+  const modalHeading = 'Delete selected questions';
+
+  const headers = [
     {
       key: 'specificity',
       value: 'Committee'
@@ -50,8 +56,15 @@
     { id: '8', text: 'general' },
     { id: '9', text: 'wrap up' }
   ];
+
+  let selectedRowIds: string[] = [];
+
   const toggleModal = () => {
     open = !open;
+  };
+
+  const toggleConfirmationModal = () => {
+    confirmationModal = !confirmationModal;
   };
 
   onMount(async () => {
@@ -67,9 +80,8 @@
     }
   });
 
-  async function addQuestion() {
+  const addQuestion = async () => {
     const newQuestion = {
-      id: Math.random().toString(3),
       content: contentValue,
       specificity: committees[committeeIndex].text,
       description: descriptionValue
@@ -80,7 +92,7 @@
       .auth(`Bearer ${$token}`)
       .options({ credentials: 'include', mode: 'cors' })
       .post(newQuestion)
-      .res(() => {
+      .json(newQuestion => {
         rows.push(newQuestion);
         contentValue = '';
         descriptionValue = '';
@@ -90,14 +102,40 @@
         loading = false;
         showError();
       });
-  }
+  };
+
+  const deleteQuestions = async () => {
+    loading = true;
+    confirmationModal = false;
+    selectedRowIds.forEach(selectedRowId => {
+      wretch(`${API_URL}/questions/${selectedRowId}`)
+        .auth(`Bearer ${$token}`)
+        .options({ credentials: 'include', mode: 'cors' })
+        .delete();
+    });
+
+    rows = rows.filter(({ id }) => !selectedRowIds.includes(id));
+    selectedRowIds = [];
+    loading = false;
+  };
 </script>
 
 {#if loading}
   <TextAreaSkeleton />
 {:else}
-  <DataTable sortable title="All Questions" {headers} {rows}>
+  <DataTable
+    batchSelection
+    bind:selectedRowIds
+    sortable
+    title="All Questions"
+    {headers}
+    {rows}>
     <Toolbar>
+      <ToolbarBatchActions>
+        <Button icon={Delete16} on:click={toggleConfirmationModal}>
+          Delete
+        </Button>
+      </ToolbarBatchActions>
       <ToolbarContent>
         <Button size="default" icon={Add32} kind="ghost" on:click={toggleModal}>
           Add Question
@@ -145,4 +183,10 @@
       </Form>
     </Modal>
   </DataTable>
+  <ConfirmationModal
+    bind:open={confirmationModal}
+    onSubmit={deleteQuestions}
+    {toggleConfirmationModal}
+    {modalText}
+    {modalHeading} />
 {/if}

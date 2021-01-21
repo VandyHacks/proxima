@@ -4,7 +4,6 @@
     AccordionItem,
     ButtonSet,
     Button,
-    ClickableTile,
     DataTable,
     DataTableSkeleton,
     Form,
@@ -53,20 +52,22 @@
   let commenterValue = '';
   let contentValue = '';
 
-  let changeStatus = () => {};
   let open = false;
   let confirmationModal = false;
   let modalText = '';
+  let modalHeading = 'Change applicant status';
   let committeeToAcceptTo = CommitteeType.OPERATIONS;
 
-  function toggleModal() {
+  let onSubmit = () => {};
+
+  const toggleConfirmationModal = () => {
     confirmationModal = !confirmationModal;
-  }
+  };
   const toggleQuestionModal = () => {
     open = !open;
   };
 
-  function showError(error) {
+  const showError = error => {
     if (error.message) {
       let parsedError = JSON.parse(error.message);
       errorMessage.set(parsedError.error);
@@ -74,7 +75,7 @@
       errorMessage.set('An error has occured');
     }
     showErrorModal.set(true);
-  }
+  };
 
   let rows = [];
 
@@ -176,7 +177,7 @@
     loading = false;
   });
 
-  async function addComment() {
+  const addComment = async () => {
     const newComment = {
       commenter_name: commenterValue,
       content: contentValue
@@ -194,7 +195,7 @@
         loading = false;
       })
       .catch(showError);
-  }
+  };
 
   $: if (application) {
     rows = [
@@ -211,7 +212,7 @@
     ];
   }
 
-  async function changeApplicationStatus(newStatus: ApplicationStatus) {
+  const changeApplicationStatus = async (newStatus: ApplicationStatus) => {
     loading = true;
     confirmationModal = false;
     wretch(`${API_URL}/applications/${$path.applicantid}`)
@@ -229,15 +230,15 @@
         loading = false;
       })
       .catch(showError);
-  }
+  };
 
-  function openConfirmationModal(newStatus: ApplicationStatus) {
+  const openConfirmationModal = (newStatus: ApplicationStatus) => {
     modalText = `Are you sure you want change this applicants status to ${replaceUnderscores(
       newStatus
     )}? This will automatically send the email to the applicant.`;
-    changeStatus = () => changeApplicationStatus(newStatus);
+    onSubmit = () => changeApplicationStatus(newStatus);
     confirmationModal = true;
-  }
+  };
   const chartStyle = 'background-color: inherit;';
 </script>
 
@@ -456,7 +457,8 @@
     bind:committee={committeeToAcceptTo}
     committees={application.committees}
     showCommittees={application.status === ApplicationStatus.TOINTERVIEW}
-    {changeStatus}
-    {toggleModal}
-    {modalText} />
+    {onSubmit}
+    {toggleConfirmationModal}
+    {modalText}
+    {modalHeading} />
 {/if}
