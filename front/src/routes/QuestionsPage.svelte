@@ -13,15 +13,16 @@
   } from 'carbon-components-svelte';
   import wretch from 'wretch';
   import { onMount } from 'svelte';
-  import { API_URL } from '../config/api';
-  import { capitalizeFirstLetter } from '../utils/filters';
-  import { CommitteeType } from '../interfaces';
-  import { showError } from '../stores/errors';
-
   import Add32 from 'carbon-icons-svelte/lib/Add32';
   import Delete16 from 'carbon-icons-svelte/lib/Delete16';
 
+  import { API_URL } from '../config/api';
+  import ConfirmationModal from '../components/ConfirmationModal.svelte';
+  import { capitalizeFirstLetter } from '../utils/filters';
+  import { CommitteeType } from '../interfaces';
+  import { showError } from '../stores/errors';
   import { authStore } from '../stores/auth.js';
+
   const { token } = authStore;
 
   let loading = true;
@@ -30,6 +31,11 @@
   let contentValue = '';
   let descriptionValue = '';
   let committeeIndex = 0;
+
+  let changeStatus = () => {};
+  let confirmationModal = false;
+  let modalText = '';
+  let modalHeadingText = '';
 
   let headers = [
     {
@@ -57,6 +63,10 @@
   const toggleModal = () => {
     open = !open;
   };
+
+  const toggleConfirmationModal = () => {
+    confirmationModal = !confirmationModal;
+  }
 
   onMount(async () => {
     rows = await wretch(`${API_URL}/questions`)
@@ -95,8 +105,16 @@
       });
   };
 
+  const openConfirmationModal = () => {
+    modalText = `Are you sure you want delete these questions?`;
+    modalHeadingText = 'Delete selected questions';
+    changeStatus = () => {deleteQuestions()};
+    confirmationModal = true;
+  }
+
   const deleteQuestions = async () => {
     loading = true;
+    confirmationModal = false;
     selectedRowIds.forEach(async id => {
       wretch(`${API_URL}/questions/${id}`)
         .auth(`Bearer ${$token}`)
@@ -134,7 +152,7 @@
     {rows}>
     <Toolbar>
       <ToolbarBatchActions>
-        <Button icon={Delete16} on:click={deleteQuestions}>Delete</Button>
+        <Button icon={Delete16} on:click={() => openConfirmationModal()}>Delete</Button>
       </ToolbarBatchActions>
       <ToolbarContent>
         <Button size="default" icon={Add32} kind="ghost" on:click={toggleModal}>
@@ -182,4 +200,12 @@
       </Form>
     </Modal>
   </DataTable>
+  <ConfirmationModal
+    bind:open={confirmationModal}
+    committees={null}
+    showCommittees={false}
+    {changeStatus}
+    {toggleConfirmationModal}
+    {modalText}
+    {modalHeadingText} />
 {/if}

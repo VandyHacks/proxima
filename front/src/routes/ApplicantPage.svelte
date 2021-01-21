@@ -4,7 +4,6 @@
     AccordionItem,
     ButtonSet,
     Button,
-    ClickableTile,
     DataTable,
     DataTableSkeleton,
     Form,
@@ -57,16 +56,17 @@
   let open = false;
   let confirmationModal = false;
   let modalText = '';
+  let modalHeadingText = '';
   let committeeToAcceptTo = CommitteeType.OPERATIONS;
 
-  function toggleModal() {
+  const toggleConfirmationModal = () => {
     confirmationModal = !confirmationModal;
   }
   const toggleQuestionModal = () => {
     open = !open;
   };
 
-  function showError(error) {
+  const showError = (error) => {
     if (error.message) {
       let parsedError = JSON.parse(error.message);
       errorMessage.set(parsedError.error);
@@ -176,7 +176,7 @@
     loading = false;
   });
 
-  async function addComment() {
+  const addComment = async () => {
     const newComment = {
       commenter_name: commenterValue,
       content: contentValue
@@ -211,7 +211,7 @@
     ];
   }
 
-  async function changeApplicationStatus(newStatus: ApplicationStatus) {
+  const changeApplicationStatus = async (newStatus: ApplicationStatus) => {
     loading = true;
     confirmationModal = false;
     wretch(`${API_URL}/applications/${$path.applicantid}`)
@@ -231,10 +231,11 @@
       .catch(showError);
   }
 
-  function openConfirmationModal(newStatus: ApplicationStatus) {
+  const openConfirmationModal = (newStatus: ApplicationStatus) => {
     modalText = `Are you sure you want change this applicants status to ${replaceUnderscores(
       newStatus
     )}? This will automatically send the email to the applicant.`;
+    modalHeadingText = "Change applicant status";
     changeStatus = () => changeApplicationStatus(newStatus);
     confirmationModal = true;
   }
@@ -457,6 +458,7 @@
     committees={application.committees}
     showCommittees={application.status === ApplicationStatus.TOINTERVIEW}
     {changeStatus}
-    {toggleModal}
-    {modalText} />
+    {toggleConfirmationModal}
+    {modalText}
+    {modalHeadingText} />
 {/if}
