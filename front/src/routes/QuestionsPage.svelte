@@ -117,6 +117,7 @@
       modalHeading="Add Question"
       primaryButtonText="Confirm"
       secondaryButtonText="Cancel"
+      primaryButtonDisabled={!(contentValue.length && descriptionValue.length)}
       on:click:button--secondary={toggleModal}
       on:open
       on:close
