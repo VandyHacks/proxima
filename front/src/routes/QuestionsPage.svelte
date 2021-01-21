@@ -32,7 +32,7 @@
   let descriptionValue = '';
   let committeeIndex = 0;
 
-  let changeStatus = () => {};
+  let onSubmit = () => {};
   let confirmationModal = false;
   let modalText = '';
   let modalHeadingText = '';
@@ -108,7 +108,7 @@
   const openConfirmationModal = () => {
     modalText = `Are you sure you want delete these questions?`;
     modalHeadingText = 'Delete selected questions';
-    changeStatus = () => {
+    onSubmit = () => {
       deleteQuestions();
     };
     confirmationModal = true;
@@ -208,7 +208,7 @@
     bind:open={confirmationModal}
     committees={null}
     showCommittees={false}
-    {changeStatus}
+    {onSubmit}
     {toggleConfirmationModal}
     {modalText}
     {modalHeadingText} />

@@ -52,7 +52,7 @@
   let commenterValue = '';
   let contentValue = '';
 
-  let changeStatus = () => {};
+  let onSubmit = () => {};
   let open = false;
   let confirmationModal = false;
   let modalText = '';
@@ -236,7 +236,7 @@
       newStatus
     )}? This will automatically send the email to the applicant.`;
     modalHeadingText = 'Change applicant status';
-    changeStatus = () => changeApplicationStatus(newStatus);
+    onSubmit = () => changeApplicationStatus(newStatus);
     confirmationModal = true;
   };
   const chartStyle = 'background-color: inherit;';
@@ -457,7 +457,7 @@
     bind:committee={committeeToAcceptTo}
     committees={application.committees}
     showCommittees={application.status === ApplicationStatus.TOINTERVIEW}
-    {changeStatus}
+    {onSubmit}
     {toggleConfirmationModal}
     {modalText}
     {modalHeadingText} />

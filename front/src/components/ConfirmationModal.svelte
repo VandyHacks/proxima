@@ -12,7 +12,7 @@
   export let showCommittees = false;
   export let committee: CommitteeType = CommitteeType.OPERATIONS;
 
-  export let changeStatus = () => {};
+  export let onSubmit = () => {};
   export let toggleConfirmationModal = () => {};
 
   export let modalText: string = '';
@@ -29,7 +29,7 @@
   primaryButtonText="Yes"
   secondaryButtonText="No"
   on:click:button--secondary={toggleConfirmationModal}
-  on:submit={changeStatus}>
+  on:submit={onSubmit}>
   <p style={showCommittees ? 'padding-bottom: var(--cds-spacing-07);' : ''}>
     {modalText}
   </p>
