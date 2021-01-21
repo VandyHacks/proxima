@@ -90,6 +90,9 @@
       return rows;
     }
     return rows.filter(function (row) {
+      if (row.status == ApplicationStatus.ACCEPTED) {
+        return row.committee_accepted == selectedCommittee;
+      }
       let commExists = false;
       row.committees.forEach(function (commObj: { committee: CommitteeType }) {
         if (commObj.committee == selectedCommittee) {
