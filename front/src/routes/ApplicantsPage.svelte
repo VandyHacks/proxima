@@ -14,7 +14,7 @@
 
   import { API_URL } from '../config/api';
   import type { Application } from '../interfaces';
-  import { ApplicationStatus } from '../interfaces';
+  import { ApplicationStatus, CommitteeType } from '../interfaces';
   import { capitalizeFirstLetter, replaceUnderscores } from '../utils/filters';
   import { authStore } from '../stores/auth.js';
   const { token } = authStore;
@@ -78,6 +78,24 @@
     }));
     loading = false;
   });
+
+  let selectedCommittee = null;
+  
+  const passesCommitteeFilters = (rows: any[], selectedCommittee: CommitteeType) => {
+    if (selectedCommittee==null) {return rows;}
+    return rows.filter(function(row) {
+      let commExists = false;
+      row.committees.forEach(function(commObj: { committee: CommitteeType; }) {
+        if (commObj.committee == selectedCommittee) {commExists = true;}
+      });
+      return commExists;
+    });
+  }
+
+  const updateCommitteeSelection = (committee: CommitteeType) => {
+    selectedCommittee = committee;
+    return true;
+  }
 </script>
 
 <svelte:window on:click={click} />
@@ -89,7 +107,12 @@
     sortable
     title="Active Applications: {rows.length}"
     {headers}
-    {rows}>
+    rows={passesCommitteeFilters(rows, selectedCommittee)}>
+    <!-- <Toolbar>
+      <ToolbarContent>
+        <ToolbarSearch bind:value={searchTerm} />
+      </ToolbarContent>
+    </Toolbar> -->
     <span slot="cell" let:row let:cell>
       {#if cell.key === 'resume'}
         <a target="_blank" href={cell.value}>
@@ -113,7 +136,7 @@
           </Tag>
         {:else}
           {#each cell.value as { committee }}
-            <Tag type={colors[committee]}>
+            <Tag type={colors[committee]} on:click={() => updateCommitteeSelection(committee)}>
               {capitalizeFirstLetter(committee)}
             </Tag>
           {/each}
