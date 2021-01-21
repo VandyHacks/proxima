@@ -5,7 +5,8 @@
     OverflowMenu,
     OverflowMenuItem,
     DataTableSkeleton,
-    Link
+    Link,
+    Button
   } from 'carbon-components-svelte';
   import Document32 from 'carbon-icons-svelte/lib/Document32';
   import { onMount } from 'svelte';
@@ -118,6 +119,12 @@
         <ToolbarSearch bind:value={searchTerm} />
       </ToolbarContent>
     </Toolbar> -->
+    <Button 
+      kind="secondary" 
+      disabled={selectedCommittee==null ? true : false}
+      on:click={() => updateCommitteeSelection(null)}>
+      Clear committee filter: {selectedCommittee==null ? "none" : selectedCommittee}
+    </Button>
     <span slot="cell-header" let:header>
       {#if header.key === 'committees'}
         {header.value + getCommitteeSelectionText(selectedCommittee)}
