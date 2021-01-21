@@ -61,12 +61,12 @@
 
   const toggleConfirmationModal = () => {
     confirmationModal = !confirmationModal;
-  }
+  };
   const toggleQuestionModal = () => {
     open = !open;
   };
 
-  const showError = (error) => {
+  const showError = error => {
     if (error.message) {
       let parsedError = JSON.parse(error.message);
       errorMessage.set(parsedError.error);
@@ -74,7 +74,7 @@
       errorMessage.set('An error has occured');
     }
     showErrorModal.set(true);
-  }
+  };
 
   let rows = [];
 
@@ -194,7 +194,7 @@
         loading = false;
       })
       .catch(showError);
-  }
+  };
 
   $: if (application) {
     rows = [
@@ -229,16 +229,16 @@
         loading = false;
       })
       .catch(showError);
-  }
+  };
 
   const openConfirmationModal = (newStatus: ApplicationStatus) => {
     modalText = `Are you sure you want change this applicants status to ${replaceUnderscores(
       newStatus
     )}? This will automatically send the email to the applicant.`;
-    modalHeadingText = "Change applicant status";
+    modalHeadingText = 'Change applicant status';
     changeStatus = () => changeApplicationStatus(newStatus);
     confirmationModal = true;
-  }
+  };
   const chartStyle = 'background-color: inherit;';
 </script>
 

@@ -66,7 +66,7 @@
 
   const toggleConfirmationModal = () => {
     confirmationModal = !confirmationModal;
-  }
+  };
 
   onMount(async () => {
     rows = await wretch(`${API_URL}/questions`)
@@ -108,9 +108,11 @@
   const openConfirmationModal = () => {
     modalText = `Are you sure you want delete these questions?`;
     modalHeadingText = 'Delete selected questions';
-    changeStatus = () => {deleteQuestions()};
+    changeStatus = () => {
+      deleteQuestions();
+    };
     confirmationModal = true;
-  }
+  };
 
   const deleteQuestions = async () => {
     loading = true;
@@ -152,7 +154,9 @@
     {rows}>
     <Toolbar>
       <ToolbarBatchActions>
-        <Button icon={Delete16} on:click={() => openConfirmationModal()}>Delete</Button>
+        <Button icon={Delete16} on:click={() => openConfirmationModal()}>
+          Delete
+        </Button>
       </ToolbarBatchActions>
       <ToolbarContent>
         <Button size="default" icon={Add32} kind="ghost" on:click={toggleModal}>
