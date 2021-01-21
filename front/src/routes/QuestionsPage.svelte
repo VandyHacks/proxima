@@ -93,7 +93,7 @@
         loading = false;
         showError();
       });
-  }
+  };
 
   const deleteQuestions = async () => {
     loading = true;
@@ -119,7 +119,7 @@
     });
 
     selectedRowIds = [];
-  }
+  };
 </script>
 
 {#if loading}
