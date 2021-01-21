@@ -8,6 +8,7 @@
     TextAreaSkeleton,
     TextArea,
     Toolbar,
+    ToolbarBatchActions,
     ToolbarContent
   } from 'carbon-components-svelte';
   import wretch from 'wretch';
@@ -50,6 +51,9 @@
     { id: '8', text: 'general' },
     { id: '9', text: 'wrap up' }
   ];
+
+  let selectedRowIds: string[] = [];
+
   const toggleModal = () => {
     open = !open;
   };
@@ -67,9 +71,8 @@
     }
   });
 
-  async function addQuestion() {
+  const addQuestion = async () => {
     const newQuestion = {
-      id: Math.random().toString(3),
       content: contentValue,
       specificity: committees[committeeIndex].text,
       description: descriptionValue
@@ -80,7 +83,7 @@
       .auth(`Bearer ${$token}`)
       .options({ credentials: 'include', mode: 'cors' })
       .post(newQuestion)
-      .res(() => {
+      .json(newQuestion => {
         rows.push(newQuestion);
         contentValue = '';
         descriptionValue = '';
@@ -91,13 +94,48 @@
         showError();
       });
   }
+
+  const deleteQuestions = async () => {
+    loading = true;
+    selectedRowIds.forEach(async id => {
+      wretch(`${API_URL}/questions/${id}`)
+        .auth(`Bearer ${$token}`)
+        .options({ credentials: 'include', mode: 'cors' })
+        .delete()
+        .res(() => {
+          loading = false;
+        })
+        .catch(() => {
+          loading = false;
+          showError();
+        });
+
+      rows.splice(
+        rows.findIndex(row => {
+          return row.id === id;
+        }),
+        1
+      );
+    });
+
+    selectedRowIds = [];
+  }
 </script>
 
 {#if loading}
   <TextAreaSkeleton />
 {:else}
-  <DataTable sortable title="All Questions" {headers} {rows}>
+  <DataTable
+    batchSelection
+    bind:selectedRowIds
+    sortable
+    title="All Questions"
+    {headers}
+    {rows}>
     <Toolbar>
+      <ToolbarBatchActions>
+        <Button icon={Delete16} on:click={deleteQuestions}>Delete</Button>
+      </ToolbarBatchActions>
       <ToolbarContent>
         <Button size="default" icon={Add32} kind="ghost" on:click={toggleModal}>
           Add Question
