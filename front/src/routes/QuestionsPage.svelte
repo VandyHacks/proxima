@@ -2,11 +2,7 @@
   import {
     Button,
     DataTable,
-    Dropdown,
-    Form,
-    Modal,
     TextAreaSkeleton,
-    TextArea,
     Toolbar,
     ToolbarBatchActions,
     ToolbarContent
@@ -18,6 +14,7 @@
 
   import { API_URL } from '../config/api';
   import ConfirmationModal from '../components/ConfirmationModal.svelte';
+  import AddQuestionModal from '../components/AddQuestionModal.svelte';
   import { capitalizeFirstLetter } from '../utils/filters';
   import { CommitteeType } from '../interfaces';
   import { showError } from '../stores/errors';
@@ -147,41 +144,14 @@
         {capitalizeFirstLetter(cell.value)}
       {:else}{cell.value}{/if}
     </span>
-    <Modal
-      preventCloseOnClickOutside
-      hasForm
-      hasScrollingContent
+    <AddQuestionModal
+      bind:descriptionValue
+      bind:contentValue
       bind:open
-      modalHeading="Add Question"
-      primaryButtonText="Confirm"
-      secondaryButtonText="Cancel"
-      primaryButtonDisabled={!(contentValue.length && descriptionValue.length)}
-      on:click:button--secondary={toggleModal}
-      on:open
-      on:close
-      on:submit={addQuestion}>
-      <Form on:submit>
-        <Dropdown
-          style="padding-bottom: var(--cds-spacing-07);"
-          titleText="Choose a committee:"
-          itemToString={item => capitalizeFirstLetter(item.text)}
-          bind:selectedIndex={committeeIndex}
-          items={committees} />
-
-        <div style="padding-bottom: var(--cds-spacing-07);">
-          <TextArea
-            bind:value={contentValue}
-            style="padding-bottom: var(--cds-spacing-07);"
-            labelText="Question:"
-            placeholder="Enter question..." />
-        </div>
-        <TextArea
-          bind:value={descriptionValue}
-          style="padding-bottom: var(--cds-spacing-07);"
-          labelText="Description:"
-          placeholder="Enter a description..." />
-      </Form>
-    </Modal>
+      bind:selectedIndex={committeeIndex}
+      items={committees}
+      {addQuestion}
+      {toggleModal} />
   </DataTable>
   <ConfirmationModal
     bind:open={confirmationModal}
