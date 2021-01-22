@@ -79,7 +79,7 @@
 
   let rows = [];
 
-  let headers = [
+  const headers = [
     {
       key: 'name',
       value: 'Name'

@@ -18,7 +18,6 @@
   import { capitalizeFirstLetter } from '../utils/filters';
   import { goto, path } from 'svelte-pathfinder';
   import type { Application, Note, ApplicantResponse } from '../interfaces';
-  import App from '../App.svelte';
 
   import { authStore } from '../stores/auth.js';
   const { token } = authStore;
@@ -73,7 +72,7 @@
     loading = false;
   });
 
-  async function submitNotes() {
+  const submitNotes = async () => {
     notesStatus = 'submitting';
     let data = {
       interviewer_name: interviewerName,
@@ -93,7 +92,7 @@
         submissionResponse = `Notes and responses successfully added from ${interviewerName}`;
         setTimeout(() => goto(`/applicants/${$path.applicantid}`, {}), 2000);
       });
-  }
+  };
 
   const colors = {
     operations: 'magenta',
@@ -119,7 +118,6 @@
         <h4>{`This is the interview form for ${application.name}`}</h4>
         {#each application.committees as { committee }}
           <Tag type={colors[committee]}>{capitalizeFirstLetter(committee)}</Tag>
-          <!-- <Tag type="green">{capitalizeFirstLetter(committee)}</Tag> -->
         {/each}
       </Tile>
       <Tile style="text-align: left; margin: 10px auto; width: 700px;">

@@ -19,8 +19,6 @@
   import { authStore } from '../stores/auth.js';
   const { token } = authStore;
 
-  let searchTerm = '';
-
   const headers = [
     {
       key: 'name',
@@ -92,11 +90,6 @@
     title="Active Applications: {rows.length}"
     {headers}
     {rows}>
-    <!-- <Toolbar>
-      <ToolbarContent>
-        <ToolbarSearch bind:value={searchTerm} />
-      </ToolbarContent>
-    </Toolbar> -->
     <span slot="cell" let:row let:cell>
       {#if cell.key === 'resume'}
         <a target="_blank" href={cell.value}>
