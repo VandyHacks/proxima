@@ -48,20 +48,20 @@
     { key: 'overflow', empty: true }
   ];
   interface CommitteeEntity {
-    id: number,
-    committee: CommitteeType,
+    id: number;
+    committee: CommitteeType;
   }
   interface RowEntity {
-    id: number,
-    year: string,
-    name: string,
-    resume: string,
-    email: string,
-    committees: CommitteeEntity[],
-    status: string,
-    committee_accepted: string
+    id: number;
+    year: string;
+    name: string;
+    resume: string;
+    email: string;
+    committees: CommitteeEntity[];
+    status: string;
+    committee_accepted: string;
   }
-  let rows : RowEntity[];
+  let rows: RowEntity[];
 
   const colors = {
     operations: 'magenta',
@@ -103,11 +103,13 @@
     if (!selectedCommittee) {
       return rows;
     }
-    return rows.filter((row) => {
+    return rows.filter(row => {
       if (row.status == ApplicationStatus.ACCEPTED) {
         return row.committee_accepted == selectedCommittee;
       }
-      return row.committees.some(({ committee }) => committee === selectedCommittee);
+      return row.committees.some(
+        ({ committee }) => committee === selectedCommittee
+      );
     });
   };
 
