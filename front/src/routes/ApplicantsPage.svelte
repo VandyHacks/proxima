@@ -47,7 +47,21 @@
     },
     { key: 'overflow', empty: true }
   ];
-  let rows = [];
+  interface CommitteeEntity {
+    id: number,
+    committee: CommitteeType,
+  }
+  interface RowEntity {
+    id: number,
+    year: string,
+    name: string,
+    resume: string,
+    email: string,
+    committees: CommitteeEntity[],
+    status: string,
+    committee_accepted: string
+  }
+  let rows : RowEntity[];
 
   const colors = {
     operations: 'magenta',
@@ -68,7 +82,7 @@
       .get()
       .json();
     rows = applications.map(application => ({
-      id: application.id,
+      id: parseInt(application.id),
       year: capitalizeFirstLetter(application.year),
       name: application.name,
       resume: application.resume_link,
@@ -83,7 +97,7 @@
   let selectedCommittee;
 
   const passesCommitteeFilters = (
-    rows: any[],
+    rows: RowEntity[],
     selectedCommittee: CommitteeType
   ) => {
     if (!selectedCommittee) {
