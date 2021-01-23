@@ -80,37 +80,29 @@
     loading = false;
   });
 
-  let selectedCommittee = null;
+  let selectedCommittee;
 
   const passesCommitteeFilters = (
     rows: any[],
     selectedCommittee: CommitteeType
   ) => {
-    if (selectedCommittee == null) {
+    if (!selectedCommittee) {
       return rows;
     }
-    return rows.filter(function (row) {
+    return rows.filter((row) => {
       if (row.status == ApplicationStatus.ACCEPTED) {
         return row.committee_accepted == selectedCommittee;
       }
-      let commExists = false;
-      row.committees.forEach(function (commObj: { committee: CommitteeType }) {
-        if (commObj.committee == selectedCommittee) {
-          commExists = true;
-        }
-      });
-      return commExists;
+      return row.committees.some(({ committee }) => committee === selectedCommittee);
     });
   };
 
   const updateCommitteeSelection = (committee: CommitteeType) => {
     selectedCommittee = committee;
-    return true;
   };
 
-  const getCommitteeSelectionText = (selectedCommittee: CommitteeType) => {
-    let text = selectedCommittee != null ? selectedCommittee.toString() : 'all';
-    return ' (' + text + ')';
+  const resetCommitteeSelection = () => {
+    selectedCommittee = null;
   };
 </script>
 
@@ -131,14 +123,14 @@
     </Toolbar> -->
     <Button
       kind="secondary"
-      disabled={selectedCommittee == null ? true : false}
-      on:click={() => updateCommitteeSelection(null)}>
+      disabled={selectedCommittee === null}
+      on:click={resetCommitteeSelection}>
       Clear committee filter:
-      {selectedCommittee == null ? 'none' : selectedCommittee}
+      {selectedCommittee || 'none'}
     </Button>
     <span slot="cell-header" let:header>
       {#if header.key === 'committees'}
-        {header.value + getCommitteeSelectionText(selectedCommittee)}
+        {header.value + ' (' + (selectedCommittee || 'all') + ')'}
       {:else}{header.value}{/if}
     </span>
     <span slot="cell" let:row let:cell>
