@@ -14,7 +14,7 @@
   import wretch from 'wretch';
 
   import { API_URL } from '../config/api';
-  import type { Application } from '../interfaces';
+  import type { Application, ApplicantRow } from '../interfaces';
   import { ApplicationStatus, CommitteeType } from '../interfaces';
   import { capitalizeFirstLetter, replaceUnderscores } from '../utils/filters';
   import { authStore } from '../stores/auth.js';
@@ -47,21 +47,7 @@
     },
     { key: 'overflow', empty: true }
   ];
-  interface CommitteeEntity {
-    id: number;
-    committee: CommitteeType;
-  }
-  interface RowEntity {
-    id: number;
-    year: string;
-    name: string;
-    resume: string;
-    email: string;
-    committees: CommitteeEntity[];
-    status: string;
-    committee_accepted: string;
-  }
-  let rows: RowEntity[];
+  let rows: ApplicantRow[];
 
   const colors = {
     operations: 'magenta',
@@ -82,7 +68,7 @@
       .get()
       .json();
     rows = applications.map(application => ({
-      id: parseInt(application.id),
+      id: application.id,
       year: capitalizeFirstLetter(application.year),
       name: application.name,
       resume: application.resume_link,
@@ -97,7 +83,7 @@
   let selectedCommittee;
 
   const passesCommitteeFilters = (
-    rows: RowEntity[],
+    rows: ApplicantRow[],
     selectedCommittee: CommitteeType
   ) => {
     if (!selectedCommittee) {

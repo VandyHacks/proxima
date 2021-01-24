@@ -74,3 +74,14 @@ export interface Comment {
   commenter_name: string;
   content: string;
 }
+
+export interface ApplicantRow {
+  id: Application["id"];
+  year: Application["year"];
+  name: Application["name"];
+  resume: Application["resume_link"];
+  email: Application["email"];
+  committees: Application["committees"];
+  status: Application["status"];
+  committee_accepted: Application["committee_accepted"];
+}
