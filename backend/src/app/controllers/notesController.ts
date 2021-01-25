@@ -231,7 +231,6 @@ const getNotes = async (applicationId: number) => {
   for (const note of notes) {
     note.responses = [];
 
-    // TOOD: fetch notesToQuestion
     const questionNotes: QuestionNote[] = await questionNoteRepo.find({
       where: { noteId: note.id }
     });
