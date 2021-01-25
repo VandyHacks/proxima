@@ -30,7 +30,7 @@
       value: 'Year'
     },
     {
-      key: 'resume',
+      key: 'resume_link',
       value: 'Résumé'
     },
     {
@@ -71,7 +71,7 @@
       id: application.id,
       year: capitalizeFirstLetter(application.year),
       name: application.name,
-      resume: application.resume_link,
+      resume_link: application.resume_link,
       email: application.email,
       committees: application.committees,
       status: application.status,
@@ -82,7 +82,7 @@
 
   let selectedCommittee;
 
-  const passesCommitteeFilters = (
+  const filterApplicantsForCommittee = (
     rows: ApplicantRow[],
     selectedCommittee: CommitteeType
   ) => {
@@ -117,7 +117,7 @@
     sortable
     title="Active Applications: {rows.length}"
     {headers}
-    rows={passesCommitteeFilters(rows, selectedCommittee)}>
+    rows={filterApplicantsForCommittee(rows, selectedCommittee)}>
     <!-- <Toolbar>
       <ToolbarContent>
         <ToolbarSearch bind:value={searchTerm} />
@@ -136,7 +136,7 @@
       {:else}{header.value}{/if}
     </span>
     <span slot="cell" let:row let:cell>
-      {#if cell.key === 'resume'}
+      {#if cell.key === 'resume_link'}
         <a target="_blank" href={cell.value}>
           <Document32 />
         </a>

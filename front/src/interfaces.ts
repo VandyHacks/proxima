@@ -3,7 +3,7 @@ export enum ApplicationStatus {
   TOINTERVIEW = 'to_interview',
   REJECTED = 'rejected',
   ACCEPTED = 'accepted',
-  INREVIEW = 'in_review',
+  INREVIEW = 'in_review'
 }
 
 export enum CommitteeType {
@@ -17,32 +17,37 @@ export enum CommitteeType {
 }
 
 export enum ClassStanding {
-  FRESHMAN = "freshman",
-  SOPHOMORE = "sophomore", 
-  JUNIOR = "junior"
+  FRESHMAN = 'freshman',
+  SOPHOMORE = 'sophomore',
+  JUNIOR = 'junior'
 }
 
-export interface Application {
+export interface ApplicationBase {
   id: string;
-  name: string;
-  email: string;
   year: ClassStanding;
+  name: string;
+  resume_link: string;
+  email: string;
+  committees: { id: number; committee: CommitteeType }[];
+  status: ApplicationStatus;
+  committee_accepted: CommitteeType;
+}
+
+export interface Application extends ApplicationBase {
   director: boolean;
   attendedVH: boolean;
   feedback: string;
-  status: ApplicationStatus;
   source: string;
   essay1: string;
   essay2: string;
   essay3: string;
-  resume_link: string
   github_link: string;
   linkedin_link: string;
   social_link: string | null;
   design_link: string | null;
-  committees: { id: number, committee: CommitteeType }[];
-  committee_accepted: CommitteeType;
 }
+
+export interface ApplicantRow extends ApplicationBase {}
 
 export interface InterviewResponse {
   question: string;
@@ -59,7 +64,7 @@ export interface Note {
   teamwork: string;
   overall: string;
   thoughts: string;
-  responses: InterviewResponse[]
+  responses: InterviewResponse[];
 }
 
 export interface ApplicantResponse {
@@ -73,15 +78,4 @@ export interface ApplicantResponse {
 export interface Comment {
   commenter_name: string;
   content: string;
-}
-
-export interface ApplicantRow {
-  id: Application["id"];
-  year: Application["year"];
-  name: Application["name"];
-  resume: Application["resume_link"];
-  email: Application["email"];
-  committees: Application["committees"];
-  status: Application["status"];
-  committee_accepted: Application["committee_accepted"];
 }
