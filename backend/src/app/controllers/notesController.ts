@@ -210,6 +210,9 @@ const addNotes = async ({ params, request, response }: Koa.Context) => {
 const getNotes = async (applicationId: number) => {
   // Note repository
   const noteRepository: Repository<Note> = getRepository(Note);
+  const questionNoteRepo: Repository<QuestionNote> = getRepository(
+    QuestionNote
+  );
 
   const notes: any[] = await noteRepository.find({
     select: [
@@ -221,15 +224,17 @@ const getNotes = async (applicationId: number) => {
       'overall',
       'thoughts'
     ],
-    where: { applicationId: applicationId },
-    relations: ['notesToQuestions']
+    where: { applicationId: applicationId }
   });
 
   // For every Notes row, add respective QuestionNote rows
   for (const note of notes) {
     note.responses = [];
 
-    const questionNotes: QuestionNote[] = note.notesToQuestions;
+    const questionNotes: QuestionNote[] = await questionNoteRepo.find({
+      where: { noteId: note.id }
+    });
+
     for (const questionNote of questionNotes) {
       const question: Question = questionNote.question;
 
