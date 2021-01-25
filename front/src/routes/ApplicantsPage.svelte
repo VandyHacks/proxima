@@ -5,7 +5,8 @@
     OverflowMenu,
     OverflowMenuItem,
     DataTableSkeleton,
-    Link
+    Link,
+    Button
   } from 'carbon-components-svelte';
   import Document32 from 'carbon-icons-svelte/lib/Document32';
   import { onMount } from 'svelte';
@@ -13,8 +14,8 @@
   import wretch from 'wretch';
 
   import { API_URL } from '../config/api';
-  import type { Application } from '../interfaces';
-  import { ApplicationStatus } from '../interfaces';
+  import type { Application, ApplicantRow } from '../interfaces';
+  import { ApplicationStatus, CommitteeType } from '../interfaces';
   import { capitalizeFirstLetter, replaceUnderscores } from '../utils/filters';
   import { authStore } from '../stores/auth.js';
   const { token } = authStore;
@@ -29,7 +30,7 @@
       value: 'Year'
     },
     {
-      key: 'resume',
+      key: 'resume_link',
       value: 'Résumé'
     },
     {
@@ -46,7 +47,7 @@
     },
     { key: 'overflow', empty: true }
   ];
-  let rows = [];
+  let rows: ApplicantRow[];
 
   const colors = {
     operations: 'magenta',
@@ -70,7 +71,7 @@
       id: application.id,
       year: capitalizeFirstLetter(application.year),
       name: application.name,
-      resume: application.resume_link,
+      resume_link: application.resume_link,
       email: application.email,
       committees: application.committees,
       status: application.status,
@@ -78,6 +79,33 @@
     }));
     loading = false;
   });
+
+  let selectedCommittee;
+
+  const filterApplicantsForCommittee = (
+    rows: ApplicantRow[],
+    selectedCommittee: CommitteeType
+  ) => {
+    if (!selectedCommittee) {
+      return rows;
+    }
+    return rows.filter(row => {
+      if (row.status == ApplicationStatus.ACCEPTED) {
+        return row.committee_accepted == selectedCommittee;
+      }
+      return row.committees.some(
+        ({ committee }) => committee === selectedCommittee
+      );
+    });
+  };
+
+  const updateCommitteeSelection = (committee: CommitteeType) => {
+    selectedCommittee = committee;
+  };
+
+  const resetCommitteeSelection = () => {
+    selectedCommittee = null;
+  };
 </script>
 
 <svelte:window on:click={click} />
@@ -89,9 +117,26 @@
     sortable
     title="Active Applications: {rows.length}"
     {headers}
-    {rows}>
+    rows={filterApplicantsForCommittee(rows, selectedCommittee)}>
+    <!-- <Toolbar>
+      <ToolbarContent>
+        <ToolbarSearch bind:value={searchTerm} />
+      </ToolbarContent>
+    </Toolbar> -->
+    <Button
+      kind="secondary"
+      disabled={selectedCommittee === null}
+      on:click={resetCommitteeSelection}>
+      Clear committee filter:
+      {selectedCommittee || 'none'}
+    </Button>
+    <span slot="cell-header" let:header>
+      {#if header.key === 'committees'}
+        {header.value + ' (' + (selectedCommittee || 'all') + ')'}
+      {:else}{header.value}{/if}
+    </span>
     <span slot="cell" let:row let:cell>
-      {#if cell.key === 'resume'}
+      {#if cell.key === 'resume_link'}
         <a target="_blank" href={cell.value}>
           <Document32 />
         </a>
@@ -108,12 +153,16 @@
         {capitalizeFirstLetter(replaceUnderscores(cell.value))}
       {:else if cell.key === 'committees'}
         {#if row.status === ApplicationStatus.ACCEPTED}
-          <Tag type="green">
+          <Tag
+            type="green"
+            on:click={() => updateCommitteeSelection(row.committee_accepted)}>
             {capitalizeFirstLetter(row.committee_accepted)}
           </Tag>
         {:else}
           {#each cell.value as { committee }}
-            <Tag type={colors[committee]}>
+            <Tag
+              type={colors[committee]}
+              on:click={() => updateCommitteeSelection(committee)}>
               {capitalizeFirstLetter(committee)}
             </Tag>
           {/each}
