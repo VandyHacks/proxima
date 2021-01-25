@@ -1,6 +1,8 @@
 <script lang="ts">
   import {
     DataTable,
+    Toolbar,
+    ToolbarContent,
     Tag,
     OverflowMenu,
     OverflowMenuItem,
@@ -18,6 +20,7 @@
   import { ApplicationStatus, CommitteeType } from '../interfaces';
   import { capitalizeFirstLetter, replaceUnderscores } from '../utils/filters';
   import { authStore } from '../stores/auth.js';
+  import { getColorForCommittee } from '../config/utils';
   const { token } = authStore;
 
   const headers = [
@@ -48,16 +51,8 @@
     { key: 'overflow', empty: true }
   ];
   let rows: ApplicantRow[];
-
-  const colors = {
-    operations: 'magenta',
-    development: 'teal',
-    'hacker experience': 'blue',
-    design: 'cyan',
-    sponsorship: 'cool-gray',
-    content: 'purple',
-    marketing: 'high-contrast'
-  };
+  let selectedCommittees: CommitteeType[] = [];
+  let filteredRows;
 
   let loading = true;
 
@@ -77,34 +72,33 @@
       status: application.status,
       committee_accepted: application.committee_accepted
     }));
+    filteredRows = rows;
     loading = false;
   });
 
-  let selectedCommittee;
-
-  const filterApplicantsForCommittee = (
-    rows: ApplicantRow[],
-    selectedCommittee: CommitteeType
-  ) => {
-    if (!selectedCommittee) {
-      return rows;
-    }
-    return rows.filter(row => {
+  $: if (selectedCommittees.length !== 0) {
+    filteredRows = rows.filter(row => {
       if (row.status == ApplicationStatus.ACCEPTED) {
-        return row.committee_accepted == selectedCommittee;
+        return selectedCommittees.includes(row.committee_accepted);
       }
-      return row.committees.some(
-        ({ committee }) => committee === selectedCommittee
+      return selectedCommittees.every(selectedCommittee =>
+        row.committees.some(({ committee }) => committee === selectedCommittee)
       );
     });
-  };
+  } else {
+    filteredRows = rows;
+  }
 
   const updateCommitteeSelection = (committee: CommitteeType) => {
-    selectedCommittee = committee;
+    if (!selectedCommittees.includes(committee)) {
+      selectedCommittees = [...selectedCommittees, committee];
+    }
   };
 
-  const resetCommitteeSelection = () => {
-    selectedCommittee = null;
+  const resetCommitteeSelection = (committeeToRemove: CommitteeType) => () => {
+    selectedCommittees = selectedCommittees.filter(
+      committee => committee !== committeeToRemove
+    );
   };
 </script>
 
@@ -115,26 +109,22 @@
 {:else}
   <DataTable
     sortable
-    title="Active Applications: {rows.length}"
+    title="Active Applications: {filteredRows.length}"
     {headers}
-    rows={filterApplicantsForCommittee(rows, selectedCommittee)}>
-    <!-- <Toolbar>
+    rows={filteredRows}>
+    <Toolbar>
       <ToolbarContent>
-        <ToolbarSearch bind:value={searchTerm} />
+        <!-- <ToolbarSearch bind:value={searchTerm} /> -->
+        {#each selectedCommittees as committee}
+          <Tag
+            type={getColorForCommittee(committee)}
+            filter
+            on:click={resetCommitteeSelection(committee)}>
+            {capitalizeFirstLetter(committee)}
+          </Tag>
+        {/each}
       </ToolbarContent>
-    </Toolbar> -->
-    <Button
-      kind="secondary"
-      disabled={selectedCommittee === null}
-      on:click={resetCommitteeSelection}>
-      Clear committee filter:
-      {selectedCommittee || 'none'}
-    </Button>
-    <span slot="cell-header" let:header>
-      {#if header.key === 'committees'}
-        {header.value + ' (' + (selectedCommittee || 'all') + ')'}
-      {:else}{header.value}{/if}
-    </span>
+    </Toolbar>
     <span slot="cell" let:row let:cell>
       {#if cell.key === 'resume_link'}
         <a target="_blank" href={cell.value}>
@@ -161,7 +151,7 @@
         {:else}
           {#each cell.value as { committee }}
             <Tag
-              type={colors[committee]}
+              type={getColorForCommittee(committee)}
               on:click={() => updateCommitteeSelection(committee)}>
               {capitalizeFirstLetter(committee)}
             </Tag>
