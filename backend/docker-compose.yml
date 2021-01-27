@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     restart: always
-    command: 'npm run dev'
+    command: sh -c 'ts-node ./node_modules/typeorm/cli.js migration:run; npm run dev'
     volumes:
       - ./src:/usr/app/src
     ports:
@@ -14,11 +14,12 @@ services:
     depends_on:
       - postgres
     environment:
-      - POSTGRES_HOST=postgres
-      - POSTGRES_PORT=5432
-      - POSTGRES_USER=proxima
-      - POSTGRES_PASSWORD=proxima
-      - POSTGRES_DB=proxima
+      - TYPEORM_CONNECTION=postgres
+      - TYPEORM_HOST=postgres
+      - TYPEORM_USERNAME=proxima
+      - TYPEORM_PASSWORD=proxima
+      - TYPEORM_DATABASE=proxima
+      - TYPEORM_SYNCHRONIZE=false
       - TYPEFORM_ID
       - TYPEFORM_TOKEN
   postgres:
