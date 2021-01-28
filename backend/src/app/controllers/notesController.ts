@@ -151,6 +151,9 @@ const addNotes = async ({ params, request, response }: Koa.Context) => {
       }
     | any = request.body;
 
+  // Log the note submission
+  console.log(noteData);
+
   const application: Application | undefined = await applicationRepo.findOne(
     applicationId,
     {
@@ -179,7 +182,6 @@ const addNotes = async ({ params, request, response }: Koa.Context) => {
     application: application
   });
 
-  console.log({ note });
   await noteRepo.save(note);
 
   // Create QuestionNote row
@@ -189,7 +191,6 @@ const addNotes = async ({ params, request, response }: Koa.Context) => {
       noteId: note.id as number,
       questionId: questionNote.questionId
     });
-    console.log({ questionResponse });
     await questionNoteRepo.save(questionResponse);
   }
 
