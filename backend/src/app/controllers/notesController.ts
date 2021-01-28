@@ -179,6 +179,7 @@ const addNotes = async ({ params, request, response }: Koa.Context) => {
     application: application
   });
 
+  console.log({ note });
   await noteRepo.save(note);
 
   // Create QuestionNote row
@@ -188,6 +189,7 @@ const addNotes = async ({ params, request, response }: Koa.Context) => {
       noteId: note.id as number,
       questionId: questionNote.questionId
     });
+    console.log({ questionResponse });
     await questionNoteRepo.save(questionResponse);
   }
 
