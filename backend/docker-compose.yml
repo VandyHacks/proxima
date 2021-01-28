@@ -20,6 +20,9 @@ services:
       - TYPEORM_PASSWORD=proxima
       - TYPEORM_DATABASE=proxima
       - TYPEORM_SYNCHRONIZE=false
+      - TYPEORM_PORT=5432
+      - TYPEORM_ENTITIES=src/entity/**/*.ts
+      - TYPEORM_MIGRATIONS=src/migration/**/*.ts
       - TYPEFORM_ID
       - TYPEFORM_TOKEN
   postgres:

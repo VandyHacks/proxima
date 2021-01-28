@@ -1,10 +1,10 @@
 import 'reflect-metadata';
 import { createConnection, Connection, ConnectionOptions } from 'typeorm';
 
-const database =
-  process.env.NODE_ENV === 'test'
-    ? 'test'
-    : process.env.POSTGRES_DB || 'postgres';
+// const database =
+//   process.env.NODE_ENV === 'test'
+//     ? 'test'
+//     : process.env.POSTGRES_DB || 'postgres';
 
 // const connectionOpts: ConnectionOptions = {
 //   type: 'postgres',
