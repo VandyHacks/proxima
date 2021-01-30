@@ -4,8 +4,7 @@ import databaseConnection from './database.connection';
 const PORT = Number(process.env.PORT) || 3000;
 
 databaseConnection
-  .then(async connection => {
-    // console.log(connection);
+  .then(() => {
     app.listen(PORT);
     console.log(`Server is listening on ${PORT}`);
   })
