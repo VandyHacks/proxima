@@ -17,16 +17,16 @@ export class Note {
   @Column()
   interviewer_name: string;
 
-  @Column('float')
+  @Column('decimal')
   reliability: number;
 
-  @Column('float')
+  @Column('decimal')
   interest: number;
 
-  @Column('float')
+  @Column('decimal')
   teamwork: number;
 
-  @Column('float')
+  @Column('decimal')
   overall: number;
 
   @Column('text')
