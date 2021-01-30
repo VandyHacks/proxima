@@ -30,7 +30,7 @@ To clear up the database:
 
 ### Seeding the database:
 
-Once you run the application, the database is initially empty. Since the production database is populated through a TypeForm WebHook, one could emulate it (e.g. in Postman). Example of a WebHook Payload is in './backend/examples/typeform_payload.json', which would be a body of a POST request to `http://localhost:3000/api/v1/typeform/submit`.
+Once you run the application, the database is initially empty. Since the production database is populated through a TypeForm WebHook, one could emulate it (e.g. in Postman). Example of a WebHook Payload is in `./backend/examples/typeform_payload.json`, which would be a body of a POST request to `http://localhost:3000/api/v1/typeform/submit`.
 
 ## Front-end
 ### Technologies:

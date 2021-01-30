@@ -42,6 +42,7 @@
   import type { Application, Comment, Note } from '../interfaces';
 
   import { authStore } from '../stores/auth.js';
+  import { getColorForCommittee } from '../config/utils.js';
   const { token } = authStore;
 
   let application: Application;
@@ -121,16 +122,6 @@
       value: 'Notes'
     }
   ];
-
-  const colors = {
-    operations: 'magenta',
-    development: 'teal',
-    'hacker experience': 'blue',
-    design: 'cyan',
-    sponsorship: 'green',
-    content: 'purple',
-    marketing: 'gray'
-  };
 
   let loading = true;
 
@@ -298,7 +289,7 @@
           </Tag>
         {:else}
           {#each cell.value as { committee }}
-            <Tag type={colors[committee]}>
+            <Tag type={getColorForCommittee(committee)}>
               {capitalizeFirstLetter(committee)}
             </Tag>
           {/each}

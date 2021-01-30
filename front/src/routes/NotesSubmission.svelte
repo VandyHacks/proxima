@@ -20,6 +20,7 @@
   import type { Application, Note, ApplicantResponse } from '../interfaces';
 
   import { authStore } from '../stores/auth.js';
+  import { getColorForCommittee } from '../config/utils';
   const { token } = authStore;
 
   const intro =
@@ -93,16 +94,6 @@
         setTimeout(() => goto(`/applicants/${$path.applicantid}`, {}), 2000);
       });
   };
-
-  const colors = {
-    operations: 'magenta',
-    development: 'teal',
-    'hacker experience': 'blue',
-    design: 'cyan',
-    sponsorship: 'green',
-    content: 'purple',
-    marketing: 'gray'
-  };
 </script>
 
 {#if loading}
@@ -117,7 +108,9 @@
       <Tile style="text-align: center; margin: var(--cds-spacing-07) 0;">
         <h4>{`This is the interview form for ${application.name}`}</h4>
         {#each application.committees as { committee }}
-          <Tag type={colors[committee]}>{capitalizeFirstLetter(committee)}</Tag>
+          <Tag type={getColorForCommittee(committee)}>
+            {capitalizeFirstLetter(committee)}
+          </Tag>
         {/each}
       </Tile>
       <Tile style="text-align: left; margin: 10px auto; width: 700px;">
