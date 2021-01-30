@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     restart: always
-    command: sh -c 'ts-node ./node_modules/typeorm/cli.js migration:run; npm run dev'
+    command: 'npm run dev'
     volumes:
       - ./src:/usr/app/src
     ports:
