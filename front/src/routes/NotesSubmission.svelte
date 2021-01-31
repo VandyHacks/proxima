@@ -94,6 +94,10 @@
         setTimeout(() => goto(`/applicants/${$path.applicantid}`, {}), 2000);
       });
   };
+
+  window.onbeforeunload = () => {
+    return 'You have attempted to leave this page. Are you sure?';
+  };
 </script>
 
 {#if loading}
