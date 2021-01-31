@@ -16,7 +16,7 @@
 
   import { API_URL } from '../config/api';
   import { capitalizeFirstLetter } from '../utils/filters';
-  import { goto, path } from 'svelte-pathfinder';
+  import { goto, path, click } from 'svelte-pathfinder';
   import type { Application, Note, ApplicantResponse } from '../interfaces';
 
   import { authStore } from '../stores/auth.js';
@@ -100,97 +100,97 @@
   };
 </script>
 
+<svelte:window on:click={click} />
+
 {#if loading}
   <TextAreaSkeleton />
+{:else if notesStatus == 'submitted'}
+  <Tile style="text-align: center; margin: var(--cds-spacing-07) 0;">
+    <h4>{submissionResponse}</h4>
+  </Tile>
 {:else}
-  {#if notesStatus == 'submitted'}
+  <Column>
     <Tile style="text-align: center; margin: var(--cds-spacing-07) 0;">
-      <h4>{submissionResponse}</h4>
-    </Tile>
-  {:else}
-    <Column>
-      <Tile style="text-align: center; margin: var(--cds-spacing-07) 0;">
-        <h4>{`This is the interview form for ${application.name}`}</h4>
-        {#each application.committees as { committee }}
-          <Tag type={getColorForCommittee(committee)}>
-            {capitalizeFirstLetter(committee)}
-          </Tag>
-        {/each}
-      </Tile>
-      <Tile style="text-align: left; margin: 10px auto; width: 700px;">
-        <h4>Introduction Blurb:</h4>
-        <p>{intro}</p>
-      </Tile>
-      <TextInput
-        style="padding-bottom: var(--cds-spacing-07);"
-        bind:value={interviewerName}
-        labelText="Interviewer name"
-        placeholder="Enter your own name..." />
-
-      {#each applicantResponses as { response, content, description, specificity }}
-        <div style="padding-bottom: var(--cds-spacing-07);">
-          <TextArea
-            bind:value={response}
-            labelText={`${capitalizeFirstLetter(specificity)}: ${content}`}
-            placeholder="Enter a response..."
-            helperText={description}
-            style="white-space: pre-wrap;" />
-        </div>
+      <h4>{`This is the interview form for ${application.name}`}</h4>
+      {#each application.committees as { committee }}
+        <Tag type={getColorForCommittee(committee)}>
+          {capitalizeFirstLetter(committee)}
+        </Tag>
       {/each}
+    </Tile>
+    <Tile style="text-align: left; margin: 10px auto; width: 700px;">
+      <h4>Introduction Blurb:</h4>
+      <p>{intro}</p>
+    </Tile>
+    <TextInput
+      style="padding-bottom: var(--cds-spacing-07);"
+      bind:value={interviewerName}
+      labelText="Interviewer name"
+      placeholder="Enter your own name..." />
 
-      <Tile>
-        <p>
-          Please rank the applicant from 1-7 in the following categories. For
-          the overall ranking, close your eyes and try to imagine the candidate
-          as a member of VH board. Now score them based on your intuition:
-        </p>
-      </Tile>
-
-      <Row style="margin: 0; padding: var(--cds-spacing-07) 0;" padding>
-        <Slider
-          labelText="Reliability"
-          min={1}
-          max={7}
-          minLabel="1"
-          maxLabel="7"
-          bind:value={reliability} />
-
-        <Slider
-          labelText="Interest"
-          min={1}
-          max={7}
-          minLabel="1"
-          maxLabel="7"
-          bind:value={interest} />
-
-        <Slider
-          labelText="Teamwork"
-          min={1}
-          max={7}
-          minLabel="1"
-          maxLabel="7"
-          bind:value={teamwork} />
-
-        <Slider
-          labelText="Overall"
-          min={1}
-          max={7}
-          minLabel="1"
-          maxLabel="7"
-          bind:value={overall} />
-      </Row>
-      <TextArea
-        bind:value={thoughts}
-        labelText="Additional thoughts on {application.name}"
-        placeholder="Enter your thoughts..."
-        style="white-space: pre-wrap;" />
-      <div style="display: flex; justify-content:flex-end;">
-        {#if notesStatus === 'submitting'}
-          <Loading />
-        {:else}
-          <Button on:click={submitNotes}>Submit</Button>
-        {/if}
+    {#each applicantResponses as { response, content, description, specificity }}
+      <div style="padding-bottom: var(--cds-spacing-07);">
+        <TextArea
+          bind:value={response}
+          labelText={`${capitalizeFirstLetter(specificity)}: ${content}`}
+          placeholder="Enter a response..."
+          helperText={description}
+          style="white-space: pre-wrap;" />
       </div>
-    </Column>
-  {/if}
+    {/each}
+
+    <Tile>
+      <p>
+        Please rank the applicant from 1-7 in the following categories. For the
+        overall ranking, close your eyes and try to imagine the candidate as a
+        member of VH board. Now score them based on your intuition:
+      </p>
+    </Tile>
+
+    <Row style="margin: 0; padding: var(--cds-spacing-07) 0;" padding>
+      <Slider
+        labelText="Reliability"
+        min={1}
+        max={7}
+        minLabel="1"
+        maxLabel="7"
+        bind:value={reliability} />
+
+      <Slider
+        labelText="Interest"
+        min={1}
+        max={7}
+        minLabel="1"
+        maxLabel="7"
+        bind:value={interest} />
+
+      <Slider
+        labelText="Teamwork"
+        min={1}
+        max={7}
+        minLabel="1"
+        maxLabel="7"
+        bind:value={teamwork} />
+
+      <Slider
+        labelText="Overall"
+        min={1}
+        max={7}
+        minLabel="1"
+        maxLabel="7"
+        bind:value={overall} />
+    </Row>
+    <TextArea
+      bind:value={thoughts}
+      labelText="Additional thoughts on {application.name}"
+      placeholder="Enter your thoughts..."
+      style="white-space: pre-wrap;" />
+    <div style="display: flex; justify-content:flex-end;">
+      {#if notesStatus === 'submitting'}
+        <Loading />
+      {:else}
+        <Button on:click={submitNotes}>Submit</Button>
+      {/if}
+    </div>
+  </Column>
 {/if}
