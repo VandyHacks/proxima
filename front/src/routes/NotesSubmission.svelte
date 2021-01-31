@@ -95,12 +95,10 @@
       });
   };
 
-  window.onbeforeunload = () => {
-    return 'You have attempted to leave this page. Are you sure?';
-  };
+  const onLeave = () => 'You have attempted to leave this page. Are you sure?';
 </script>
 
-<svelte:window on:click={click} />
+<svelte:window on:click={click} onbeforeunload={onLeave} />
 
 {#if loading}
   <TextAreaSkeleton />
