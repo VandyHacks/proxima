@@ -7,8 +7,7 @@
     OverflowMenu,
     OverflowMenuItem,
     DataTableSkeleton,
-    Link,
-    Button
+    Link
   } from 'carbon-components-svelte';
   import Document32 from 'carbon-icons-svelte/lib/Document32';
   import { onMount } from 'svelte';

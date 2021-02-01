@@ -38,7 +38,7 @@
   import ConfirmationModal from '../components/ConfirmationModal.svelte';
   import { ApplicationStatus, CommitteeType } from '../interfaces';
   import { capitalizeFirstLetter, replaceUnderscores } from '../utils/filters';
-  import { path } from 'svelte-pathfinder';
+  import { path, click } from 'svelte-pathfinder';
   import type { Application, Comment, Note } from '../interfaces';
 
   import { authStore } from '../stores/auth.js';
@@ -232,6 +232,8 @@
   };
   const chartStyle = 'background-color: inherit;';
 </script>
+
+<svelte:window on:click={click} />
 
 <svelte:head>
   <link

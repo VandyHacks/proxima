@@ -11,6 +11,7 @@
   import { onMount } from 'svelte';
   import Add32 from 'carbon-icons-svelte/lib/Add32';
   import Delete16 from 'carbon-icons-svelte/lib/Delete16';
+  import { click } from 'svelte-pathfinder';
 
   import { API_URL } from '../config/api';
   import ConfirmationModal from '../components/ConfirmationModal.svelte';
@@ -116,6 +117,8 @@
     loading = false;
   };
 </script>
+
+<svelte:window on:click={click} />
 
 {#if loading}
   <TextAreaSkeleton />
