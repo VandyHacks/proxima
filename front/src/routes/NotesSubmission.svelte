@@ -95,10 +95,14 @@
       });
   };
 
-  const onLeave = () => 'You have attempted to leave this page. Are you sure?';
+  const onLeave = event => {
+    event.preventDefault();
+    event.returnValue = 'You have attempted to leave this page. Are you sure?';
+    return;
+  };
 </script>
 
-<svelte:window on:click={click} onbeforeunload={onLeave} />
+<svelte:window on:click={click} on:beforeunload={onLeave} />
 
 {#if loading}
   <TextAreaSkeleton />
