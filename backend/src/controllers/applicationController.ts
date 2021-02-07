@@ -4,11 +4,8 @@ import {
   AcceptedCommitteeType,
   Application,
   ApplicationStatus
-} from '../../database/entities/Application';
-import {
-  CommitteeChoice,
-  CommitteeType
-} from '../../database/entities/CommitteeChoice';
+} from '../entity/Application';
+import { CommitteeChoice, CommitteeType } from '../entity/CommitteeChoice';
 
 // import { send } from "../utils/smtpClient";
 import { getNotes, getComments } from './notesController';

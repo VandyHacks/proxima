@@ -9,16 +9,6 @@ import {
 import { Application } from './Application';
 import { QuestionNote } from './QuestionNote';
 
-export enum Scores {
-  ONE = 1,
-  TWO = 2,
-  THREE = 3,
-  FOUR = 4,
-  FIVE = 5,
-  SIX = 6,
-  SEVEN = 7
-}
-
 @Entity({ name: 'notes' })
 export class Note {
   @PrimaryGeneratedColumn()
@@ -27,29 +17,17 @@ export class Note {
   @Column()
   interviewer_name: string;
 
-  @Column({
-    type: 'enum',
-    enum: Scores
-  })
-  reliability: Scores;
+  @Column('float')
+  reliability: number;
 
-  @Column({
-    type: 'enum',
-    enum: Scores
-  })
-  interest: Scores;
+  @Column('float')
+  interest: number;
 
-  @Column({
-    type: 'enum',
-    enum: Scores
-  })
-  teamwork: Scores;
+  @Column('float')
+  teamwork: number;
 
-  @Column({
-    type: 'enum',
-    enum: Scores
-  })
-  overall: Scores;
+  @Column('float')
+  overall: number;
 
   @Column('text')
   thoughts: string;

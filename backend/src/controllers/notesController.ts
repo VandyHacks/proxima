@@ -1,17 +1,11 @@
 import * as Koa from 'koa';
 import { getRepository, Repository } from 'typeorm';
-import { CommitteeChoice } from '../../database/entities/CommitteeChoice';
-import {
-  Question,
-  QuestionSpecificity
-} from '../../database/entities/Question';
-import { Note, Scores } from '../../database/entities/Note';
-import {
-  Application,
-  ApplicationStatus
-} from '../../database/entities/Application';
-import { QuestionNote } from '../../database/entities/QuestionNote';
-import { Comment } from '../../database/entities/Comments';
+import { CommitteeChoice } from '../entity/CommitteeChoice';
+import { Question, QuestionSpecificity } from '../entity/Question';
+import { Note } from '../entity/Note';
+import { Application, ApplicationStatus } from '../entity/Application';
+import { QuestionNote } from '../entity/QuestionNote';
+import { Comment } from '../entity/Comments';
 
 /**
  * Adds the question to the database
@@ -142,10 +136,10 @@ const addNotes = async ({ params, request, response }: Koa.Context) => {
   const noteData:
     | {
         interviewer_name: string;
-        reliability: Scores;
-        interest: Scores;
-        teamwork: Scores;
-        overall: Scores;
+        reliability: number;
+        interest: number;
+        teamwork: number;
+        overall: number;
         thoughts: string;
         questionAnswers: { questionId: number; response: string }[];
       }
