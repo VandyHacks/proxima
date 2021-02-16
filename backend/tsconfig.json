@@ -1,10 +1,15 @@
 {
   "compilerOptions": {
+    "lib": [
+      "es5",
+      "es6"
+   ],
     "resolveJsonModule": true,
     "outDir": "dist",
     "module": "commonjs",
-    "target": "es6",
+    "target": "es5",
     "noImplicitAny": false,
+    "moduleResolution": "node",
     "sourceMap": true,
     "skipLibCheck": true,
     "strictNullChecks": true,
@@ -14,6 +19,5 @@
       "koa-body",
     ]
   },
-  "include": ["src/**/*.ts"],
   "exclude": ["./node_modules", "src/**/*.test.ts"]
 }

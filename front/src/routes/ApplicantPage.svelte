@@ -1,19 +1,26 @@
 <script lang="ts">
   import {
+    Accordion,
+    AccordionItem,
+    ButtonSet,
+    Button,
     DataTable,
-    Tag,
     DataTableSkeleton,
+    Form,
     Link,
+    Modal,
     Row,
     StructuredList,
     StructuredListHead,
     StructuredListRow,
     StructuredListCell,
     StructuredListBody,
-    Accordion,
-    AccordionItem,
-    ButtonSet,
-    Button
+    Tabs,
+    Tab,
+    TabContent,
+    Tag,
+    TextArea,
+    TextInput
   } from 'carbon-components-svelte';
   import CheckmarkFilled32 from 'carbon-icons-svelte/lib/CheckmarkFilled32';
   import Document32 from 'carbon-icons-svelte/lib/Document32';
@@ -31,23 +38,37 @@
   import ConfirmationModal from '../components/ConfirmationModal.svelte';
   import { ApplicationStatus, CommitteeType } from '../interfaces';
   import { capitalizeFirstLetter, replaceUnderscores } from '../utils/filters';
-  import { path } from 'svelte-pathfinder';
-  import type { Application, Note } from '../interfaces';
+  import { path, click } from 'svelte-pathfinder';
+  import type { Application, Comment, Note } from '../interfaces';
+
+  import { authStore } from '../stores/auth.js';
+  import { getColorForCommittee } from '../config/utils.js';
+  const { token } = authStore;
 
   let application: Application;
   let applicationResponses: { question: string; response: string }[] = [];
   let notes: Note[];
+  let comments: Comment[];
 
-  let changeStatus = () => {};
-  let openModal = false;
+  let commenterValue = '';
+  let contentValue = '';
+
+  let open = false;
+  let confirmationModal = false;
   let modalText = '';
+  let modalHeading = 'Change applicant status';
   let committeeToAcceptTo = CommitteeType.OPERATIONS;
 
-  function toggleModal() {
-    openModal = !openModal;
-  }
+  let onSubmit = () => {};
 
-  function showError(error) {
+  const toggleConfirmationModal = () => {
+    confirmationModal = !confirmationModal;
+  };
+  const toggleQuestionModal = () => {
+    open = !open;
+  };
+
+  const showError = error => {
     if (error.message) {
       let parsedError = JSON.parse(error.message);
       errorMessage.set(parsedError.error);
@@ -55,11 +76,11 @@
       errorMessage.set('An error has occured');
     }
     showErrorModal.set(true);
-  }
+  };
 
   let rows = [];
 
-  let headers = [
+  const headers = [
     {
       key: 'name',
       value: 'Name'
@@ -70,7 +91,7 @@
     },
     {
       key: 'resume',
-      value: 'Resume'
+      value: 'Résumé'
     },
     {
       key: 'email',
@@ -105,17 +126,23 @@
   let loading = true;
 
   onMount(async () => {
-    const data: { application: Application; notes: Note[] } = await wretch(
-      `${API_URL}/applications/${$path.applicantid}`
-    )
+    const data: {
+      application: Application;
+      notes: Note[];
+      comments: Comment[];
+    } = await wretch(`${API_URL}/applications/${$path.applicantid}`)
+      .auth(`Bearer ${$token}`)
+      .options({ credentials: 'include', mode: 'cors' })
       .get()
       .json();
     application = data.application;
     notes = data.notes;
+    comments = data.comments;
     applicationResponses = [
       {
-        question:
-          'Can you tell us why you would be a good fit for the Content committee roles through your past experiences, skills, and ideas?',
+        question: `Can you tell us why you would be a good fit for the ${application.committees.map(
+          committeeObj => ' ' + committeeObj.committee
+        )} committee roles through your past experiences, skills, and ideas?`,
         response: application.essay1
       },
       {
@@ -128,33 +155,60 @@
         response: application.essay3
       },
       {
-        question: 'How did you learn about VandyHacks',
+        question: 'How did you learn about VandyHacks?',
         response: application.source
+      },
+      {
+        question:
+          'Tell us about the VH event(s) you attended and what you liked/disliked about your experience.',
+        response: application.feedback
       }
     ];
 
     loading = false;
   });
 
+  const addComment = async () => {
+    const newComment = {
+      commenter_name: commenterValue,
+      content: contentValue
+    };
+    loading = true;
+    open = false;
+    wretch(`${API_URL}/applications/${$path.applicantid}/comments`)
+      .auth(`Bearer ${$token}`)
+      .options({ credentials: 'include', mode: 'cors' })
+      .post(newComment)
+      .res(() => {
+        comments.push(newComment);
+        commenterValue = '';
+        contentValue = '';
+        loading = false;
+      })
+      .catch(showError);
+  };
+
   $: if (application) {
     rows = [
       {
         name: application.name,
         resume: application.resume_link,
-        year: application.year,
+        year: capitalizeFirstLetter(application.year),
         email: application.email,
         committees: application.committees,
-        status: application.status,
+        status: capitalizeFirstLetter(application.status),
         attended: application.attendedVH,
         director: application.director
       }
     ];
   }
 
-  async function changeApplicationStatus(newStatus: ApplicationStatus) {
+  const changeApplicationStatus = async (newStatus: ApplicationStatus) => {
     loading = true;
-    openModal = false;
+    confirmationModal = false;
     wretch(`${API_URL}/applications/${$path.applicantid}`)
+      .auth(`Bearer ${$token}`)
+      .options({ credentials: 'include', mode: 'cors' })
       .put({
         status: newStatus,
         committee: committeeToAcceptTo
@@ -167,15 +221,19 @@
         loading = false;
       })
       .catch(showError);
-  }
+  };
 
-  function openConfirmationModal(newStatus: ApplicationStatus) {
-    modalText = `Are you sure you want change this applicants status to ${newStatus}? This will automatically send the email to the applicant.`;
-    changeStatus = () => changeApplicationStatus(newStatus);
-    openModal = true;
-  }
+  const openConfirmationModal = (newStatus: ApplicationStatus) => {
+    modalText = `Are you sure you want change this applicants status to ${replaceUnderscores(
+      newStatus
+    )}? This will automatically send the email to the applicant.`;
+    onSubmit = () => changeApplicationStatus(newStatus);
+    confirmationModal = true;
+  };
   const chartStyle = 'background-color: inherit;';
 </script>
+
+<svelte:window on:click={click} />
 
 <svelte:head>
   <link
@@ -233,7 +291,9 @@
           </Tag>
         {:else}
           {#each cell.value as { committee }}
-            <Tag type="green">{capitalizeFirstLetter(committee)}</Tag>
+            <Tag type={getColorForCommittee(committee)}>
+              {capitalizeFirstLetter(committee)}
+            </Tag>
           {/each}
         {/if}
       {:else}{cell.value}{/if}
@@ -253,7 +313,9 @@
           {#each applicationResponses as { question, response }}
             <StructuredListRow>
               <StructuredListCell>{question}</StructuredListCell>
-              <StructuredListCell>{response}</StructuredListCell>
+              <StructuredListCell style="white-space: pre-wrap;">
+                {response || 'No response'}
+              </StructuredListCell>
             </StructuredListRow>
           {/each}
         </StructuredListBody>
@@ -265,20 +327,20 @@
           <StructuredListHead>
             <StructuredListRow head>
               <StructuredListCell head>Question</StructuredListCell>
-              <StructuredListCell head>Description</StructuredListCell>
               <StructuredListCell head>Specificity</StructuredListCell>
               <StructuredListCell head>Response</StructuredListCell>
             </StructuredListRow>
           </StructuredListHead>
           <StructuredListBody>
-            {#each responses as { question, description, specificity, note }}
+            {#each responses as { question, specificity, note }}
               <StructuredListRow>
                 <StructuredListCell>{question}</StructuredListCell>
-                <StructuredListCell>{description}</StructuredListCell>
                 <StructuredListCell>
                   {capitalizeFirstLetter(specificity)}
                 </StructuredListCell>
-                <StructuredListCell>{note}</StructuredListCell>
+                <StructuredListCell style="white-space: pre-wrap;">
+                  {note}
+                </StructuredListCell>
               </StructuredListRow>
             {/each}
           </StructuredListBody>
@@ -292,33 +354,89 @@
           </StructuredListHead>
           <StructuredListBody>
             <StructuredListRow>
-              <StructuredListCell>{thoughts}</StructuredListCell>
+              <StructuredListCell style="white-space: pre-wrap;">
+                {thoughts}
+              </StructuredListCell>
             </StructuredListRow>
           </StructuredListBody>
         </StructuredList>
 
         <LollipopChart
           data={[{ group: 'Reliability', key: 'Reliability', value: reliability }, { group: 'Interest', key: 'Interest', value: interest }, { group: 'Teamwork', key: 'Teamwork', value: teamwork }, { group: 'Overall', key: 'Overall', value: overall }]}
-          options={{ title: 'Scores', axes: { bottom: { title: application.name, scaleType: 'labels', mapsTo: 'key' }, left: { mapsTo: 'value' } }, height: '400px' }}
+          options={{ title: 'Scores', axes: { bottom: { title: application.name, scaleType: 'labels', mapsTo: 'key' }, left: { mapsTo: 'value', domain: [0, 7] } }, height: '400px' }}
           style={chartStyle} />
       </AccordionItem>
     {/each}
+
+    <AccordionItem open title="Comments">
+      {#if !comments.length}
+        <p style="padding-bottom: var(--cds-spacing-04);">
+          No comments have been written for this applicant. Would you like to
+          add one?
+        </p>
+      {:else}
+        <Tabs>
+          {#each comments as { commenter_name }}
+            <Tab label={commenter_name} />
+          {/each}
+          <div slot="content">
+            {#each comments as { content }}
+              <TabContent>{content}</TabContent>
+            {/each}
+          </div>
+        </Tabs>
+      {/if}
+      <Button size="field" kind="secondary" on:click={toggleQuestionModal}>
+        Add comment
+      </Button>
+
+      <Modal
+        hasForm
+        hasScrollingContent
+        bind:open
+        modalHeading="Add Comment"
+        primaryButtonText="Send Comment"
+        secondaryButtonText="Cancel"
+        style="width: 100%;"
+        on:click:button--secondary={toggleQuestionModal}
+        on:submit={addComment}>
+        <Form>
+          <div style="padding-bottom: var(--cds-spacing-07);">
+            <TextInput
+              bind:value={commenterValue}
+              style="padding-bottom: var(--cds-spacing-07);"
+              labelText="Comment Type"
+              placeholder="Comment Type (Takehome Assessment, General Thoughts, Name, Etc.)" />
+          </div>
+          <TextArea
+            bind:value={contentValue}
+            style="padding-bottom: var(--cds-spacing-07);"
+            labelText="Comment:"
+            placeholder="Enter a comment..." />
+        </Form>
+      </Modal>
+    </AccordionItem>
   </Accordion>
 
   {#if application.status != ApplicationStatus.ACCEPTED}
     <ButtonSet style="display: flex; justify-content: flex-end;">
+      <Button
+        style="margin-right: 1px;"
+        href="/applicants/{$path.applicantid}/notes">
+        Start Interview
+      </Button>
       {#if application.status == ApplicationStatus.APPLIED}
         <Button
           on:click={() => openConfirmationModal(ApplicationStatus.TOINTERVIEW)}>
-          Interview
+          Schedule Interview
         </Button>
-      {:else if application.status == ApplicationStatus.TOINTERVIEW}
+      {:else if application.status == ApplicationStatus.TOINTERVIEW || application.status === ApplicationStatus.INREVIEW}
         <Button
           on:click={() => openConfirmationModal(ApplicationStatus.ACCEPTED)}>
           Accept
         </Button>
       {/if}
-      {#if application.status === ApplicationStatus.APPLIED || application.status === ApplicationStatus.TOINTERVIEW}
+      {#if application.status === ApplicationStatus.APPLIED || application.status === ApplicationStatus.TOINTERVIEW || application.status === ApplicationStatus.INREVIEW}
         <Button
           kind="danger"
           on:click={() => openConfirmationModal(ApplicationStatus.REJECTED)}>
@@ -328,11 +446,12 @@
     </ButtonSet>
   {/if}
   <ConfirmationModal
-    open={openModal}
+    bind:open={confirmationModal}
     bind:committee={committeeToAcceptTo}
     committees={application.committees}
     showCommittees={application.status === ApplicationStatus.TOINTERVIEW}
-    {changeStatus}
-    {toggleModal}
-    {modalText} />
+    {onSubmit}
+    {toggleConfirmationModal}
+    {modalText}
+    {modalHeading} />
 {/if}

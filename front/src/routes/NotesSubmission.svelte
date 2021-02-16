@@ -5,8 +5,8 @@
     Row,
     Tile,
     TextInput,
-    Button,
     Slider,
+    Button,
     TextArea,
     TextAreaSkeleton,
     Loading
@@ -16,11 +16,15 @@
 
   import { API_URL } from '../config/api';
   import { capitalizeFirstLetter } from '../utils/filters';
-  import { goto, path } from 'svelte-pathfinder';
+  import { goto, path, click } from 'svelte-pathfinder';
   import type { Application, Note, ApplicantResponse } from '../interfaces';
 
+  import { authStore } from '../stores/auth.js';
+  import { getColorForCommittee } from '../config/utils';
+  const { token } = authStore;
+
   const intro =
-    "Thank you for applying to VandyHacks! As a quick overview for how this interview will go, we'll ask you a a couple of questions just to get to know your work habits, then we'll go into a couple questions specific to the committees you indicated you were interested in on your application. If you have any questions, we'll leave a couple of minutes at the end and we can try to answer them as best as possible. Of course, if you don't have any questions, don't feel pressured. We won't count them as part of your application. We will be taking notes on our laptops to refer back to while you answer.";
+    "Thank you for applying to VandyHacks! As a quick overview for how this interview will go, we'll ask you a couple of questions just to get to know your work habits, then we'll go into questions specific to the committees you indicated you were interested in on your application. If you have any questions, we'll leave a couple of minutes at the end, and we can try to answer them as best as possible. Of course, if you don't have any questions, don't feel pressured: we won't count them as part of your application. We will be taking notes on our laptops to refer back to while you answer.";
 
   let reliability: number = 1;
   let interest: number = 1;
@@ -41,6 +45,8 @@
     const data: { application: Application; notes: Note[] } = await wretch(
       `${API_URL}/applications/${$path.applicantid}`
     )
+      .auth(`Bearer ${$token}`)
+      .options({ credentials: 'include', mode: 'cors' })
       .get()
       .json();
     application = data.application;
@@ -51,6 +57,8 @@
       specificity: string;
       description: string;
     }[] = await wretch(`${API_URL}/applications/${$path.applicantid}/questions`)
+      .auth(`Bearer ${$token}`)
+      .options({ credentials: 'include', mode: 'cors' })
       .get()
       .json();
 
@@ -65,7 +73,7 @@
     loading = false;
   });
 
-  async function submitNotes() {
+  const submitNotes = async () => {
     notesStatus = 'submitting';
     let data = {
       interviewer_name: interviewerName,
@@ -77,90 +85,115 @@
       questionAnswers: applicantResponses
     };
     wretch(`${API_URL}/applications/${$path.applicantid}/notes`)
+      .auth(`Bearer ${$token}`)
+      .options({ credentials: 'include', mode: 'cors' })
       .post(data)
       .res(() => {
         notesStatus = 'submitted';
         submissionResponse = `Notes and responses successfully added from ${interviewerName}`;
         setTimeout(() => goto(`/applicants/${$path.applicantid}`, {}), 2000);
       });
-  }
+  };
+
+  const onLeave = event => {
+    event.preventDefault();
+    event.returnValue = 'You have attempted to leave this page. Are you sure?';
+    return;
+  };
 </script>
+
+<svelte:window on:click={click} on:beforeunload={onLeave} />
 
 {#if loading}
   <TextAreaSkeleton />
+{:else if notesStatus == 'submitted'}
+  <Tile style="text-align: center; margin: var(--cds-spacing-07) 0;">
+    <h4>{submissionResponse}</h4>
+  </Tile>
 {:else}
-  {#if notesStatus == 'submitted'}
+  <Column>
     <Tile style="text-align: center; margin: var(--cds-spacing-07) 0;">
-      <h4>{submissionResponse}</h4>
-    </Tile>
-  {:else}
-    <Column>
-      <Tile style="text-align: center; margin: var(--cds-spacing-07) 0;">
-        <h4>{`This is interview form for ${application.name}`}</h4>
-        {#each application.committees as { committee }}
-          <Tag type="green">{capitalizeFirstLetter(committee)}</Tag>
-        {/each}
-      </Tile>
-      <Tile style="text-align: left; margin: var(--cds-spacing-07) 0;">
-        <p>{intro}</p>
-      </Tile>
-      <TextInput
-        style="padding-bottom: var(--cds-spacing-07);"
-        bind:value={interviewerName}
-        labelText="Interviewer name"
-        placeholder="Enter your name..." />
-      {#each applicantResponses as { response, content, description }}
-        <div style="padding-bottom: var(--cds-spacing-07);">
-          <TextArea
-            bind:value={response}
-            labelText={content}
-            placeholder="Enter a response..."
-            helperText={description} />
-        </div>
-      {/each}
-      <Row style="margin: 0; padding: var(--cds-spacing-07) 0;" padding>
-        <Slider
-          labelText="Reliability"
-          min={1}
-          max={7}
-          maxLabel="7"
-          bind:value={reliability} />
-        <Slider
-          labelText="Interest"
-          min={1}
-          max={7}
-          maxLabel="7"
-          bind:value={interest} />
-        <Slider
-          labelText="Teamwork"
-          min={1}
-          max={7}
-          maxLabel="7"
-          bind:value={teamwork} />
-        <Slider
-          labelText="Overall"
-          min={1}
-          max={7}
-          maxLabel="7"
-          bind:value={overall} />
-      </Row>
-      <TextArea
-        bind:value={thoughts}
-        labelText="Additional thoughts on {application.name}"
-        placeholder="Enter your thoughts..." />
-      <div style="display: flex; justify-content:flex-end;">
-        {#if notesStatus === 'submitting'}
-          <Loading />
-        {:else}
-          <Button on:click={submitNotes}>Submit</Button>
-        {/if}
-      </div>
-    </Column>
-  {/if}
-{/if}
 
-<style>
-  :root {
-    --cds-label-01-font-size: 0.9rem;
-  }
-</style>
+      <h4>{`This is the interview form for ${application.name}`}</h4>
+      {#each application.committees as { committee }}
+        <Tag type={getColorForCommittee(committee)}>
+          {capitalizeFirstLetter(committee)}
+        </Tag>
+      {/each}
+    </Tile>
+    <Tile style="text-align: left; margin: 10px auto; width: 700px;">
+      <h4>Introduction Blurb:</h4>
+      <p>{intro}</p>
+    </Tile>
+    <TextInput
+      style="padding-bottom: var(--cds-spacing-07);"
+      bind:value={interviewerName}
+      labelText="Interviewer name"
+      placeholder="Enter your own name..." />
+
+    {#each applicantResponses as { response, content, description, specificity }}
+      <div style="padding-bottom: var(--cds-spacing-07);">
+        <TextArea
+          bind:value={response}
+          labelText={`${capitalizeFirstLetter(specificity)}: ${content}`}
+          placeholder="Enter a response..."
+          helperText={description}
+          style="white-space: pre-wrap;" />
+      </div>
+    {/each}
+
+    <Tile>
+      <p>
+        Please rank the applicant from 1-7 in the following categories. For the
+        overall ranking, close your eyes and try to imagine the candidate as a
+        member of VH board. Now score them based on your intuition:
+      </p>
+    </Tile>
+
+    <Row style="margin: 0; padding: var(--cds-spacing-07) 0;" padding>
+      <Slider
+        labelText="Reliability"
+        min={1}
+        max={7}
+        minLabel="1"
+        maxLabel="7"
+        bind:value={reliability} />
+
+      <Slider
+        labelText="Interest"
+        min={1}
+        max={7}
+        minLabel="1"
+        maxLabel="7"
+        bind:value={interest} />
+
+      <Slider
+        labelText="Teamwork"
+        min={1}
+        max={7}
+        minLabel="1"
+        maxLabel="7"
+        bind:value={teamwork} />
+
+      <Slider
+        labelText="Overall"
+        min={1}
+        max={7}
+        minLabel="1"
+        maxLabel="7"
+        bind:value={overall} />
+    </Row>
+    <TextArea
+      bind:value={thoughts}
+      labelText="Additional thoughts on {application.name}"
+      placeholder="Enter your thoughts..."
+      style="white-space: pre-wrap;" />
+    <div style="display: flex; justify-content:flex-end;">
+      {#if notesStatus === 'submitting'}
+        <Loading />
+      {:else}
+        <Button on:click={submitNotes}>Submit</Button>
+      {/if}
+    </div>
+  </Column>
+{/if}

@@ -12,4 +12,10 @@ router.post('/', notesController.questionCreate);
 // Fetch all questions
 router.get('/', notesController.getAllQuestions);
 
-export default router;
+// Fetch questions with specificity
+router.get('/:specificity', notesController.getSpecificQuestions);
+
+// Delete question
+router.delete('/:questionId', notesController.deleteQuestion);
+
+export default router.routes();

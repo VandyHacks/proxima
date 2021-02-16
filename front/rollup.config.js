@@ -9,8 +9,10 @@ import typescript from '@rollup/plugin-typescript';
 
 const production = !process.env.ROLLUP_WATCH;
 const BACKEND_URL = production
-  ? 'https://proxima-backend.herokuapp.com/api/v1'
+  ? process.env.BACKEND_URL
   : 'http://localhost:3000/api/v1';
+
+const DOMAIN_URL = production ? process.env.DOMAIN_URL : 'http://localhost:5000';
 
 function serve() {
   let server;
@@ -55,7 +57,8 @@ export default {
       }
     }),
     replace({
-      'process.BACKEND_URL': `${BACKEND_URL}`
+      'process.BACKEND_URL': `${BACKEND_URL}`,
+      'process.DOMAIN_URL': `${DOMAIN_URL}`
     }),
     resolve({
       browser: true,

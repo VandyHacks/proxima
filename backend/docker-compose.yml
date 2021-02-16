@@ -12,13 +12,19 @@ services:
     ports:
       - 3000:3000
     depends_on:
-     - postgres
+      - postgres
     environment:
-      - POSTGRES_HOST=postgres
-      - POSTGRES_PORT=5432
-      - POSTGRES_USER=proxima
-      - POSTGRES_PASSWORD=proxima
-      - POSTGRES_DB=proxima
+      - TYPEORM_CONNECTION=postgres
+      - TYPEORM_HOST=postgres
+      - TYPEORM_USERNAME=proxima
+      - TYPEORM_PASSWORD=proxima
+      - TYPEORM_DATABASE=proxima
+      - TYPEORM_SYNCHRONIZE=false
+      - TYPEORM_PORT=5432
+      - TYPEORM_ENTITIES=src/entity/**/*.ts
+      - TYPEORM_MIGRATIONS=src/migration/**/*.ts
+      - TYPEFORM_ID
+      - TYPEFORM_TOKEN
       - SLACK_CLIENT_ID
       - SLACK_CLIENT_SECRET
   postgres:
@@ -31,7 +37,7 @@ services:
       - POSTGRES_PASSWORD=proxima
       - POSTGRES_DB=proxima
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U proxima -d proxima"]
+      test: ['CMD-SHELL', 'pg_isready -U proxima -d proxima']
       interval: 10s
       timeout: 5s
       retries: 5

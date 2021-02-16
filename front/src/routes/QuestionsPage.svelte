@@ -2,23 +2,26 @@
   import {
     Button,
     DataTable,
-    Dropdown,
-    Form,
-    Modal,
     TextAreaSkeleton,
-    TextArea,
-    Tile,
     Toolbar,
+    ToolbarBatchActions,
     ToolbarContent
   } from 'carbon-components-svelte';
   import wretch from 'wretch';
   import { onMount } from 'svelte';
+  import Add32 from 'carbon-icons-svelte/lib/Add32';
+  import Delete16 from 'carbon-icons-svelte/lib/Delete16';
+  import { click } from 'svelte-pathfinder';
+
   import { API_URL } from '../config/api';
+  import ConfirmationModal from '../components/ConfirmationModal.svelte';
+  import AddQuestionModal from '../components/AddQuestionModal.svelte';
   import { capitalizeFirstLetter } from '../utils/filters';
   import { CommitteeType } from '../interfaces';
   import { showError } from '../stores/errors';
+  import { authStore } from '../stores/auth.js';
 
-  import Add32 from 'carbon-icons-svelte/lib/Add32';
+  const { token } = authStore;
 
   let loading = true;
   let open = false;
@@ -27,7 +30,11 @@
   let descriptionValue = '';
   let committeeIndex = 0;
 
-  let headers = [
+  let confirmationModal = false;
+  const modalText = `Are you sure you want delete these questions?`;
+  const modalHeading = 'Delete selected questions';
+
+  const headers = [
     {
       key: 'specificity',
       value: 'Committee'
@@ -43,13 +50,27 @@
   ];
 
   let rows = [];
-  let committees = [{ id: '8', text: 'general' }];
+  let committees = [
+    { id: '8', text: 'general' },
+    { id: '9', text: 'wrap up' }
+  ];
+
+  let selectedRowIds: string[] = [];
+
   const toggleModal = () => {
     open = !open;
   };
 
+  const toggleConfirmationModal = () => {
+    confirmationModal = !confirmationModal;
+  };
+
   onMount(async () => {
-    rows = await wretch(`${API_URL}/questions`).get().json();
+    rows = await wretch(`${API_URL}/questions`)
+      .auth(`Bearer ${$token}`)
+      .options({ credentials: 'include', mode: 'cors' })
+      .get()
+      .json();
     loading = false;
 
     for (const [key, value] of Object.entries(CommitteeType)) {
@@ -57,9 +78,8 @@
     }
   });
 
-  async function addQuestion() {
+  const addQuestion = async () => {
     const newQuestion = {
-      id: Math.random().toString(3),
       content: contentValue,
       specificity: committees[committeeIndex].text,
       description: descriptionValue
@@ -67,8 +87,10 @@
     loading = true;
     open = false;
     wretch(`${API_URL}/questions`)
+      .auth(`Bearer ${$token}`)
+      .options({ credentials: 'include', mode: 'cors' })
       .post(newQuestion)
-      .res(() => {
+      .json(newQuestion => {
         rows.push(newQuestion);
         contentValue = '';
         descriptionValue = '';
@@ -78,14 +100,42 @@
         loading = false;
         showError();
       });
-  }
+  };
+
+  const deleteQuestions = async () => {
+    loading = true;
+    confirmationModal = false;
+    selectedRowIds.forEach(selectedRowId => {
+      wretch(`${API_URL}/questions/${selectedRowId}`)
+        .auth(`Bearer ${$token}`)
+        .options({ credentials: 'include', mode: 'cors' })
+        .delete();
+    });
+
+    rows = rows.filter(({ id }) => !selectedRowIds.includes(id));
+    selectedRowIds = [];
+    loading = false;
+  };
 </script>
+
+<svelte:window on:click={click} />
 
 {#if loading}
   <TextAreaSkeleton />
 {:else}
-  <DataTable sortable title="All Questions" {headers} {rows}>
+  <DataTable
+    batchSelection
+    bind:selectedRowIds
+    sortable
+    title="All Questions"
+    {headers}
+    {rows}>
     <Toolbar>
+      <ToolbarBatchActions>
+        <Button icon={Delete16} on:click={toggleConfirmationModal}>
+          Delete
+        </Button>
+      </ToolbarBatchActions>
       <ToolbarContent>
         <Button size="default" icon={Add32} kind="ghost" on:click={toggleModal}>
           Add Question
@@ -97,39 +147,19 @@
         {capitalizeFirstLetter(cell.value)}
       {:else}{cell.value}{/if}
     </span>
-    <Modal
-      preventCloseOnClickOutside
-      hasForm
-      hasScrollingContent
+    <AddQuestionModal
+      bind:descriptionValue
+      bind:contentValue
       bind:open
-      modalHeading="Add Question"
-      primaryButtonText="Confirm"
-      secondaryButtonText="Cancel"
-      on:click:button--secondary={toggleModal}
-      on:open
-      on:close
-      on:submit={addQuestion}>
-      <Form on:submit>
-        <Dropdown
-          style="padding-bottom: var(--cds-spacing-07);"
-          titleText="Choose a committee:"
-          itemToString={item => capitalizeFirstLetter(item.text)}
-          bind:selectedIndex={committeeIndex}
-          items={committees} />
-
-        <div style="padding-bottom: var(--cds-spacing-07);">
-          <TextArea
-            bind:value={contentValue}
-            style="padding-bottom: var(--cds-spacing-07);"
-            labelText="Question:"
-            placeholder="Enter question..." />
-        </div>
-        <TextArea
-          bind:value={descriptionValue}
-          style="padding-bottom: var(--cds-spacing-07);"
-          labelText="Description:"
-          placeholder="Enter a description..." />
-      </Form>
-    </Modal>
+      bind:selectedIndex={committeeIndex}
+      items={committees}
+      {addQuestion}
+      {toggleModal} />
   </DataTable>
+  <ConfirmationModal
+    bind:open={confirmationModal}
+    onSubmit={deleteQuestions}
+    {toggleConfirmationModal}
+    {modalText}
+    {modalHeading} />
 {/if}

@@ -9,7 +9,8 @@ export enum QuestionSpecificity {
   SPONSORSHIP = 'sponsorship',
   CONTENT = 'content',
   MARKETING = 'marketing',
-  GENERAL = 'general'
+  GENERAL = 'general',
+  WRAPUP = 'wrap up'
 }
 
 @Entity({ name: 'questions' })
