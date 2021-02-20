@@ -11,6 +11,7 @@ import questionRoutes from './routes/question.routes';
 // Middleware
 import * as errorHandlers from './middlewares/error';
 import { checkJwt } from './middlewares/jwt';
+import authRoutes from './routes/auth.routes';
 
 const app: Koa = new Koa();
 
@@ -26,6 +27,8 @@ app.use(logger());
 
 // Exposed for a TypeForm webhook
 app.use(hookRoutes);
+
+app.use(authRoutes);
 
 // Authenticate all non-webhook routes
 app.use(checkJwt);
