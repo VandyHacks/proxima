@@ -27,4 +27,4 @@ router.get(
   '/:applicationId/questions',
   notesController.getQuestionsForApplicant
 );
-export default router;
+export default router.routes();

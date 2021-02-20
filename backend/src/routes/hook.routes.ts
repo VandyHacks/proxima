@@ -15,4 +15,4 @@ router.post(
   applicationController.parseTypeFormResponses
 );
 
-export default router;
+export default router.routes();

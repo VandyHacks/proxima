@@ -13,4 +13,4 @@ router.get('/auth/slack/callback', async ctx => {
     failureRedirect: '/'
   })(ctx);
 });
-export default router;
+export default router.routes();
