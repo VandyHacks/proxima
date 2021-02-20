@@ -9,9 +9,9 @@ router.get('/auth/slack', async ctx => {
 
 router.get('/auth/slack/callback', async ctx => {
   return passport.authenticate('Slack', {
-    successRedirect: '/app',
+    successRedirect: '/',
     failureRedirect: '/'
   })(ctx);
 });
 
-export default router.routes();
+export default router;
