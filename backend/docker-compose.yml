@@ -8,7 +8,7 @@ services:
     restart: always
     command: 'npm run dev'
     volumes:
-      - ./src:/usr/app/src
+      - .:/usr/app
     ports:
       - 3000:3000
     depends_on:
@@ -19,12 +19,14 @@ services:
       - TYPEORM_USERNAME=proxima
       - TYPEORM_PASSWORD=proxima
       - TYPEORM_DATABASE=proxima
-      - TYPEORM_SYNCHRONIZE=false
+      - TYPEORM_SYNCHRONIZE=true
       - TYPEORM_PORT=5432
       - TYPEORM_ENTITIES=src/entity/**/*.ts
       - TYPEORM_MIGRATIONS=src/migration/**/*.ts
       - TYPEFORM_ID
       - TYPEFORM_TOKEN
+      - SLACK_CLIENT_ID
+      - SLACK_CLIENT_SECRET
   postgres:
     image: postgres:13.1-alpine
     restart: always

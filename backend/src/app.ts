@@ -11,6 +11,9 @@ import questionRoutes from './routes/question.routes';
 // Middleware
 import * as errorHandlers from './middlewares/error';
 import { checkJwt } from './middlewares/jwt';
+import authRoutes from './routes/auth.routes';
+import * as passport from 'koa-passport';
+import './auth';
 
 const app: Koa = new Koa();
 
@@ -22,10 +25,15 @@ app.use(
   })
 );
 
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(logger());
 
 // Exposed for a TypeForm webhook
 app.use(hookRoutes);
+
+app.use(authRoutes.routes());
 
 // Authenticate all non-webhook routes
 app.use(checkJwt);
