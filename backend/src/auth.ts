@@ -2,6 +2,9 @@ import * as passport from 'koa-passport';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const SlackStrategy = require('passport-slack-oauth2').Strategy;
 
+import { getRepository, Repository } from 'typeorm';
+import { User } from './entity/User';
+
 const SLACK_CLIENT_ID = process.env.SLACK_CLIENT_ID;
 const SLACK_CLIENT_SECRET = process.env.SLACK_CLIENT_SECRET;
 
@@ -38,9 +41,28 @@ passport.deserializeUser((id, done) => {
 });
 
 passport.use(
-  new SlackStrategy(options, (accessToken, refreshToken, profile, done) => {
-    // optionally persist user data into a database
-    console.log(profile);
-    done(null, profile);
+  new SlackStrategy(options, async (accessToken, refreshToken, profile, done) => {
+
+    const userRepo: Repository<User> = getRepository(User);
+    let existingUser = await userRepo.findOne({ email: profile.user.email });
+
+    if (!existingUser) {
+      if (profile.team.domain==="vandyhacks") {
+        const user : User = userRepo.create({
+          id: profile.user.id,
+          name: profile.user.name,
+          email: profile.user.email,
+          displayName: profile.displayName,
+          avatar: profile.user.image_24,
+        });
+
+        await userRepo.save(user);
+        done(null, user);
+
+      } else {
+        done(null, null);
+      }
+    }
+    done(null, existingUser);  // will go back to route
   })
 );

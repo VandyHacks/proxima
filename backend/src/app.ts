@@ -10,7 +10,7 @@ import questionRoutes from './routes/question.routes';
 
 // Middleware
 import * as errorHandlers from './middlewares/error';
-// import { checkJwt } from './middlewares/jwt';
+import { checkJwt } from './middlewares/jwt';
 import authRoutes from './routes/auth.routes';
 import * as passport from 'koa-passport';
 import './auth';
@@ -36,7 +36,7 @@ app.use(hookRoutes);
 app.use(authRoutes.routes());
 
 // Authenticate all non-webhook routes
-// app.use(checkJwt);
+app.use(checkJwt);
 
 app.use(applicationRoutes);
 app.use(questionRoutes);
