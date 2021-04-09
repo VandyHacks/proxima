@@ -41,9 +41,8 @@
   import { path, click } from 'svelte-pathfinder';
   import type { Application, Comment, Note } from '../interfaces';
 
-  import { authStore } from '../stores/auth.js';
+  import { token } from '../stores/auth.js';
   import { getColorForCommittee } from '../config/utils.js';
-  const { token } = authStore;
 
   let application: Application;
   let applicationResponses: { question: string; response: string }[] = [];

@@ -17,7 +17,8 @@ const generateJwt = async ctx => {
     {expiresIn: "7d"}
   );
 
-  ctx.redirect(`/?accessToken=${token}`);  // should redirect to frontend
+  const frontendURL = process.env.FRONTEND_URL;
+  ctx.redirect(`${frontendURL}?accessToken=${token}`);
 };
 router.get('/auth/slack/callback', passport.authenticate('Slack'), generateJwt);
 

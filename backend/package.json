@@ -50,6 +50,7 @@
     "@types/chai-http": "^4.2.0",
     "@types/http-status-codes": "^1.2.0",
     "@types/jest": "^26.0.20",
+    "@types/jsonwebtoken": "^8.5.1",
     "@types/koa": "^2.11.6",
     "@types/koa-bodyparser": "^5.0.2",
     "@types/koa-json": "^2.0.18",

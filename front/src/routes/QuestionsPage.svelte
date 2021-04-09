@@ -19,9 +19,7 @@
   import { capitalizeFirstLetter } from '../utils/filters';
   import { CommitteeType } from '../interfaces';
   import { showError } from '../stores/errors';
-  import { authStore } from '../stores/auth.js';
-
-  const { token } = authStore;
+  import { token } from '../stores/auth.js';
 
   let loading = true;
   let open = false;

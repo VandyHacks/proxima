@@ -1,5 +1,4 @@
 import * as jwt from 'koa-jwt';
-import * as jwksRsa from 'jwks-rsa';
 
 // Authorization middleware. When used, the
 // Access Token must exist and be verified against

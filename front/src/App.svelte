@@ -3,7 +3,7 @@
   import Viewpoint from 'svelte-viewpoint';
   import { page } from './stores/page.js';
   import { showErrorModal, errorMessage } from './stores/errors.js';
-  import { path } from 'svelte-pathfinder';
+  import { path, query } from 'svelte-pathfinder';
 
   import {
     Content,
@@ -15,22 +15,47 @@
   import Header from './components/Header.svelte';
   import Theme from './components/Theme.svelte';
 
-  import { authStore } from './stores/auth.js';
+  import { isLoggedIn, token, user } from './stores/auth.js';
+  import { API_URL } from './config/api.js';
+  import wretch from 'wretch';
 
-  const { user, signin } = authStore;
+  isLoggedIn.set(false);
 
-  let loading = true;
+  onMount(async () => {    
+    let authToken: string | null = ($query.accessToken ? $query.accessToken : localStorage.getItem('token'));
 
-  onMount(async () => {
-    await authStore.init();
-    loading = false;
+    if ($query.accessToken) {
+      localStorage.setItem('token', authToken);
+      window.history.replaceState({}, document.title, '/');
+    } 
+    if (authToken != null) {
+      token.set(authToken);
+      isLoggedIn.set(true);
+      
+      let existingUser = await wretch(`${API_URL}/users`)
+      .auth(`Bearer ${authToken}`)
+      .options({ credentials: 'include', mode: 'cors' })
+      .get()
+      .error(403, error => { 
+        isLoggedIn.set(false);
+        localStorage.clear;
+        user.set(null);
+       })
+      .json()
+      .catch(error => { console.log(error); });
+
+      user.set(existingUser);
+    }
+
   });
+
+  function login() {
+    window.location.href = `http://localhost:3000/auth/slack`;
+  }
 </script>
 
 <Theme>
-  {#if loading}
-    <Loading withOverlay={false} />
-  {:else if $user}
+  {#if $isLoggedIn}
     <Header />
     <Content style="background: none; padding: 1rem">
       <Grid>
@@ -51,7 +76,7 @@
     <div
       style="position: relative; top: 100px; margin: auto; width: 50%; text-align: center;">
       <h4>Welcome To Proxima</h4>
-      <Button on:click={signin} style="margin-top: 10px;">Login</Button>
+      <Button on:click={login} style="margin-top: 10px;">Login</Button>
     </div>
   {/if}
 </Theme>

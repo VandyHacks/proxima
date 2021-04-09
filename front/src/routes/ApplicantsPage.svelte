@@ -19,9 +19,8 @@
   import type { Application, ApplicantRow } from '../interfaces';
   import { ApplicationStatus, CommitteeType } from '../interfaces';
   import { capitalizeFirstLetter, replaceUnderscores } from '../utils/filters';
-  import { authStore } from '../stores/auth.js';
+  import { token } from '../stores/auth.js';
   import { getColorForCommittee } from '../config/utils';
-  const { token } = authStore;
 
   const headers = [
     {
