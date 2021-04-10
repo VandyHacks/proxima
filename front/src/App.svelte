@@ -21,32 +21,35 @@
 
   isLoggedIn.set(false);
 
-  onMount(async () => {    
-    let authToken: string | null = ($query.accessToken ? $query.accessToken : localStorage.getItem('token'));
+  onMount(async () => {
+    let authToken: string | null = $query.accessToken
+      ? $query.accessToken
+      : localStorage.getItem('token');
 
     if ($query.accessToken) {
       localStorage.setItem('token', authToken);
       window.history.replaceState({}, document.title, '/');
-    } 
+    }
     if (authToken != null) {
       token.set(authToken);
       isLoggedIn.set(true);
-      
+
       let existingUser = await wretch(`${API_URL}/users`)
-      .auth(`Bearer ${authToken}`)
-      .options({ credentials: 'include', mode: 'cors' })
-      .get()
-      .error(403, error => { 
-        isLoggedIn.set(false);
-        localStorage.clear;
-        user.set(null);
-       })
-      .json()
-      .catch(error => { console.log(error); });
+        .auth(`Bearer ${authToken}`)
+        .options({ credentials: 'include', mode: 'cors' })
+        .get()
+        .error(403, error => {
+          isLoggedIn.set(false);
+          localStorage.clear;
+          user.set(null);
+        })
+        .json()
+        .catch(error => {
+          console.log(error);
+        });
 
       user.set(existingUser);
     }
-
   });
 
   function login() {

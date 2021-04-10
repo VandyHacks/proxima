@@ -7,7 +7,7 @@ import jwt = require('jsonwebtoken');
  * Return:
  */
 const verifyUserToken = async ({ params, request, response }: Koa.Context) => {
-  const token = request.headers['authorization'].split(" ")[1];
+  const token = request.headers['authorization'].split(' ')[1];
 
   const decoded = jwt.decode(token);
   if (!decoded) {
@@ -19,17 +19,15 @@ const verifyUserToken = async ({ params, request, response }: Koa.Context) => {
     const userRepo: Repository<User> = getRepository(User);
     const user = await userRepo.findOne({
       select: ['id', 'name'],
-      where: {id: userId}
+      where: { id: userId }
     });
-  
+
     if (user) response.body = user;
     else {
       response.status = 403;
-      response.message = "No user with given ID in JW token";
-    }  
+      response.message = 'No user with given ID in JW token';
+    }
   }
 };
 
-export {
-  verifyUserToken
-};
+export { verifyUserToken };

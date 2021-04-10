@@ -10,7 +10,8 @@
       "error",
       {
         "singleQuote": true,
-        "arrowParens": "avoid"
+        "arrowParens": "avoid",
+        "endOfLine": "auto"
       }
     ],
     "@typescript-eslint/explicit-member-accessibility": 0,
