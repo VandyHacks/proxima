@@ -35,7 +35,7 @@ app.use(logger());
 app.use(hookRoutes);
 
 app.use(usersRoute);
-app.use(authRoutes.routes());
+app.use(authRoutes);
 
 // Authenticate all non-webhook routes
 app.use(checkJwt);

@@ -22,4 +22,4 @@ const generateJwt = async ctx => {
 };
 router.get('/auth/slack/callback', passport.authenticate('Slack'), generateJwt);
 
-export default router;
+export default router.routes();

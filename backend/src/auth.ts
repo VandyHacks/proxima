@@ -29,15 +29,6 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser((id, done) => {
   done(null, id);
-  // return knex('users')
-  //   .where({ id })
-  //   .first()
-  //   .then(user => {
-  //     done(null, user);
-  //   })
-  //   .catch(err => {
-  //     done(err, null);
-  //   });
 });
 
 passport.use(

@@ -32,7 +32,7 @@
       token.set(authToken);
       isLoggedIn.set(true);
       
-      let existingUser = await wretch(`${API_URL}/users`)
+      const existingUser = await wretch(`${API_URL}/users`)
       .auth(`Bearer ${authToken}`)
       .options({ credentials: 'include', mode: 'cors' })
       .get()
