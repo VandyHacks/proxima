@@ -19,9 +19,8 @@
   import { goto, path, click } from 'svelte-pathfinder';
   import type { Application, Note, ApplicantResponse } from '../interfaces';
 
-  import { authStore } from '../stores/auth.js';
+  import { token } from '../stores/auth.js';
   import { getColorForCommittee } from '../config/utils';
-  const { token } = authStore;
 
   const intro =
     "Thank you for applying to VandyHacks! As a quick overview for how this interview will go, we'll ask you a couple of questions just to get to know your work habits, then we'll go into questions specific to the committees you indicated you were interested in on your application. If you have any questions, we'll leave a couple of minutes at the end, and we can try to answer them as best as possible. Of course, if you don't have any questions, don't feel pressured: we won't count them as part of your application. We will be taking notes on our laptops to refer back to while you answer.";
@@ -113,7 +112,6 @@
 {:else}
   <Column>
     <Tile style="text-align: center; margin: var(--cds-spacing-07) 0;">
-
       <h4>{`This is the interview form for ${application.name}`}</h4>
       {#each application.committees as { committee }}
         <Tag type={getColorForCommittee(committee)}>

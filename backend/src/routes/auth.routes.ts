@@ -1,7 +1,7 @@
 import * as Router from 'koa-router';
 import * as passport from 'koa-passport';
-
 import * as jwt from 'jsonwebtoken';
+
 
 const router = new Router();
 
@@ -14,12 +14,13 @@ const generateJwt = async ctx => {
     {
       data: ctx.req.user.id
     },
-    process.env.JWT_TOKEN_KEY as string,
+    process.env.JWT_TOKEN_KEY,
     { expiresIn: '7d' }
   );
 
-  ctx.redirect(`/?accessToken=${token}`); // should redirect to frontend
+  const frontendURL = process.env.FRONTEND_URL;
+  ctx.redirect(`${frontendURL}?accessToken=${token}`);
 };
 router.get('/auth/slack/callback', passport.authenticate('Slack'), generateJwt);
 
-export default router;
+export default router.routes();

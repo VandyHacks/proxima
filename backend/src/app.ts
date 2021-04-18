@@ -12,6 +12,7 @@ import questionRoutes from './routes/question.routes';
 import * as errorHandlers from './middlewares/error';
 import { checkJwt } from './middlewares/jwt';
 import authRoutes from './routes/auth.routes';
+import usersRoute from './routes/users.route';
 import * as passport from 'koa-passport';
 import './auth';
 
@@ -32,8 +33,8 @@ app.use(logger());
 
 // Exposed for a TypeForm webhook
 app.use(hookRoutes);
-
-app.use(authRoutes.routes());
+app.use(usersRoute);
+app.use(authRoutes);
 
 // Authenticate all non-webhook routes
 app.use(checkJwt);
