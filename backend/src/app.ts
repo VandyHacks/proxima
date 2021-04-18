@@ -33,7 +33,6 @@ app.use(logger());
 
 // Exposed for a TypeForm webhook
 app.use(hookRoutes);
-
 app.use(usersRoute);
 app.use(authRoutes);
 

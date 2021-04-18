@@ -1,6 +1,7 @@
 import * as Router from 'koa-router';
 import * as passport from 'koa-passport';
-const jwt = require('jsonwebtoken');
+import * as jwt from 'jsonwebtoken';
+
 
 const router = new Router();
 
