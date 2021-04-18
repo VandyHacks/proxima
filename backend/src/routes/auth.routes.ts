@@ -12,9 +12,9 @@ const generateJwt = async ctx => {
   const token = jwt.sign(
     {
       data: ctx.req.user.id
-    }, 
+    },
     process.env.JWT_TOKEN_KEY,
-    {expiresIn: "7d"}
+    { expiresIn: '7d' }
   );
 
   const frontendURL = process.env.FRONTEND_URL;

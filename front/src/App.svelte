@@ -21,13 +21,15 @@
 
   isLoggedIn.set(false);
 
-  onMount(async () => {    
-    let authToken: string | null = ($query.accessToken ? $query.accessToken : localStorage.getItem('token'));
+  onMount(async () => {
+    let authToken: string | null = $query.accessToken
+      ? $query.accessToken
+      : localStorage.getItem('token');
 
     if ($query.accessToken) {
       localStorage.setItem('token', authToken);
       window.history.replaceState({}, document.title, '/');
-    } 
+    }
     if (authToken != null) {
       token.set(authToken);
       isLoggedIn.set(true);
@@ -46,7 +48,6 @@
 
       user.set(existingUser);
     }
-
   });
 
   function login() {

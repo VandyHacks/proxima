@@ -32,28 +32,31 @@ passport.deserializeUser((id, done) => {
 });
 
 passport.use(
-  new SlackStrategy(options, async (accessToken, refreshToken, profile, done) => {
+  new SlackStrategy(
+    options,
+    async (accessToken, refreshToken, profile, done) => {
+      const userRepo: Repository<User> = getRepository(User);
+      const existingUser = await userRepo.findOne({
+        email: profile.user.email
+      });
 
-    const userRepo: Repository<User> = getRepository(User);
-    let existingUser = await userRepo.findOne({ email: profile.user.email });
+      if (!existingUser) {
+        if (profile.team.domain === 'vandyhacks') {
+          const user: User = userRepo.create({
+            id: profile.user.id,
+            name: profile.user.name,
+            email: profile.user.email,
+            displayName: profile.displayName,
+            avatar: profile.user.image_24
+          });
 
-    if (!existingUser) {
-      if (profile.team.domain==="vandyhacks") {
-        const user : User = userRepo.create({
-          id: profile.user.id,
-          name: profile.user.name,
-          email: profile.user.email,
-          displayName: profile.displayName,
-          avatar: profile.user.image_24,
-        });
-
-        await userRepo.save(user);
-        done(null, user);
-
-      } else {
-        done(null, null);
+          await userRepo.save(user);
+          done(null, user);
+        } else {
+          done(null, null);
+        }
       }
+      done(null, existingUser); // will go back to route
     }
-    done(null, existingUser);  // will go back to route
-  })
+  )
 );
