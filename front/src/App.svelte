@@ -33,18 +33,25 @@
     if (authToken != null) {
       token.set(authToken);
       isLoggedIn.set(true);
-      
+
       const existingUser = await wretch(`${API_URL}/users`)
-      .auth(`Bearer ${authToken}`)
-      .options({ credentials: 'include', mode: 'cors' })
-      .get()
-      .error(403, error => { 
-        isLoggedIn.set(false);
-        localStorage.clear;
-        user.set(null);
-       })
-      .json()
-      .catch(error => { console.log(error); });
+        .auth(`Bearer ${authToken}`)
+        .options({ credentials: 'include', mode: 'cors' })
+        .get()
+        .error(403, error => {
+          isLoggedIn.set(false);
+          localStorage.clear;
+          user.set(null);
+        })
+        .error(401, error => {
+          isLoggedIn.set(false);
+          localStorage.clear;
+          user.set(null);
+        })
+        .json()
+        .catch(error => {
+          console.log(error);
+        });
 
       user.set(existingUser);
     }
