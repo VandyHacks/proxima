@@ -7,9 +7,12 @@ import {
 } from '../entity/Application';
 import { CommitteeChoice, CommitteeType } from '../entity/CommitteeChoice';
 
-// import { send } from "../utils/smtpClient";
+import { send } from '../utils/nodemailerTransporter';
 import { getNotes, getComments } from './notesController';
 import axios from 'axios';
+import * as handlebars from 'handlebars';
+import * as fs from 'fs';
+import * as path from 'path';
 
 /**
  * Parsing is very specific to the kind of form we have right now.
@@ -252,24 +255,66 @@ const getApplicantData = async ({ params, response }: Koa.Context) => {
 };
 
 /**
+ * Helper method for reading in HTML email template
+ */
+const readHTMLFile = function (path, callback) {
+  fs.readFile(path, { encoding: 'utf-8' }, function (err, html) {
+    if (err) {
+      throw err;
+      callback(err);
+    } else {
+      callback(null, html);
+    }
+  });
+};
+
+/**
  * Send email based on status update.
  */
-const sendEmail = async (email: string, status: string, committee?: string) => {
-  // let emailMessage: string;
-  // if (status === "accepted") {
-  //   emailMessage = `Congratualations! You are accepted to ${committee} committee!`;
-  // } else if (status === "rejected") {
-  //   emailMessage =
-  //     "Unfortunately, we were not able to extend the position on VH boar to you.";
-  // } else if (status === "to_interview") {
-  //   emailMessage = "Hey! Let's talk tomorrow 2pm CST.";
-  // } else {
-  //   console.log(
-  //     "Wrong status passed to sending emails. We have no emails for this case."
-  //   );
-  //   return;
-  // }
-  // send(email, "VandyHacks Board Decision", emailMessage);
+const sendEmail = async (
+  email: string,
+  name: string,
+  status: string,
+  committee?: string
+) => {
+  let emailHtml = '';
+  let body: string;
+  let subject: string;
+  // let button; // for interview, could allow a button to link to scheduling
+
+  if (status === 'accepted') {
+    body = `Congratulations! You are accepted to VandyHacks's ${committee} committee! Please reply back to this email accepting or declining your offer.`;
+    subject = 'VandyHacks VIV Application Decision';
+  } else if (status === 'rejected') {
+    body =
+      "Unfortunately, we were not able to extend a position on VH board to you. However, we encourage you to stay involved with VandyHacks (watch out for our hackathons, workshops, and other events), and to apply next year.";
+    subject = 'VandyHacks VIV Application Decision';
+  } else if (status === 'to_interview') {
+    body =
+      "We liked your application and wanted to hear more from you! Please reply with when you're available for an interview.";
+    subject = '[Action Required] VandyHacks VIV Application Update';
+  } else {
+    console.log(
+      "Wrong status passed to sending emails. We have no emails for this case."
+    );
+    return;
+  }
+
+  readHTMLFile(
+    path.join(__dirname, '..', 'utils', 'template.html'),
+    function (err, html) {
+      const template = handlebars.compile(html);
+      const replacements = {
+        name: name,
+        body: body,
+        preview: '',
+        button: ''
+      };
+      emailHtml = template(replacements);
+
+      send(email, subject, emailHtml);
+    }
+  );
 };
 
 /**
@@ -290,20 +335,26 @@ const updateStatus = async ({ params, request, response }: Koa.Context) => {
   const application: Application | undefined = await applicationRepo.findOne(
     applicationId,
     {
-      select: ['id', 'status', 'email']
+      select: ['id', 'name', 'status', 'email']
     }
   );
 
   if (application) {
-    // Logic for emails
-    sendEmail(application.email as string, newStatus);
-
     // Update status
     application.status = newStatus;
 
     // Update committees if accepted
     if (newStatus === ApplicationStatus.ACCEPTED && committee) {
       application.committee_accepted = committee;
+      sendEmail(
+        application.email as string,
+        application.name,
+        newStatus,
+        application.committee_accepted
+      );
+    } else {
+      // Logic for emails
+      sendEmail(application.email as string, application.name, newStatus);
     }
 
     await applicationRepo.save(application);
