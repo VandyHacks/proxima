@@ -15,7 +15,7 @@ services:
       - postgres
     environment:
       - FRONTEND_URL
-      - JWT_TOKEN_KEY 
+      - JWT_TOKEN_KEY
       - TYPEORM_CONNECTION=postgres
       - TYPEORM_HOST=postgres
       - TYPEORM_USERNAME=proxima

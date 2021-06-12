@@ -49,11 +49,10 @@ const questionCreate = async ({
  */
 const getQuestionsForApplicant = async ({ params, response }: Koa.Context) => {
   const questionRepo: Repository<Question> = getRepository(Question);
-  const committeeChoiceRepo: Repository<CommitteeChoice> = getRepository(
-    CommitteeChoice
-  );
+  const committeeChoiceRepo: Repository<CommitteeChoice> =
+    getRepository(CommitteeChoice);
 
-  const applicationId: number = (params.applicationId as unknown) as number;
+  const applicationId: number = params.applicationId as unknown as number;
 
   // Get general questions first
   const questions: Question[] = await questionRepo.find({
@@ -127,11 +126,10 @@ const getAllQuestions = async ({ response }: Koa.Context) => {
 const addNotes = async ({ params, request, response }: Koa.Context) => {
   const applicationRepo: Repository<Application> = getRepository(Application);
   const noteRepo: Repository<Note> = getRepository(Note);
-  const questionNoteRepo: Repository<QuestionNote> = getRepository(
-    QuestionNote
-  );
+  const questionNoteRepo: Repository<QuestionNote> =
+    getRepository(QuestionNote);
 
-  const applicationId = (params.applicationId as unknown) as number;
+  const applicationId = params.applicationId as unknown as number;
 
   const noteData:
     | {
@@ -207,9 +205,8 @@ const addNotes = async ({ params, request, response }: Koa.Context) => {
 const getNotes = async (applicationId: number) => {
   // Note repository
   const noteRepository: Repository<Note> = getRepository(Note);
-  const questionNoteRepo: Repository<QuestionNote> = getRepository(
-    QuestionNote
-  );
+  const questionNoteRepo: Repository<QuestionNote> =
+    getRepository(QuestionNote);
 
   const notes: any[] = await noteRepository.find({
     select: [
@@ -257,7 +254,7 @@ const addComments = async ({
   response
 }: Koa.Context): Promise<void> => {
   const commentRepo: Repository<Comment> = getRepository(Comment);
-  const applicationId = (params.applicationId as unknown) as number;
+  const applicationId = params.applicationId as unknown as number;
   const body: { commenter_name: string; content: string } | any = request.body;
 
   const newComment = commentRepo.create({
@@ -285,7 +282,7 @@ const getComments = async (applicationId: number): Promise<Comment[]> => {
 
 const deleteQuestion = async ({ params, response }: Koa.Context) => {
   const questionRepo: Repository<Question> = getRepository(Question);
-  const questionId: number = (params.questionId as unknown) as number;
+  const questionId: number = params.questionId as unknown as number;
 
   await questionRepo.delete(questionId);
   response.body = `Successfully deleted ${questionId}`;
