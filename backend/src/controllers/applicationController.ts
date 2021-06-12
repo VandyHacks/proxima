@@ -68,9 +68,8 @@ const parseTypeFormResponses = async ({ response }: Koa.Context) => {
 const parseApplicant = async (applicantObject: { answers: any }) => {
   // Repositories
   const applicationRepo: Repository<Application> = getRepository(Application);
-  const committeeChoiceRepo: Repository<CommitteeChoice> = getRepository(
-    CommitteeChoice
-  );
+  const committeeChoiceRepo: Repository<CommitteeChoice> =
+    getRepository(CommitteeChoice);
 
   const responses: any = {};
   applicantObject.answers.forEach((answer: any) => {
@@ -245,7 +244,7 @@ const getApplicationResponse = async (
  *  }
  */
 const getApplicantData = async ({ params, response }: Koa.Context) => {
-  const applicationId: number = (params.applicationId as unknown) as number;
+  const applicationId: number = params.applicationId as unknown as number;
 
   response.body = {
     application: await getApplicationResponse(applicationId),
@@ -287,7 +286,7 @@ const sendEmail = async (
     subject = 'VandyHacks VIV Application Decision';
   } else if (status === 'rejected') {
     body =
-      "Unfortunately, we were not able to extend a position on VH board to you. However, we encourage you to stay involved with VandyHacks (watch out for our hackathons, workshops, and other events), and to apply next year.";
+      'Unfortunately, we were not able to extend a position on VH board to you. However, we encourage you to stay involved with VandyHacks (watch out for our hackathons, workshops, and other events), and to apply next year.';
     subject = 'VandyHacks VIV Application Decision';
   } else if (status === 'to_interview') {
     body =
@@ -295,7 +294,7 @@ const sendEmail = async (
     subject = '[Action Required] VandyHacks VIV Application Update';
   } else {
     console.log(
-      "Wrong status passed to sending emails. We have no emails for this case."
+      'Wrong status passed to sending emails. We have no emails for this case.'
     );
     return;
   }
@@ -324,7 +323,7 @@ const sendEmail = async (
 const updateStatus = async ({ params, request, response }: Koa.Context) => {
   const body: { status: string; committee?: string } | any = request.body;
 
-  const applicationId = (params.applicationId as unknown) as number;
+  const applicationId = params.applicationId as unknown as number;
   const newStatus: ApplicationStatus = body.status;
   const committee: AcceptedCommitteeType | undefined = body.committee;
 
