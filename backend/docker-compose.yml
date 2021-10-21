@@ -14,8 +14,8 @@ services:
     depends_on:
       - postgres
     environment:
-      - FRONTEND_URL
-      - JWT_TOKEN_KEY
+      - FRONTEND_URL=http://localhost:5000
+      - JWT_TOKEN_KEY=userTokenKey
       - TYPEORM_CONNECTION=postgres
       - TYPEORM_HOST=postgres
       - TYPEORM_USERNAME=proxima
@@ -27,8 +27,8 @@ services:
       - TYPEORM_MIGRATIONS=src/migration/**/*.ts
       - TYPEFORM_ID
       - TYPEFORM_TOKEN
-      - SLACK_CLIENT_ID
-      - SLACK_CLIENT_SECRET
+      - SLACK_CLIENT_ID=
+      - SLACK_CLIENT_SECRET=
   postgres:
     image: postgres:13.1-alpine
     restart: always
