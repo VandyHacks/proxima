@@ -1,6 +1,6 @@
 # Proxima 🚀 🌌
 
-Proxima is an application that makes viewing, interviewing, and deliberating potential candidates easier. 
+Proxima is an application that makes viewing, interviewing, and deliberating candidates easier. 
 
 ### Use case
 We, at VandyHacks, use Proxima to centralize board application materials. The goal for us was to make the board recruitment process easier and more pleasant. Proxima receives applications from the [TypeForm webhook](https://developer.typeform.com/webhooks/), which we configured to have certain fields (names for application inputs) in the [payload](https://github.com/VandyHacks/proxima/blob/09e49829175548eaf7f1fef8bef2f0d87851b066/backend/src/app/controllers/applicationController.ts#L94).
