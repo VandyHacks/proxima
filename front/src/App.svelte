@@ -24,6 +24,8 @@
   ? process.env.BACKEND_URL
   : 'http://localhost:3000/api/v1';
 
+  console.log("BACKEND_URL", BACKEND_URL);
+
   isLoggedIn.set(false);
 
   onMount(async () => {
