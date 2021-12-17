@@ -4,11 +4,14 @@ const SlackStrategy = require('passport-slack-oauth2').Strategy;
 
 import { getRepository, Repository } from 'typeorm';
 import { User } from './entity/User';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 const SLACK_CLIENT_ID = process.env.SLACK_CLIENT_ID;
 const SLACK_CLIENT_SECRET = process.env.SLACK_CLIENT_SECRET;
 
-const CALLBACK_URL = 'http://localhost:3000/auth/slack/callback';
+const CALLBACK_URL = '/auth/slack/callback';
 
 const options = {
   clientID: SLACK_CLIENT_ID,

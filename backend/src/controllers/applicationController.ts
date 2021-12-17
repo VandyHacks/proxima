@@ -113,6 +113,8 @@ const parseApplicant = async (applicantObject: { answers: any }) => {
 
     await applicationRepo.save(newApplication);
 
+    console.log(`New application: ${newApplication}`);
+
     // Create committee relations for an applicant
     responses.committees.forEach((committee: CommitteeType) => {
       const committeeChoice: CommitteeChoice = committeeChoiceRepo.create({

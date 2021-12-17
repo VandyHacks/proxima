@@ -20,7 +20,7 @@ const generateJwt = async ctx => {
       data: ctx.req.user.id
     },
     JWT_TOKEN_KEY,
-    { expiresIn: '7d' }
+    { expiresIn: '40d' }
   );
 
   const frontendURL = process.env['FRONTEND_URL'];

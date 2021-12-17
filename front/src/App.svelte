@@ -58,7 +58,7 @@
   });
 
   function login() {
-    window.location.href = 'process.BACKEND_URL' + "/auth/slack";
+    window.location.href = "/auth/slack";
   }
 </script>
 

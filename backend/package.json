@@ -1,7 +1,10 @@
 {
   "name": "proxima-backend",
   "version": "1.0.0",
-  "description": "TS/Koa/TypeORM",
+  "description": "Backend for Proxima",
+  "engines": {
+    "node": "14.x"
+  },
   "scripts": {
     "lint": "eslint --config .eslintrc --ext .jsx,.js,.ts,.tsx src/",
     "lint:fix": "eslint --fix --config .eslintrc --ext .jsx,.js,.ts,.tsx src/",
@@ -16,8 +19,6 @@
     "type": "git",
     "url": "https://github.com/VandyHacks/proxima"
   },
-  "keywords": [],
-  "author": "",
   "license": "ISC",
   "homepage": "https://gitlab.com/Chapabu/ts-koa-typeorm#readme",
   "dependencies": {
@@ -25,6 +26,7 @@
     "@types/jsonwebtoken": "^8.5.0",
     "@types/koa__cors": "^3.0.2",
     "axios": "^0.21.1",
+    "dotenv": "^10.0.0",
     "fs": "0.0.1-security",
     "handlebars": "^4.7.7",
     "http-status-codes": "^1.3.0",

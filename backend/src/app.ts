@@ -15,8 +15,11 @@ import authRoutes from './routes/auth.routes';
 import usersRoute from './routes/users.route';
 import * as passport from 'koa-passport';
 import './auth';
+import * as dotenv from 'dotenv';
 
 const app: Koa = new Koa();
+
+dotenv.config();
 
 app.use(errorHandlers.genericError);
 app.use(bodyParser());
