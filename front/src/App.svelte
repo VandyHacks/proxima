@@ -19,13 +19,8 @@
   import { API_URL } from './config/api.js';
   import wretch from 'wretch';
 
-  const production = !process.env.ROLLUP_WATCH;
-  const BACKEND_URL = production
-  ? process.env.BACKEND_URL
-  : 'http://localhost:3000/api/v1';
-
-  console.log("BACKEND_URL", BACKEND_URL);
-
+  const BACKEND_URL = 'process.BACKEND_URL';
+  
   isLoggedIn.set(false);
 
   onMount(async () => {
