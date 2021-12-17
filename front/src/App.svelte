@@ -58,7 +58,7 @@
   });
 
   function login() {
-    window.location.href = `http://localhost:3000/auth/slack`;
+    window.location.href = 'process.BACKEND_URL' + "/auth/slack";
   }
 </script>
 
