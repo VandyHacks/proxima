@@ -19,6 +19,11 @@
   import { API_URL } from './config/api.js';
   import wretch from 'wretch';
 
+  const production = !process.env.ROLLUP_WATCH;
+  const BACKEND_URL = production
+  ? process.env.BACKEND_URL
+  : 'http://localhost:3000/api/v1';
+
   isLoggedIn.set(false);
 
   onMount(async () => {
@@ -58,7 +63,7 @@
   });
 
   function login() {
-    window.location.href = "/auth/slack";
+    window.location.href = `${BACKEND_URL}/auth/slack`;
   }
 </script>
 
